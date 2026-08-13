@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+:root {
+  /* Base — warm cream / creme quente */
+  --background: #f3eee4;
+  --foreground: #1c1815;
+
+  /* Surfaces */
+  --surface: #ece5d7;
+  --surface-strong: #e3dac8;
+  --card: #f7f3ea;
+
+  /* Neutrals */
+  --muted: #8a8072;
+  --muted-foreground: #6d6456;
+  --border: #ddd4c3;
+  --line: #cfc5b1;
+
+  /* Accent — refined gold from the mark */
+  --accent: #b08d4f;
+  --accent-soft: #c9ad78;
+
+  /* Deep contrast (dark editorial blocks) */
+  --ink: #171310;
+  --ink-foreground: #efe9dd;
+
+  /* Product pops — real product tones */
+  --acai: #5a3a6d;
+  --gelato: #7c8b5a;
+  --cafe: #6b4a32;
+
+  --radius: 0.25rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-acai: var(--acai);
+  --color-gelato: var(--gelato);
+  --color-cafe: var(--cafe);
+
+  --font-serif: var(--font-fraunces);
+  --font-sans: var(--font-geist-sans);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--background);
+  }
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-serif), ui-serif, Georgia, serif;
+  }
+  /* Editorial letter-spaced eyebrow */
+  .tracking-eyebrow {
+    letter-spacing: 0.32em;
+  }
+  .tracking-wide-editorial {
+    letter-spacing: 0.18em;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
