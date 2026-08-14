@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -31,6 +31,12 @@ export function SplitWords({
 }: SplitWordsProps) {
   const MotionTag = motion[as];
   const words = text.split(" ");
+  const reduce = useReducedMotion();
+
+  if (reduce) {
+    const Tag = as;
+    return <Tag className={className}>{text}</Tag>;
+  }
 
   return (
     <MotionTag

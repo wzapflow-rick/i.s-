@@ -120,16 +120,20 @@ function ProductCard({ format, index }: { format: GelatoFormat; index: number })
           <ImageReveal className="absolute inset-0">
             <motion.div
               style={reduce ? undefined : { x: imgX, y: imgY }}
-              className="absolute inset-[-7%]"
+              className="relative h-full w-full"
             >
-              <Image
-                src={format.image.src}
-                alt={format.image.alt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-[1.06]"
-                style={{ objectPosition: format.image.objectPosition }}
-              />
+              {/* Parent posicionado via CSS desde a primeira pintura, para o
+                  Next/Image (fill) registrar o lazy-load sem corrida com o motion. */}
+              <div className="absolute inset-[-7%]">
+                <Image
+                  src={format.image.src}
+                  alt={format.image.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-[1.06]"
+                  style={{ objectPosition: format.image.objectPosition }}
+                />
+              </div>
             </motion.div>
           </ImageReveal>
           <motion.span
