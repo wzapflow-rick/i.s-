@@ -1,56 +1,48 @@
-// Catálogo provisório — estrutura pronta para receber dados reais do cliente.
-// As descrições e itens são placeholders editoriais, não fatos definitivos.
+// Produto confirmado: gelato artesanal em caixas de 5L e 10L.
+// A arquitetura abaixo está pronta para receber novas categorias no futuro,
+// mas NÃO inventamos linhas ainda não confirmadas pelo cliente.
 
-export interface ProductLine {
+export interface GelatoFormat {
   slug: string;
+  size: string;
   name: string;
   short: string;
-  image: string;
-  accent: "acai" | "gelato" | "cafe" | "accent";
   description: string;
-  /** Itens ilustrativos — substituir pela linha real posteriormente. */
-  items: string[];
+  bestFor: string;
+  image: string;
 }
 
-export const PRODUCT_LINES: ProductLine[] = [
+/** Formatos disponíveis hoje — o coração da oferta. */
+export const GELATO_FORMATS: GelatoFormat[] = [
   {
-    slug: "gelatos",
-    name: "Gelatos",
-    short: "Textura densa e cremosa, feita para experiências memoráveis.",
+    slug: "caixa-5l",
+    size: "5L",
+    name: "Caixa de 5 litros",
+    short: "O formato ideal para começar e testar a operação.",
+    description:
+      "Gelato artesanal 100% leite integral em caixa de 5 litros. O ponto de partida perfeito para o parceiro validar sabores, entender o giro e montar a vitrine sem sobrecarregar o estoque.",
+    bestFor: "Primeiros passos e operações em crescimento",
     image: "/images/product-gelato.png",
-    accent: "gelato",
-    description:
-      "Uma linha de gelatos pensada para negócios que buscam consistência, cremosidade e sabores que se destacam na vitrine. Estrutura de sabores em definição — em breve com a linha completa.",
-    items: ["Sabores clássicos", "Sabores autorais", "Bases especiais", "Edições sazonais"],
   },
   {
-    slug: "acai",
-    name: "Açaí",
-    short: "Cremosidade e sabor para uma categoria que não para de crescer.",
-    image: "/images/product-acai.png",
-    accent: "acai",
+    slug: "caixa-10l",
+    size: "10L",
+    name: "Caixa de 10 litros",
+    short: "Para quem já tem giro e quer escalar com margem.",
     description:
-      "Açaí encorpado e versátil, base ideal para montar tigelas, combinações e novas experiências no seu ponto de venda. Linha em definição.",
-    items: ["Açaí tradicional", "Blends de fruta", "Opções encorpadas", "Complementos"],
-  },
-  {
-    slug: "complementos",
-    name: "Complementos",
-    short: "O que transforma um produto bom em uma experiência completa.",
-    image: "/images/product-complementos.png",
-    accent: "accent",
-    description:
-      "Coberturas, caldas, crocantes e finalizações que ajudam a criar combinações e aumentar o valor percebido de cada pedido. Portfólio em definição.",
-    items: ["Caldas", "Crocantes", "Coberturas", "Finalizações"],
-  },
-  {
-    slug: "sobremesas",
-    name: "Sobremesas",
-    short: "Produtos que ampliam o mix e criam novas oportunidades de venda.",
-    image: "/images/product-sobremesas.png",
-    accent: "cafe",
-    description:
-      "Sobremesas e outros produtos pensados para expandir a oferta do seu negócio sem complicar a operação. Novas linhas em desenvolvimento.",
-    items: ["Sobremesas geladas", "Produtos de vitrine", "Linhas para café", "Novidades"],
+      "O mesmo gelato artesanal 100% leite integral, em caixa de 10 litros. Pensado para negócios com alto giro que buscam eficiência de operação e a melhor relação de custo por litro.",
+    bestFor: "Alto giro e maior eficiência",
+    image: "/images/product-gelato.png",
   },
 ];
+
+/**
+ * Categorias futuras — placeholder honesto.
+ * Não nomeamos linhas que ainda não foram confirmadas.
+ */
+export const FUTURE_CATEGORY = {
+  label: "Novas categorias",
+  headline: "Novas linhas em desenvolvimento.",
+  detail:
+    "Estamos construindo o portfólio ao lado dos primeiros parceiros. Novas categorias serão anunciadas conforme a produção evoluir.",
+} as const;

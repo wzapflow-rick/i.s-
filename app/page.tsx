@@ -3,6 +3,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { Hero } from "@/components/sections/hero";
 import { BrandConcept } from "@/components/sections/brand-concept";
 import { Audience } from "@/components/sections/audience";
+import { Quality } from "@/components/sections/quality";
 import { Products } from "@/components/sections/products";
 import { BusinessValue } from "@/components/sections/business-value";
 import { HowItWorks } from "@/components/sections/how-it-works";
@@ -18,6 +19,7 @@ export default function Home() {
         <Hero />
         <BrandConcept />
         <Audience />
+        <Quality />
         <Products />
         <BusinessValue />
         <HowItWorks />
