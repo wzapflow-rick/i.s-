@@ -5,9 +5,9 @@ import { CtaButton } from "@/components/ui/cta-button";
 
 /**
  * SEÇÃO — PARCERIAS SELECIONADAS
- * Fundo escuro premium. Comunica exclusividade por seletividade
- * (poucos parceiros por escolha), sem narrativa de "início" ou escassez agressiva.
- * Elemento de assinatura: o numeral "4" em serifa de grande escala.
+ * Fundo escuro premium. Comunica exclusividade por seleção criteriosa,
+ * como uma marca consolidada — sem narrativa de "início", sem quantificar
+ * parceiros e sem escassez agressiva.
  */
 export function FirstPartners() {
   return (
@@ -32,9 +32,10 @@ export function FirstPartners() {
 
             <Reveal delay={0.1}>
               <p className="mt-8 max-w-xl font-sans text-lg leading-relaxed text-ink-foreground/70">
-                A i.sí trabalha com um grupo reduzido de parceiros em Feira de
-                Santana. Poucos, escolhidos com cuidado — para que cada parceria
-                receba a atenção e a proximidade que merece.
+                A i.sí trabalha com um grupo seleto de parceiros. Cada parceria
+                é construída de perto, com exclusividade e o cuidado que um
+                produto premium exige — não somos um gelato para estar em toda
+                esquina.
               </p>
             </Reveal>
 
@@ -51,19 +52,22 @@ export function FirstPartners() {
             </Reveal>
           </div>
 
-          {/* Coluna do numeral de assinatura */}
+          {/* Coluna de assinatura — seleção criteriosa, sem quantificar */}
           <div className="lg:col-span-5">
             <Reveal delay={0.12}>
               <div className="relative flex flex-col items-start border-t border-ink-foreground/15 pt-10 lg:items-end lg:border-l lg:border-t-0 lg:pl-14 lg:pt-0 lg:text-right">
-                <span className="font-serif text-[9rem] leading-[0.8] tracking-tight text-ink-foreground sm:text-[12rem]">
-                  4
+                <span className="font-serif text-[2.4rem] italic leading-[1.1] tracking-tight text-ink-foreground sm:text-[3rem]">
+                  Seleção
+                  <br />
+                  por critério.
                 </span>
-                <span className="mt-4 font-sans text-[0.72rem] uppercase tracking-eyebrow text-ink-foreground/60">
-                  Parceiros por vez
+                <span className="mt-6 font-sans text-[0.72rem] uppercase tracking-eyebrow text-ink-foreground/60">
+                  Parcerias exclusivas
                 </span>
-                <span className="mt-6 max-w-xs font-sans text-sm leading-relaxed text-ink-foreground/45 lg:max-w-[16rem]">
-                  Um número propositalmente pequeno — para manter a proximidade
-                  e o mesmo cuidado com cada parceiro.
+                <span className="mt-5 max-w-xs font-sans text-sm leading-relaxed text-ink-foreground/45 lg:max-w-[16rem]">
+                  Não abrimos parceria para todos. Cada negócio é avaliado pelo
+                  perfil, pela estrutura e pela forma como pretende trabalhar o
+                  nosso gelato.
                 </span>
               </div>
             </Reveal>

@@ -21,10 +21,10 @@ export const GELATO_FORMATS: GelatoFormat[] = [
     slug: "caixa-5l",
     size: "5L",
     name: "Caixa de 5 litros",
-    short: "O formato ideal para começar e testar a operação.",
+    short: "O formato certo para vitrines enxutas e curadas.",
     description:
-      "Gelato artesanal 100% leite integral em caixa de 5 litros. O ponto de partida perfeito para o parceiro validar sabores, entender o giro e montar a vitrine sem sobrecarregar o estoque.",
-    bestFor: "Primeiros passos e operações em crescimento",
+      "Gelato artesanal 100% leite integral em caixa de 5 litros. O formato ideal para manter uma vitrine selecionada, com variedade de sabores e a rotatividade que preserva a qualidade em cada colherada.",
+    bestFor: "Vitrines selecionadas e giro controlado",
     image: SITE_IMAGES.gelato5L,
   },
   {
@@ -40,12 +40,13 @@ export const GELATO_FORMATS: GelatoFormat[] = [
 ];
 
 /**
- * Categorias futuras — placeholder honesto.
- * Não nomeamos linhas que ainda não foram confirmadas.
+ * Portfólio ampliado — posicionamento premium.
+ * Comunica curadoria e exclusividade, sem tom de "em construção"
+ * e sem nomear linhas que ainda não foram confirmadas.
  */
 export const FUTURE_CATEGORY = {
-  label: "Novas categorias",
-  headline: "Novas linhas em desenvolvimento.",
+  label: "Portfólio",
+  headline: "Um portfólio conduzido com critério.",
   detail:
-    "O portfólio segue em expansão. Novas categorias serão anunciadas conforme a produção evoluir.",
+    "Cada nova linha só entra na i.sí quando alcança o mesmo padrão do nosso gelato. Nossos parceiros são os primeiros a conhecer cada novidade.",
 } as const;
