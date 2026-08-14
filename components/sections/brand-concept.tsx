@@ -51,10 +51,12 @@ export function BrandConcept() {
                 </p>
                 <p className="font-serif text-xl italic leading-relaxed text-foreground">
                   Doce com salgado. Clássico com inesperado. Produto com
-                  oportunidade.
+                  oportunidade de negócio.
                 </p>
                 <p>
-                  i.sí nasceu dessa ideia: combinar para criar algo novo.
+                  A i.sí nasceu para combinar: produtos, possibilidades e
+                  oportunidades. Cada caixa de gelato artesanal é também um novo
+                  caminho de faturamento para o seu negócio.
                 </p>
               </div>
             </Reveal>

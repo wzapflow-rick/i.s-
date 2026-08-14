@@ -43,22 +43,24 @@ export function BrandStory() {
                 A marca
               </p>
               <h2 className="max-w-xl font-serif text-4xl leading-[1.08] tracking-tight text-balance sm:text-5xl">
-                Uma nova marca, construída por quem conhece o mercado.
+                Mais que uma marca de gelato: uma fábrica parceira do seu
+                negócio.
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
               <div className="mt-8 max-w-xl space-y-5 font-sans text-base leading-relaxed text-muted-foreground">
                 <p>
-                  A i.sí nasce da vontade de repensar o que um fornecedor pode
-                  ser: mais do que produtos, um parceiro que ajuda o seu negócio
-                  a crescer e a criar novas experiências.
+                  A i.sí é uma fabricante de gelato artesanal B2B. Não vendemos
+                  apenas caixas de 5L e 10L — construímos relações próximas com
+                  um grupo selecionado de parceiros que colocam nosso gelato no
+                  centro da própria experiência.
                 </p>
                 <p>
                   {/* TODO(cliente): substituir por história, trajetória e
                       diferenciais reais após briefing. */}
-                  Estamos construindo essa história com cuidado — e queremos
-                  construir os próximos capítulos ao lado de quem também acredita
-                  em fazer diferente.
+                  Por isso trabalhamos com poucos parceiros por vez: exclusividade,
+                  acompanhamento de perto e um produto 100% leite integral, pensado
+                  para quem busca posicionamento premium — não o menor preço.
                 </p>
               </div>
             </Reveal>
