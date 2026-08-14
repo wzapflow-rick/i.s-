@@ -19,15 +19,17 @@ export function BrandConcept() {
     offset: ["start end", "center center"],
   });
 
-  // Palavras se aproximam do centro.
-  const doceX = useTransform(scrollYProgress, [0, 0.75], ["-42%", "0%"]);
-  const salgadoX = useTransform(scrollYProgress, [0, 0.75], ["42%", "0%"]);
-  const wordsOpacity = useTransform(scrollYProgress, [0.55, 0.85], [1, 0]);
-  const wordsScale = useTransform(scrollYProgress, [0, 0.75], [1, 0.9]);
+  // Palavras se aproximam na vertical (robusto em qualquer largura de tela):
+  // DOCE desce de cima, SALGADO sobe de baixo, e param separadas.
+  const doceY = useTransform(scrollYProgress, [0, 0.7], ["-260%", "-80%"]);
+  const salgadoY = useTransform(scrollYProgress, [0, 0.7], ["260%", "80%"]);
+  // Somem antes de colidir, cedendo lugar ao wordmark.
+  const wordsOpacity = useTransform(scrollYProgress, [0.58, 0.78], [1, 0]);
+  const wordsScale = useTransform(scrollYProgress, [0, 0.7], [1, 0.92]);
 
   // Wordmark aparece no encontro.
-  const logoOpacity = useTransform(scrollYProgress, [0.68, 0.92], [0, 1]);
-  const logoScale = useTransform(scrollYProgress, [0.68, 0.95], [0.85, 1]);
+  const logoOpacity = useTransform(scrollYProgress, [0.64, 0.9], [0, 1]);
+  const logoScale = useTransform(scrollYProgress, [0.64, 0.95], [0.85, 1]);
 
   return (
     <section id="conceito" className="border-t border-border bg-surface">
@@ -65,8 +67,8 @@ export function BrandConcept() {
               ) : (
                 <>
                   <motion.span
-                    style={{ x: doceX, opacity: wordsOpacity, scale: wordsScale }}
-                    className="absolute font-serif text-3xl uppercase tracking-wide-editorial text-foreground sm:text-5xl"
+                    style={{ y: doceY, opacity: wordsOpacity, scale: wordsScale }}
+                    className="absolute whitespace-nowrap font-serif text-3xl uppercase tracking-wide-editorial text-foreground sm:text-5xl"
                   >
                     Doce
                   </motion.span>
@@ -78,8 +80,8 @@ export function BrandConcept() {
                     +
                   </motion.span>
                   <motion.span
-                    style={{ x: salgadoX, opacity: wordsOpacity, scale: wordsScale }}
-                    className="absolute font-serif text-3xl uppercase tracking-wide-editorial text-foreground sm:text-5xl"
+                    style={{ y: salgadoY, opacity: wordsOpacity, scale: wordsScale }}
+                    className="absolute whitespace-nowrap font-serif text-3xl uppercase tracking-wide-editorial text-foreground sm:text-5xl"
                   >
                     Salgado
                   </motion.span>
