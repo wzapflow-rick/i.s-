@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
+import { SITE_IMAGES } from "@/lib/site-images";
 
 /**
  * SEÇÃO 07 — AUTORIDADE / HISTÓRIA
@@ -24,16 +25,18 @@ export function BrandStory() {
         <div ref={ref} className="relative min-h-[60vh] overflow-hidden lg:min-h-full">
           <motion.div style={{ y: imgY }} className="absolute inset-[-8%]">
             <Image
-              src="/images/story-texture.png"
-              alt="Textura macro de gelato cremoso"
+              src={SITE_IMAGES.texture.src}
+              alt={SITE_IMAGES.texture.alt}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />
           </motion.div>
-          <span className="absolute left-5 top-5 rounded-full bg-background/85 px-3 py-1 font-sans text-[0.58rem] uppercase tracking-eyebrow text-muted-foreground backdrop-blur-sm">
-            Placeholder
-          </span>
+          {SITE_IMAGES.texture.placeholder && (
+            <span className="absolute left-5 top-5 rounded-full bg-background/85 px-3 py-1 font-sans text-[0.58rem] uppercase tracking-eyebrow text-muted-foreground backdrop-blur-sm">
+              Foto ilustrativa
+            </span>
+          )}
         </div>
 
         <div className="flex items-center px-5 py-24 sm:px-8 lg:px-16 lg:py-36">

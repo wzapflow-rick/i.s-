@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Reveal } from "@/components/ui/reveal";
+import { SITE_IMAGES } from "@/lib/site-images";
 
 const PILLARS = [
   {
@@ -31,7 +32,7 @@ export function Quality() {
     <section className="relative overflow-hidden bg-ink text-ink-foreground">
       <div className="absolute inset-0 opacity-[0.14]">
         <Image
-          src="/images/story-texture.png"
+          src={SITE_IMAGES.texture.src}
           alt=""
           fill
           sizes="100vw"

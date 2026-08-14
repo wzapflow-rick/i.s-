@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { CtaButton } from "@/components/ui/cta-button";
+import { SITE_IMAGES } from "@/lib/site-images";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -93,8 +94,8 @@ export function Hero() {
             className="relative h-full w-full"
           >
             <Image
-              src="/images/hero-gelato.png"
-              alt="Close-up editorial de gelato artesanal i.sí com textura cremosa"
+              src={SITE_IMAGES.hero.src}
+              alt={SITE_IMAGES.hero.alt}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -106,9 +107,11 @@ export function Hero() {
           <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-40 bg-gradient-to-r from-background via-background/40 to-transparent lg:block" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/60 to-transparent lg:hidden" />
 
-          <span className="absolute bottom-5 right-5 rounded-full bg-background/80 px-3 py-1 font-sans text-[0.56rem] uppercase tracking-eyebrow text-muted-foreground backdrop-blur-sm">
-            Foto ilustrativa
-          </span>
+          {SITE_IMAGES.hero.placeholder && (
+            <span className="absolute bottom-5 right-5 rounded-full bg-background/80 px-3 py-1 font-sans text-[0.56rem] uppercase tracking-eyebrow text-muted-foreground backdrop-blur-sm">
+              Foto ilustrativa
+            </span>
+          )}
         </div>
       </div>
     </section>

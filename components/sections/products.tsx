@@ -38,8 +38,8 @@ export function Products() {
               <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-colors duration-500 hover:border-line">
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <Image
-                    src={format.image}
-                    alt={`Gelato artesanal i.sí — ${format.name}`}
+                    src={format.image.src}
+                    alt={format.image.alt}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-105"
@@ -47,6 +47,11 @@ export function Products() {
                   <span className="absolute right-5 top-5 flex size-16 items-center justify-center rounded-full bg-background/90 font-serif text-xl tracking-tight text-foreground backdrop-blur-sm">
                     {format.size}
                   </span>
+                  {format.image.placeholder && (
+                    <span className="absolute left-5 top-5 rounded-full bg-background/80 px-3 py-1 font-sans text-[0.56rem] uppercase tracking-eyebrow text-muted-foreground backdrop-blur-sm">
+                      Foto ilustrativa
+                    </span>
+                  )}
                 </div>
                 <div className="flex flex-1 flex-col p-8">
                   <h3 className="font-serif text-3xl tracking-tight text-foreground">
