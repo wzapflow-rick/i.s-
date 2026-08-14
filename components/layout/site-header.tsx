@@ -48,15 +48,18 @@ export function SiteHeader() {
   }
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled
-          ? "border-b border-border/70 bg-background/80 backdrop-blur-md"
-          : "border-b border-transparent",
-      )}
-    >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
+    <header className="fixed inset-x-0 top-0 z-50">
+      {/* Header minimalista: sem tarja, sem blur, sem borda. Um gradiente
+          sutil (só no topo, ao rolar) garante leitura do logo/nav sobre
+          qualquer conteúdo, sem criar aquela "cartela" pesada. */}
+      <div
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background/70 to-transparent transition-opacity duration-500",
+          scrolled ? "opacity-100" : "opacity-0",
+        )}
+      />
+      <div className="relative mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
         <a href="#top" className="flex items-center" aria-label="i.sí Gelato — início">
           <Logo className="text-2xl" />
         </a>
