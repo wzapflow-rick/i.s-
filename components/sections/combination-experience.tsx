@@ -10,12 +10,17 @@ import {
 import { CtaButton } from "@/components/ui/cta-button";
 
 const COMBOS = [
-  { with: "Açaí", color: "text-acai" },
-  { with: "Gelato", color: "text-gelato" },
-  { with: "Café", color: "text-cafe" },
-  { with: "Seu negócio", color: "text-accent" },
-  { with: "Você", color: "text-accent" },
+  // tint = tom que entra sutilmente no fundo a cada combinação
+  { with: "Açaí", color: "text-acai", tint: "#5a3a6d" },
+  { with: "Gelato", color: "text-gelato", tint: "#7c8b5a" },
+  { with: "Café", color: "text-cafe", tint: "#6b4a32" },
+  // "Seu negócio" e "Você" convergem para o dourado da identidade i.sí
+  { with: "Seu negócio", color: "text-accent", tint: "#b08d4f" },
+  { with: "Você", color: "text-accent", tint: "#c9ad78" },
 ];
+
+// Tom final quando tudo converge para a identidade i.sí
+const FINAL_TINT = "#b08d4f";
 
 /**
  * SEÇÃO 08 — CONCEITO DE COMBINAÇÃO
@@ -54,6 +59,24 @@ export function CombinationExperience() {
       className="relative h-[400vh] border-t border-border bg-ink text-ink-foreground"
     >
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-5">
+        {/* Microvariação de tom: um brilho radial sutil entra a cada combinação */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`tint-${ended ? "final" : index}`}
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: `radial-gradient(60% 55% at 50% 45%, ${
+                ended ? FINAL_TINT : combo.tint
+              }38 0%, transparent 70%)`,
+            }}
+          />
+        </AnimatePresence>
+
         <AnimatePresence mode="wait">
           {!ended ? (
             <motion.div
@@ -62,7 +85,7 @@ export function CombinationExperience() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col items-center text-center"
+              className="relative z-10 flex flex-col items-center text-center"
             >
               <p className="mb-10 font-sans text-[0.68rem] uppercase tracking-eyebrow text-ink-foreground/50">
                 Com o que a i.sí combina?
@@ -88,7 +111,7 @@ export function CombinationExperience() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col items-center text-center"
+              className="relative z-10 flex flex-col items-center text-center"
             >
               <h2 className="max-w-3xl font-serif text-5xl leading-[1.02] tracking-tight text-balance sm:text-7xl">
                 E com o seu negócio?
@@ -107,7 +130,7 @@ export function CombinationExperience() {
         </AnimatePresence>
 
         {/* Indicadores de progresso */}
-        <div className="absolute bottom-10 flex items-center gap-2">
+        <div className="absolute bottom-10 z-10 flex items-center gap-2">
           {[...COMBOS, { with: "cta" }].map((_, i) => {
             const activeDot = ended ? i === COMBOS.length : i === index;
             return (
