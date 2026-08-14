@@ -9,6 +9,7 @@ import { BusinessValue } from "@/components/sections/business-value";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { BrandStory } from "@/components/sections/brand-story";
 import { CombinationExperience } from "@/components/sections/combination-experience";
+import { FirstPartners } from "@/components/sections/first-partners";
 import { PartnerForm } from "@/components/partner-form/partner-form";
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
         <HowItWorks />
         <BrandStory />
         <CombinationExperience />
+        <FirstPartners />
         <PartnerForm />
       </main>
       <SiteFooter />
