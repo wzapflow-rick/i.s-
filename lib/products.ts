@@ -47,5 +47,5 @@ export const FUTURE_CATEGORY = {
   label: "Novas categorias",
   headline: "Novas linhas em desenvolvimento.",
   detail:
-    "Estamos construindo o portfólio ao lado dos primeiros parceiros. Novas categorias serão anunciadas conforme a produção evoluir.",
+    "O portfólio segue em expansão. Novas categorias serão anunciadas conforme a produção evoluir.",
 } as const;

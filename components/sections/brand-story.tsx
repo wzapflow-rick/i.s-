@@ -7,9 +7,9 @@ import { Reveal } from "@/components/ui/reveal";
 import { SITE_IMAGES } from "@/lib/site-images";
 
 /**
- * SEÇÃO 07 — AUTORIDADE / HISTÓRIA
- * Copy PROVISÓRIA — não inventar fatos, números ou anos de atuação.
- * Placeholders claramente preparados para substituição.
+ * SEÇÃO 07 — A MARCA / POSICIONAMENTO
+ * Copy de posicionamento no presente — sem narrativa de origem, sem inventar
+ * autoridade, fatos, números ou anos. Ampliar apenas com dados reais.
  */
 export function BrandStory() {
   const ref = useRef<HTMLDivElement>(null);
@@ -53,19 +53,17 @@ export function BrandStory() {
             <Reveal delay={0.1}>
               <div className="mt-8 max-w-xl space-y-5 font-sans text-base leading-relaxed text-muted-foreground">
                 <p>
-                  A i.sí nasceu da experiência de quem conhece o mercado por
-                  dentro e decidiu construir algo próprio: uma fabricante de
-                  gelato artesanal feita para ser parceira do negócio de quem
-                  vende.
+                  {/* Copy de posicionamento — sem narrativa de origem, anos ou
+                      números. Ampliar apenas com fatos reais após briefing. */}
+                  A i.sí é uma fabricante de gelato artesanal B2B. Mais do que
+                  fornecer caixas de 5L e 10L, trabalhamos lado a lado com cada
+                  parceiro que coloca o nosso gelato no centro da própria
+                  experiência.
                 </p>
                 <p>
-                  {/* TODO(cliente): substituir/expandir com trajetória e
-                      diferenciais reais após briefing. Não inventar anos,
-                      números ou fatos. */}
-                  Em vez de mais um fornecedor, quisemos criar relações
-                  próximas com poucos parceiros por vez — com um produto 100%
-                  leite integral e um posicionamento premium, para quem busca
-                  qualidade e não o menor preço.
+                  Poucos parceiros por vez, um produto 100% leite integral e um
+                  posicionamento premium — para quem busca qualidade e não o
+                  menor preço.
                 </p>
               </div>
             </Reveal>

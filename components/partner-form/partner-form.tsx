@@ -109,12 +109,12 @@ export function PartnerForm() {
               Candidatura à parceria
             </p>
             <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl lg:sticky lg:top-32">
-              Quero ser um dos primeiros parceiros
+              Quero ser um parceiro i.sí
             </h2>
             <p className="mt-8 max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:sticky lg:top-56">
-              São poucas vagas nesta primeira fase em Feira de Santana. Conte
-              sobre o seu negócio — vamos analisar cada candidatura com atenção e
-              entrar em contato com os selecionados.
+              São poucas vagas em Feira de Santana. Conte sobre o seu negócio —
+              vamos analisar cada candidatura com atenção e entrar em contato com
+              os selecionados.
             </p>
           </Reveal>
         </div>

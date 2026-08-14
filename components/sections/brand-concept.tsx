@@ -54,7 +54,7 @@ export function BrandConcept() {
                   oportunidade de negócio.
                 </p>
                 <p>
-                  A i.sí nasceu para combinar: produtos, possibilidades e
+                  A i.sí foi feita para combinar: produtos, possibilidades e
                   oportunidades. Cada caixa de gelato artesanal é também um novo
                   caminho de faturamento para o seu negócio.
                 </p>

@@ -4,8 +4,9 @@ import { Reveal } from "@/components/ui/reveal";
 import { CtaButton } from "@/components/ui/cta-button";
 
 /**
- * SEÇÃO — PRIMEIROS PARCEIROS
- * Fundo escuro premium. Comunica exclusividade (não escassez agressiva).
+ * SEÇÃO — PARCERIAS SELECIONADAS
+ * Fundo escuro premium. Comunica exclusividade por seletividade
+ * (poucos parceiros por escolha), sem narrativa de "início" ou escassez agressiva.
  * Elemento de assinatura: o numeral "4" em serifa de grande escala.
  */
 export function FirstPartners() {
@@ -20,21 +21,20 @@ export function FirstPartners() {
           <div className="lg:col-span-7">
             <Reveal>
               <p className="mb-7 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent-soft">
-                Primeira fase • Feira de Santana
+                Parcerias • Feira de Santana
               </p>
               <h2 className="max-w-2xl font-serif text-[2.6rem] leading-[1.02] tracking-tight text-balance text-ink-foreground sm:text-6xl">
-                Estamos começando pequeno.
+                Trabalhamos com poucos.
                 <br />
-                <span className="italic text-accent-soft">De propósito.</span>
+                <span className="italic text-accent-soft">Por escolha.</span>
               </h2>
             </Reveal>
 
             <Reveal delay={0.1}>
               <p className="mt-8 max-w-xl font-sans text-lg leading-relaxed text-ink-foreground/70">
-                Nesta primeira fase, a i.sí vai trabalhar com um grupo reduzido
-                de parceiros em Feira de Santana. Poucos, escolhidos com
-                cuidado — para que cada parceria receba a atenção e a
-                proximidade que merece.
+                A i.sí trabalha com um grupo reduzido de parceiros em Feira de
+                Santana. Poucos, escolhidos com cuidado — para que cada parceria
+                receba a atenção e a proximidade que merece.
               </p>
             </Reveal>
 
@@ -45,7 +45,7 @@ export function FirstPartners() {
                   variant="secondary"
                   className="border-ink-foreground/30 text-ink-foreground hover:border-ink-foreground hover:bg-ink-foreground/5"
                 >
-                  Quero participar da primeira fase
+                  Quero me tornar um parceiro
                 </CtaButton>
               </div>
             </Reveal>
@@ -59,11 +59,11 @@ export function FirstPartners() {
                   4
                 </span>
                 <span className="mt-4 font-sans text-[0.72rem] uppercase tracking-eyebrow text-ink-foreground/60">
-                  Parceiros iniciais
+                  Parceiros por vez
                 </span>
                 <span className="mt-6 max-w-xs font-sans text-sm leading-relaxed text-ink-foreground/45 lg:max-w-[16rem]">
-                  Com a meta de chegar a cerca de dez parceiros até o fim do
-                  ano — mantendo o mesmo cuidado do primeiro ao último.
+                  Um número propositalmente pequeno — para manter a proximidade
+                  e o mesmo cuidado com cada parceiro.
                 </span>
               </div>
             </Reveal>

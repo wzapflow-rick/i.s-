@@ -33,7 +33,7 @@ export function Hero() {
             className="mb-8 inline-flex items-center gap-2 font-sans text-[0.66rem] uppercase tracking-eyebrow text-muted-foreground"
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-            Primeira fase <span className="text-line">•</span> Feira de Santana
+            Gelato artesanal <span className="text-line">•</span> Feira de Santana
           </motion.p>
 
           <h1 className="max-w-2xl font-serif text-[2.75rem] leading-[0.98] tracking-tight text-balance sm:text-6xl lg:text-[4.75rem]">
@@ -69,7 +69,7 @@ export function Hero() {
             className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
           >
             <CtaButton href="#formulario" variant="primary">
-              Quero ser um dos primeiros parceiros
+              Quero ser um parceiro i.sí
             </CtaButton>
             <CtaButton href="#conceito" variant="secondary" arrow={false}>
               Conhecer a i.sí
@@ -82,8 +82,8 @@ export function Hero() {
             transition={{ duration: 0.8, ease, delay: 0.85 }}
             className="mt-6 font-sans text-[0.7rem] uppercase tracking-wide-editorial text-muted-foreground"
           >
-            Vagas limitadas <span className="text-accent">·</span> apenas 4 parceiros
-            nesta primeira fase
+            Parcerias limitadas <span className="text-accent">·</span> trabalhamos
+            com poucos parceiros por vez
           </motion.p>
         </div>
 
