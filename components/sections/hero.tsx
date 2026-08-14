@@ -13,97 +13,104 @@ export function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
     <section
       ref={ref}
       id="top"
-      className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden pt-28"
+      className="relative min-h-[100svh] overflow-hidden pt-24 lg:pt-0"
     >
-      {/* Imagem principal — placeholder editorial preparado para substituição */}
-      <div className="absolute inset-0 -z-10">
-        <motion.div style={{ y: imageY, scale: imageScale }} className="relative h-full w-full">
-          <Image
-            src="/images/hero-gelato.png"
-            alt="Close-up editorial de gelato artesanal com textura cremosa"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-        </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/30 to-transparent" />
+      <div className="mx-auto grid min-h-[100svh] w-full max-w-[1500px] grid-cols-1 items-center lg:grid-cols-2">
+        {/* Coluna de texto */}
+        <div className="order-2 px-5 pb-16 pt-10 sm:px-8 lg:order-1 lg:px-12 lg:py-28">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease }}
+            className="mb-8 inline-flex items-center gap-2 font-sans text-[0.66rem] uppercase tracking-eyebrow text-muted-foreground"
+          >
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+            Primeira fase <span className="text-line">•</span> Feira de Santana
+          </motion.p>
+
+          <h1 className="max-w-2xl font-serif text-[2.75rem] leading-[0.98] tracking-tight text-balance sm:text-6xl lg:text-[4.75rem]">
+            {["Gelato artesanal.", "Feito para poucos."].map((line, i) => (
+              <span key={line} className="block overflow-hidden">
+                <motion.span
+                  initial={{ y: "110%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 1, ease, delay: 0.15 + i * 0.12 }}
+                  className="block"
+                >
+                  {line}
+                </motion.span>
+              </span>
+            ))}
+          </h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease, delay: 0.5 }}
+            className="mt-8 max-w-lg font-sans text-base leading-relaxed text-muted-foreground sm:text-lg"
+          >
+            Produzido em Feira de Santana com 100% leite integral, em caixas de 5L
+            e 10L. Um produto premium para negócios que não competem por preço —
+            competem por experiência.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease, delay: 0.65 }}
+            className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
+          >
+            <CtaButton href="#formulario" variant="primary">
+              Quero ser um dos primeiros parceiros
+            </CtaButton>
+            <CtaButton href="#conceito" variant="secondary" arrow={false}>
+              Conhecer a i.sí
+            </CtaButton>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease, delay: 0.85 }}
+            className="mt-6 font-sans text-[0.7rem] uppercase tracking-wide-editorial text-muted-foreground"
+          >
+            Vagas limitadas <span className="text-accent">·</span> apenas 4 parceiros
+            nesta primeira fase
+          </motion.p>
+        </div>
+
+        {/* Painel de food photography — estrutura pronta para fotos reais do produto */}
+        <div className="relative order-1 h-[48svh] w-full overflow-hidden lg:order-2 lg:h-screen">
+          <motion.div
+            style={{ y: imageY, scale: imageScale }}
+            className="relative h-full w-full"
+          >
+            <Image
+              src="/images/hero-gelato.png"
+              alt="Close-up editorial de gelato artesanal i.sí com textura cremosa"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover object-center"
+            />
+          </motion.div>
+
+          {/* Mesclagem suave com o fundo creme apenas no desktop */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-40 bg-gradient-to-r from-background via-background/40 to-transparent lg:block" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/60 to-transparent lg:hidden" />
+
+          <span className="absolute bottom-5 right-5 rounded-full bg-background/80 px-3 py-1 font-sans text-[0.56rem] uppercase tracking-eyebrow text-muted-foreground backdrop-blur-sm">
+            Foto ilustrativa
+          </span>
+        </div>
       </div>
-
-      <div className="mx-auto w-full max-w-[1400px] px-5 pb-16 sm:px-8 lg:px-12 lg:pb-24">
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease }}
-          className="mb-8 font-sans text-[0.68rem] uppercase tracking-eyebrow text-muted-foreground"
-        >
-          Produtos para negócios <span className="text-accent">•</span> Atendimento comercial{" "}
-          <span className="text-accent">•</span> Parcerias selecionadas
-        </motion.p>
-
-        <h1 className="max-w-4xl font-serif text-[2.75rem] leading-[0.98] tracking-tight text-balance sm:text-6xl lg:text-[5.25rem]">
-          {["Novas combinações.", "Novas possibilidades."].map((line, i) => (
-            <span key={line} className="block overflow-hidden">
-              <motion.span
-                initial={{ y: "110%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 1, ease, delay: 0.15 + i * 0.12 }}
-                className="block"
-              >
-                {line}
-              </motion.span>
-            </span>
-          ))}
-        </h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease, delay: 0.5 }}
-          className="mt-8 max-w-xl font-sans text-base leading-relaxed text-muted-foreground sm:text-lg"
-        >
-          Produtos pensados para negócios que querem ampliar seu mix, criar novas
-          experiências e encontrar novas formas de vender.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease, delay: 0.65 }}
-          className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
-        >
-          <CtaButton href="#formulario" variant="primary">
-            Quero ser parceiro
-          </CtaButton>
-          <CtaButton href="#conceito" variant="secondary" arrow={false}>
-            Conhecer a i.sí
-          </CtaButton>
-        </motion.div>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 1 }}
-        className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex"
-      >
-        <span className="font-sans text-[0.6rem] uppercase tracking-eyebrow text-muted-foreground">
-          Role
-        </span>
-        <motion.span
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
-          className="h-8 w-px bg-line"
-        />
-      </motion.div>
     </section>
   );
 }
