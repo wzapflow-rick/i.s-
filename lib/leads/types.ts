@@ -27,6 +27,18 @@ export type LeadObjective =
   | "trocar-fornecedor"
   | "outra-oportunidade";
 
+export type LeadStructure =
+  | "freezer-proprio"
+  | "espaco-limitado"
+  | "sem-estrutura"
+  | "avaliar";
+
+export type LeadStartIntent =
+  | "imediato"
+  | "30-dias"
+  | "60-90-dias"
+  | "avaliando";
+
 /** Dados coletados pelo formulário público (etapas 1–6). */
 export interface LeadInput {
   // Etapa 1 — Sobre você
@@ -51,9 +63,12 @@ export interface LeadInput {
   orderVolume: string;
   currentProducts: "sim" | "nao" | "";
   currentSupplier?: string;
+  purchaseVolume: string;
+  structure: LeadStructure | "";
 
   // Etapa 5 — O que você busca
   objective: LeadObjective | "";
+  startIntent: LeadStartIntent | "";
 
   // Etapa 6 — Motivação
   motivation: string;
@@ -84,4 +99,18 @@ export const OBJECTIVE_OPTIONS: { value: LeadObjective; label: string }[] = [
   { value: "nova-unidade", label: "Abrir nova unidade" },
   { value: "trocar-fornecedor", label: "Trocar fornecedor" },
   { value: "outra-oportunidade", label: "Outra oportunidade" },
+];
+
+export const STRUCTURE_OPTIONS: { value: LeadStructure; label: string }[] = [
+  { value: "freezer-proprio", label: "Tenho freezer próprio" },
+  { value: "espaco-limitado", label: "Espaço limitado" },
+  { value: "sem-estrutura", label: "Ainda sem estrutura" },
+  { value: "avaliar", label: "Preciso avaliar" },
+];
+
+export const START_INTENT_OPTIONS: { value: LeadStartIntent; label: string }[] = [
+  { value: "imediato", label: "O quanto antes" },
+  { value: "30-dias", label: "Em até 30 dias" },
+  { value: "60-90-dias", label: "Em 60–90 dias" },
+  { value: "avaliando", label: "Ainda avaliando" },
 ];

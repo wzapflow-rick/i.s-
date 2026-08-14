@@ -6,6 +6,8 @@ import { submitLead } from "@/app/actions/submit-lead";
 import {
   OBJECTIVE_OPTIONS,
   SEGMENT_OPTIONS,
+  START_INTENT_OPTIONS,
+  STRUCTURE_OPTIONS,
   type LeadInput,
 } from "@/lib/leads/types";
 import { EMPTY_LEAD, validateStep, type LeadErrors } from "@/lib/leads/validation";
@@ -104,14 +106,15 @@ export function PartnerForm() {
         <div className="lg:col-span-5">
           <Reveal>
             <p className="mb-6 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent">
-              Parcerias
+              Candidatura à parceria
             </p>
             <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl lg:sticky lg:top-32">
-              Quero fazer parte da i.sí
+              Quero ser um dos primeiros parceiros
             </h2>
             <p className="mt-8 max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:sticky lg:top-56">
-              Conte um pouco sobre o seu negócio. Nossa equipe vai analisar seu
-              perfil e entrar em contato.
+              São poucas vagas nesta primeira fase em Feira de Santana. Conte
+              sobre o seu negócio — vamos analisar cada candidatura com atenção e
+              entrar em contato com os selecionados.
             </p>
           </Reveal>
         </div>
@@ -187,7 +190,7 @@ export function PartnerForm() {
                   </>
                 ) : step === TOTAL - 1 ? (
                   <>
-                    Enviar cadastro
+                    Enviar candidatura
                     <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
                   </>
                 ) : (
@@ -409,20 +412,61 @@ function StepFields({
               placeholder="Se aplicável"
             />
           </div>
+          <div>
+            <FieldLabel htmlFor="purchaseVolume">
+              Volume aproximado de compra
+            </FieldLabel>
+            <TextField
+              id="purchaseVolume"
+              value={data.purchaseVolume}
+              onChange={(e) => set("purchaseVolume", e.target.value)}
+              placeholder="Ex.: 40L a 80L por mês"
+              error={errors.purchaseVolume}
+            />
+            <FieldError message={errors.purchaseVolume} />
+          </div>
+          <div>
+            <FieldLabel htmlFor="structure">
+              Estrutura disponível para armazenar
+            </FieldLabel>
+            <OptionGrid
+              name="Estrutura disponível"
+              value={data.structure}
+              onChange={(v) => set("structure", v as LeadInput["structure"])}
+              options={STRUCTURE_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.structure} />
+          </div>
         </div>
       );
     case 4:
       return (
-        <div className="space-y-3">
-          <FieldLabel htmlFor="objective">O que você busca?</FieldLabel>
-          <OptionGrid
-            name="Objetivo"
-            value={data.objective}
-            onChange={(v) => set("objective", v as LeadInput["objective"])}
-            options={OBJECTIVE_OPTIONS}
-            columns={2}
-          />
-          <FieldError message={errors.objective} />
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <FieldLabel htmlFor="objective">O que você busca?</FieldLabel>
+            <OptionGrid
+              name="Objetivo"
+              value={data.objective}
+              onChange={(v) => set("objective", v as LeadInput["objective"])}
+              options={OBJECTIVE_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.objective} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="startIntent">
+              Quando pretende começar?
+            </FieldLabel>
+            <OptionGrid
+              name="Intenção de início"
+              value={data.startIntent}
+              onChange={(v) => set("startIntent", v as LeadInput["startIntent"])}
+              options={START_INTENT_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.startIntent} />
+          </div>
         </div>
       );
     case 5:

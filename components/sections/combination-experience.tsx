@@ -14,12 +14,14 @@ const COMBOS = [
   { with: "Gelato", color: "text-gelato" },
   { with: "Café", color: "text-cafe" },
   { with: "Seu negócio", color: "text-accent" },
+  { with: "Você", color: "text-accent" },
 ];
 
 /**
  * SEÇÃO 08 — CONCEITO DE COMBINAÇÃO
  * Scroll longo e "pinned": conforme o usuário rola, a combinação muda
- * i.sí + AÇAÍ → GELATO → CAFÉ → SEU NEGÓCIO. Termina em "E com o seu negócio?".
+ * i.sí + AÇAÍ → GELATO → CAFÉ → SEU NEGÓCIO → VOCÊ.
+ * Termina em "E com o seu negócio?" + CTA de parceria.
  */
 export function CombinationExperience() {
   const ref = useRef<HTMLDivElement>(null);
