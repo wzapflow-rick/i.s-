@@ -40,23 +40,18 @@ export function BrandConcept() {
                 O conceito
               </p>
               <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl">
-                Por que i.sí?
+                i.sí nasceu para combinar.
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
               <div className="mt-8 space-y-5 font-sans text-base leading-relaxed text-muted-foreground">
-                <p>
-                  Porque acreditamos que as melhores ideias surgem quando coisas
-                  diferentes se encontram.
-                </p>
                 <p className="font-serif text-xl italic leading-relaxed text-foreground">
                   Doce com salgado. Clássico com inesperado. Produto com
-                  oportunidade de negócio.
+                  oportunidade.
                 </p>
                 <p>
-                  A i.sí foi feita para combinar: produtos, possibilidades e
-                  oportunidades. Cada caixa de gelato artesanal é também um novo
-                  caminho de faturamento para o seu negócio.
+                  Porque cada combinação pode abrir uma nova possibilidade para o
+                  seu negócio.
                 </p>
               </div>
             </Reveal>

@@ -37,7 +37,7 @@ export function Hero() {
           </motion.p>
 
           <h1 className="max-w-2xl font-serif text-[2.75rem] leading-[0.98] tracking-tight text-balance sm:text-6xl lg:text-[4.75rem]">
-            {["Gelato artesanal.", "Feito para poucos."].map((line, i) => (
+            {["Gelato artesanal.", "Para negócios que escolhem qualidade."].map((line, i) => (
               <span key={line} className="block overflow-hidden">
                 <motion.span
                   initial={{ y: "110%" }}
@@ -57,9 +57,9 @@ export function Hero() {
             transition={{ duration: 0.8, ease, delay: 0.5 }}
             className="mt-8 max-w-lg font-sans text-base leading-relaxed text-muted-foreground sm:text-lg"
           >
-            Produzido em Feira de Santana com 100% leite integral, em caixas de 5L
-            e 10L. Um produto premium para negócios que não competem por preço —
-            competem por experiência.
+            Produzido em Feira de Santana com 100% leite integral, em formatos de
+            5L e 10L, para operações que valorizam produto, experiência e
+            consistência.
           </motion.p>
 
           <motion.div
@@ -69,7 +69,7 @@ export function Hero() {
             className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
           >
             <CtaButton href="#formulario" variant="primary">
-              Quero ser um parceiro i.sí
+              Quero ser parceiro
             </CtaButton>
             <CtaButton href="#conceito" variant="secondary" arrow={false}>
               Conhecer a i.sí

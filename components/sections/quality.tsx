@@ -6,19 +6,16 @@ import { SITE_IMAGES } from "@/lib/site-images";
 
 const PILLARS = [
   {
-    label: "100% Leite integral",
-    detail:
-      "Sem substitutos, sem atalhos. A base de tudo é leite integral de verdade — é o que dá corpo, cremosidade e sabor.",
+    label: "100% leite integral",
+    detail: "Corpo, textura e cremosidade como base.",
   },
   {
     label: "Produção artesanal",
-    detail:
-      "Feito em pequenos lotes, com controle de cada etapa. Artesanal não é discurso: é o método.",
+    detail: "Cuidado em cada etapa, do preparo ao produto final.",
   },
   {
-    label: "Qualidade que aparece na primeira colherada",
-    detail:
-      "O parceiro percebe. O cliente percebe. É o tipo de produto que se explica sozinho.",
+    label: "Qualidade que aparece",
+    detail: "Porque um bom produto não precisa se explicar.",
   },
 ];
 
@@ -70,8 +67,8 @@ export function Quality() {
         <Reveal delay={0.15}>
           <div className="mt-10 flex flex-col items-start gap-6 border-t border-ink-foreground/15 pt-10 sm:flex-row sm:items-center sm:justify-between">
             <p className="max-w-md font-sans text-sm leading-relaxed text-ink-foreground/70">
-              Disponível em caixas pensadas para a operação do seu negócio — do
-              teste inicial ao alto giro.
+              Disponível em formatos pensados para a operação do seu negócio —
+              da vitrine selecionada ao alto giro.
             </p>
             <div className="flex items-center gap-4">
               <span className="rounded-full border border-ink-foreground/25 px-6 py-3 font-sans text-sm uppercase tracking-wide-editorial text-ink-foreground">

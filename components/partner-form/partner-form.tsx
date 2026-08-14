@@ -106,15 +106,14 @@ export function PartnerForm() {
         <div className="lg:col-span-5">
           <Reveal>
             <p className="mb-6 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent">
-              Candidatura à parceria
+              A parceria
             </p>
             <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl lg:sticky lg:top-32">
-              Quero ser um parceiro i.sí
+              Talvez seja hora de combinar.
             </h2>
             <p className="mt-8 max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:sticky lg:top-56">
-              São poucas vagas em Feira de Santana. Conte sobre o seu negócio —
-              vamos analisar cada candidatura com atenção e entrar em contato com
-              os selecionados.
+              Conte um pouco sobre o seu negócio. Vamos entender se existe uma boa
+              combinação entre a sua operação e a i.sí.
             </p>
           </Reveal>
         </div>
@@ -190,7 +189,7 @@ export function PartnerForm() {
                   </>
                 ) : step === TOTAL - 1 ? (
                   <>
-                    Enviar candidatura
+                    Quero conhecer a parceria
                     <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
                   </>
                 ) : (
