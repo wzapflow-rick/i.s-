@@ -6,7 +6,14 @@ import type { ComponentProps } from "react";
 
 type Variant = "primary" | "secondary" | "ghost";
 
-interface CtaButtonProps extends ComponentProps<"a"> {
+// Removemos os handlers de drag/animação do React que conflitam com os
+// tipos equivalentes do motion ao usar <motion.a>.
+type AnchorProps = Omit<
+  ComponentProps<"a">,
+  "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart" | "onAnimationEnd"
+>;
+
+interface CtaButtonProps extends AnchorProps {
   variant?: Variant;
   arrow?: boolean;
 }
