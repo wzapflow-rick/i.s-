@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Logo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
+import { scrollToId } from "@/lib/smooth-scroll";
 
 const NAV = [
   { label: "Conceito", href: "#conceito" },

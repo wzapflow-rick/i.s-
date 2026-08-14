@@ -18,15 +18,46 @@ function absoluteTop(el: HTMLElement): number {
   return top;
 }
 
+let rafId: number | null = null;
+
+/**
+ * Anima o scroll via requestAnimationFrame em vez de behavior:"smooth".
+ * Numa página longa com seção sticky, o smooth nativo é abortado quando o
+ * scroll dispara re-renders (o conceito atualiza estado a cada frame). Uma
+ * animação própria por rAF é imune a isso e sempre chega ao destino.
+ */
+function animateScrollTo(target: number) {
+  if (rafId !== null) cancelAnimationFrame(rafId);
+  const start = window.scrollY;
+  const distance = target - start;
+  const duration = Math.min(900, Math.max(350, Math.abs(distance) * 0.35));
+  const startTime = performance.now();
+  // easeInOutCubic — parte e chega suave, condução premium.
+  const ease = (t: number) =>
+    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  function step(now: number) {
+    const elapsed = now - startTime;
+    const t = Math.min(1, elapsed / duration);
+    window.scrollTo(0, start + distance * ease(t));
+    if (t < 1) {
+      rafId = requestAnimationFrame(step);
+    } else {
+      rafId = null;
+    }
+  }
+  rafId = requestAnimationFrame(step);
+}
+
 /** Rola suavemente até a seção de id informado, parando abaixo do header. */
 export function scrollToId(id: string) {
   if (typeof window === "undefined") return;
   if (id === "top" || id === "") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    animateScrollTo(0);
     return;
   }
   const el = document.getElementById(id);
   if (!el) return;
   const target = Math.max(0, absoluteTop(el) - HEADER_OFFSET);
-  window.scrollTo({ top: target, behavior: "smooth" });
+  animateScrollTo(target);
 }
