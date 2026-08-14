@@ -1,11 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
+import type { PointerEvent } from "react";
 import {
   AnimatePresence,
   motion,
+  useMotionValue,
   useMotionValueEvent,
+  useReducedMotion,
   useScroll,
+  useSpring,
 } from "motion/react";
 import { CtaButton } from "@/components/ui/cta-button";
 
@@ -27,11 +31,20 @@ const FINAL_TINT = "#b08d4f";
  * Scroll longo e "pinned": conforme o usuário rola, a combinação muda
  * i.sí + AÇAÍ → GELATO → CAFÉ → SEU NEGÓCIO → VOCÊ.
  * Termina em "E com o seu negócio?" + CTA de parceria.
+ * Cursor especial: um brilho segue o ponteiro, tingido pela combinação atual.
  */
 export function CombinationExperience() {
   const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [ended, setEnded] = useState(false);
+  const [hovering, setHovering] = useState(false);
+
+  // Cursor especial — segue o ponteiro com mola suave
+  const cursorX = useMotionValue(-200);
+  const cursorY = useMotionValue(-200);
+  const glowX = useSpring(cursorX, { stiffness: 260, damping: 28, mass: 0.5 });
+  const glowY = useSpring(cursorY, { stiffness: 260, damping: 28, mass: 0.5 });
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -52,13 +65,55 @@ export function CombinationExperience() {
   });
 
   const combo = COMBOS[index];
+  const activeTint = ended ? FINAL_TINT : combo.tint;
+
+  function handlePointer(e: PointerEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    cursorX.set(e.clientX - rect.left);
+    cursorY.set(e.clientY - rect.top);
+  }
 
   return (
     <section
       ref={ref}
       className="relative h-[400vh] border-t border-border bg-ink text-ink-foreground"
     >
-      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-5">
+      <div
+        onPointerMove={reduce ? undefined : handlePointer}
+        onPointerEnter={() => setHovering(true)}
+        onPointerLeave={() => setHovering(false)}
+        className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-5 [@media(hover:hover)]:cursor-none"
+      >
+        {/* Cursor especial — brilho tingido pela combinação atual.
+            Sempre montado (árvore estável); só se move quando o ponteiro
+            entra e a preferência de movimento permite. */}
+        <motion.div
+          aria-hidden="true"
+          style={{ x: glowX, y: glowY }}
+          className="pointer-events-none absolute left-0 top-0 z-30 hidden [@media(hover:hover)]:block"
+        >
+            <motion.div
+              className="-translate-x-1/2 -translate-y-1/2 rounded-full mix-blend-screen blur-2xl"
+              animate={{
+                backgroundColor: activeTint,
+                opacity: hovering ? 0.55 : 0,
+                scale: hovering ? 1 : 0.6,
+              }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              style={{ width: 220, height: 220 }}
+            />
+            <motion.div
+              className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full border"
+              animate={{
+                borderColor: activeTint,
+                opacity: hovering ? 0.7 : 0,
+                scale: hovering ? 1 : 0.5,
+              }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              style={{ width: 26, height: 26 }}
+            />
+        </motion.div>
+
         {/* Microvariação de tom: um brilho radial sutil entra a cada combinação */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -70,9 +125,7 @@ export function CombinationExperience() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="pointer-events-none absolute inset-0"
             style={{
-              background: `radial-gradient(60% 55% at 50% 45%, ${
-                ended ? FINAL_TINT : combo.tint
-              }38 0%, transparent 70%)`,
+              background: `radial-gradient(60% 55% at 50% 45%, ${activeTint}38 0%, transparent 70%)`,
             }}
           />
         </AnimatePresence>
@@ -94,9 +147,15 @@ export function CombinationExperience() {
                 <span className="font-serif text-6xl tracking-tight sm:text-8xl">
                   i.sí
                 </span>
-                <span className="font-serif text-4xl text-accent-soft sm:text-6xl">
+                <motion.span
+                  key={`plus-${index}`}
+                  initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="font-serif text-4xl text-accent-soft sm:text-6xl"
+                >
                   +
-                </span>
+                </motion.span>
                 <span
                   className={`font-serif text-5xl tracking-tight sm:text-8xl ${combo.color}`}
                 >
@@ -129,16 +188,21 @@ export function CombinationExperience() {
           )}
         </AnimatePresence>
 
-        {/* Indicadores de progresso */}
+        {/* Indicadores de progresso — o dot ativo assume o tom da combinação */}
         <div className="absolute bottom-10 z-10 flex items-center gap-2">
           {[...COMBOS, { with: "cta" }].map((_, i) => {
             const activeDot = ended ? i === COMBOS.length : i === index;
             return (
-              <span
+              <motion.span
                 key={i}
-                className={`h-1 rounded-full transition-all duration-500 ${
-                  activeDot ? "w-8 bg-accent-soft" : "w-1.5 bg-ink-foreground/25"
-                }`}
+                className="h-1 rounded-full"
+                animate={{
+                  width: activeDot ? 32 : 6,
+                  backgroundColor: activeDot
+                    ? activeTint
+                    : "rgba(239,233,221,0.25)",
+                }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               />
             );
           })}

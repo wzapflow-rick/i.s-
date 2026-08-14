@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 import type { ComponentProps } from "react";
 
 type Variant = "primary" | "secondary" | "ghost";
@@ -11,9 +12,9 @@ interface CtaButtonProps extends ComponentProps<"a"> {
 }
 
 const base =
-  "group inline-flex items-center justify-center gap-3 rounded-full px-7 py-3.5 " +
+  "group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full px-7 py-3.5 " +
   "font-sans text-[0.7rem] uppercase tracking-wide-editorial font-medium " +
-  "transition-all duration-500 ease-out focus-visible:outline-none " +
+  "transition-colors duration-500 ease-out focus-visible:outline-none " +
   "focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 " +
   "focus-visible:ring-offset-background select-none";
 
@@ -25,6 +26,13 @@ const variants: Record<Variant, string> = {
   ghost: "text-foreground/80 hover:text-foreground",
 };
 
+// Cor do brilho que atravessa o botão no hover, por variante.
+const shine: Record<Variant, string> = {
+  primary: "via-ink-foreground/25",
+  secondary: "via-foreground/10",
+  ghost: "via-foreground/10",
+};
+
 export function CtaButton({
   variant = "primary",
   arrow = true,
@@ -33,16 +41,30 @@ export function CtaButton({
   ...props
 }: CtaButtonProps) {
   return (
-    <a className={cn(base, variants[variant], className)} {...props}>
-      <span>{children}</span>
+    <motion.a
+      className={cn(base, variants[variant], className)}
+      whileTap={{ scale: 0.97 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      {...props}
+    >
+      {/* Brilho diagonal que passa sutilmente no hover */}
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-0 -translate-x-[130%] bg-gradient-to-r from-transparent to-transparent",
+          "transition-transform duration-700 ease-out group-hover:translate-x-[130%]",
+          shine[variant],
+        )}
+      />
+      <span className="relative z-10">{children}</span>
       {arrow && (
         <span
           aria-hidden="true"
-          className="inline-block translate-x-0 transition-transform duration-500 ease-out group-hover:translate-x-1"
+          className="relative z-10 inline-block translate-x-0 transition-transform duration-500 ease-out group-hover:translate-x-1"
         >
           →
         </span>
       )}
-    </a>
+    </motion.a>
   );
 }

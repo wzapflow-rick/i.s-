@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
+import { ImageReveal } from "@/components/ui/image-reveal";
 import { SITE_IMAGES } from "@/lib/site-images";
 
 /**
@@ -24,14 +25,16 @@ export function BrandStory() {
       <div className="mx-auto grid max-w-[1400px] gap-0 lg:grid-cols-2">
         <div ref={ref} className="relative min-h-[60vh] overflow-hidden lg:min-h-full">
           <motion.div style={{ y: imgY }} className="absolute inset-[-8%]">
-            <Image
-              src={SITE_IMAGES.texture.src}
-              alt={SITE_IMAGES.texture.alt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-              style={{ objectPosition: "center 78%" }}
-            />
+            <ImageReveal className="absolute inset-0">
+              <Image
+                src={SITE_IMAGES.texture.src}
+                alt={SITE_IMAGES.texture.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                style={{ objectPosition: "center 78%" }}
+              />
+            </ImageReveal>
           </motion.div>
           {SITE_IMAGES.texture.placeholder && (
             <span className="absolute left-5 top-5 rounded-full bg-background/85 px-3 py-1 font-sans text-[0.58rem] uppercase tracking-eyebrow text-muted-foreground backdrop-blur-sm">

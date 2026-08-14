@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Logo } from "@/components/brand/logo";
 import { Reveal } from "@/components/ui/reveal";
+import { SplitWords } from "@/components/ui/split-words";
 
 /**
  * SEÇÃO 02 — O CONCEITO i.sí
@@ -41,10 +42,12 @@ export function BrandConcept() {
               <p className="mb-6 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent">
                 O conceito
               </p>
-              <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl">
-                i.sí nasceu para combinar.
-              </h2>
             </Reveal>
+            <SplitWords
+              as="h2"
+              text="i.sí nasceu para combinar."
+              className="block font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl"
+            />
             <Reveal delay={0.1}>
               <div className="mt-8 space-y-5 font-sans text-base leading-relaxed text-muted-foreground">
                 <p className="font-serif text-xl italic leading-relaxed text-foreground">

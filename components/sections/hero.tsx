@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { CtaButton } from "@/components/ui/cta-button";
+import { ImageReveal } from "@/components/ui/image-reveal";
 import { SITE_IMAGES } from "@/lib/site-images";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -93,15 +94,17 @@ export function Hero() {
             style={{ y: imageY, scale: imageScale }}
             className="relative h-full w-full"
           >
-            <Image
-              src={SITE_IMAGES.hero.src}
-              alt={SITE_IMAGES.hero.alt}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-              style={{ objectPosition: SITE_IMAGES.hero.objectPosition }}
-            />
+            <ImageReveal from="left" className="absolute inset-0">
+              <Image
+                src={SITE_IMAGES.hero.src}
+                alt={SITE_IMAGES.hero.alt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                style={{ objectPosition: SITE_IMAGES.hero.objectPosition }}
+              />
+            </ImageReveal>
           </motion.div>
 
           {/* Mesclagem suave com o fundo creme apenas no desktop */}

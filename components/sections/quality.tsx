@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Reveal } from "@/components/ui/reveal";
+import { SplitWords } from "@/components/ui/split-words";
 import { SITE_IMAGES } from "@/lib/site-images";
 
 const PILLARS = [
@@ -45,10 +46,12 @@ export function Quality() {
           <p className="mb-6 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent">
             Qualidade
           </p>
-          <h2 className="max-w-3xl font-serif text-4xl leading-[1.06] tracking-tight text-balance sm:text-5xl lg:text-6xl">
-            Feito para ser sentido logo na primeira colherada.
-          </h2>
         </Reveal>
+        <SplitWords
+          as="h2"
+          text="Feito para ser sentido logo na primeira colherada."
+          className="block max-w-3xl font-serif text-4xl leading-[1.06] tracking-tight text-balance sm:text-5xl lg:text-6xl"
+        />
 
         <div className="mt-16 grid gap-px overflow-hidden rounded-lg border border-ink-foreground/15 bg-ink-foreground/10 sm:grid-cols-3">
           {PILLARS.map((pillar, i) => (

@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal, Stagger, RevealItem } from "@/components/ui/reveal";
+import { SplitWords } from "@/components/ui/split-words";
 
 const PILLARS = [
   {
@@ -27,16 +28,23 @@ const PILLARS = [
  */
 export function BusinessValue() {
   return (
-    <section className="border-t border-border bg-ink text-ink-foreground">
-      <div className="mx-auto max-w-[1400px] px-5 py-24 sm:px-8 lg:px-12 lg:py-36">
+    <section className="relative overflow-hidden border-t border-border bg-ink text-ink-foreground">
+      {/* Melt creme → preto: a seção anterior parece derreter na escura */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-surface/25 to-transparent"
+      />
+      <div className="relative mx-auto max-w-[1400px] px-5 py-24 sm:px-8 lg:px-12 lg:py-36">
         <Reveal>
           <p className="mb-6 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent-soft">
             Valor para o negócio
           </p>
-          <h2 className="max-w-2xl font-serif text-4xl leading-[1.05] tracking-tight text-balance text-ink-foreground sm:text-5xl">
-            Não é só produto. É possibilidade.
-          </h2>
         </Reveal>
+        <SplitWords
+          as="h2"
+          text="Não é só produto. É possibilidade."
+          className="block max-w-2xl font-serif text-4xl leading-[1.05] tracking-tight text-balance text-ink-foreground sm:text-5xl"
+        />
 
         <Stagger className="mt-16 grid gap-px overflow-hidden rounded-lg border border-ink-foreground/15 bg-ink-foreground/15 sm:grid-cols-2 lg:grid-cols-4">
           {PILLARS.map((p, i) => (
