@@ -30,6 +30,22 @@ export function SiteHeader() {
     };
   }, [open]);
 
+  // No mobile, o overlay trava o scroll do body — então fechamos o menu e só
+  // depois (no próximo frame, com o body já destravado) rolamos ao destino.
+  // preventDefault evita que o SmoothAnchors global trate o mesmo clique.
+  function handleMobileNav(
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) {
+    if (!href.startsWith("#")) return;
+    e.preventDefault();
+    setOpen(false);
+    const id = href.slice(1);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => scrollToId(id));
+    });
+  }
+
   return (
     <header
       className={cn(
@@ -110,7 +126,7 @@ export function SiteHeader() {
                 <motion.a
                   key={item.href}
                   href={item.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => handleMobileNav(e, item.href)}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08 * i + 0.1, duration: 0.5 }}
@@ -122,7 +138,7 @@ export function SiteHeader() {
             </nav>
             <motion.a
               href="#formulario"
-              onClick={() => setOpen(false)}
+              onClick={(e) => handleMobileNav(e, "#formulario")}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}

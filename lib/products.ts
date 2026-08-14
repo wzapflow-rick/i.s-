@@ -46,7 +46,7 @@ export const GELATO_FORMATS: GelatoFormat[] = [
  */
 export const FUTURE_CATEGORY = {
   label: "Portfólio",
-  headline: "Um portfólio conduzido com critério.",
+  headline: "Um portfólio que cresce com propósito.",
   detail:
-    "Cada nova linha só entra na i.sí quando alcança o mesmo padrão do nosso gelato. Nossos parceiros são os primeiros a conhecer cada novidade.",
+    "Novas linhas entram na i.sí quando alcançam o mesmo padrão de qualidade. Os parceiros acompanham cada novidade de perto.",
 } as const;

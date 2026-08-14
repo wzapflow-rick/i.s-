@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { SmoothAnchors } from "@/components/layout/smooth-anchors";
 import { Hero } from "@/components/sections/hero";
 import { BrandConcept } from "@/components/sections/brand-concept";
 import { Audience } from "@/components/sections/audience";
@@ -15,6 +16,7 @@ import { PartnerForm } from "@/components/partner-form/partner-form";
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
+      <SmoothAnchors />
       <SiteHeader />
       <main className="flex-1">
         <Hero />

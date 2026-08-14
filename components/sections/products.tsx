@@ -110,7 +110,7 @@ function ProductCard({ format, index }: { format: GelatoFormat; index: number })
         style={{ rotateX, rotateY, transformPerspective: 1000 }}
         className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-[border-color,box-shadow] duration-500 hover:border-accent-soft hover:shadow-[0_24px_60px_-32px_rgba(28,24,21,0.4)]"
       >
-        <div className="relative aspect-[16/10] overflow-hidden">
+        <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/10]">
           <ImageReveal className="absolute inset-0">
             {/* Camada de micro-parallax: acompanha sutilmente o ponteiro.
                 inset negativo dá folga para o deslocamento sem revelar bordas. */}

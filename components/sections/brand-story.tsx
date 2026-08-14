@@ -50,7 +50,7 @@ export function BrandStory() {
                 A marca
               </p>
               <h2 className="max-w-xl font-serif text-4xl leading-[1.08] tracking-tight text-balance sm:text-5xl">
-                Mais que uma marca de gelato: uma fábrica parceira do seu
+                Gelato artesanal, feito para acompanhar o crescimento do seu
                 negócio.
               </h2>
             </Reveal>

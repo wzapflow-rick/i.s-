@@ -61,9 +61,8 @@ export function FirstPartners() {
                   Parcerias exclusivas
                 </span>
                 <span className="mt-5 max-w-xs font-sans text-sm leading-relaxed text-ink-foreground/45 lg:max-w-[16rem]">
-                  Não abrimos parceria para todos. Cada negócio é avaliado pelo
-                  perfil, pela estrutura e pela forma como pretende trabalhar o
-                  nosso gelato.
+                  Cada parceria é analisada com cuidado para garantir um bom
+                  encaixe entre a operação e a i.sí.
                 </span>
               </div>
             </Reveal>

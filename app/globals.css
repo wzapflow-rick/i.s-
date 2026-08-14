@@ -102,4 +102,7 @@
 
 html {
   scroll-behavior: smooth;
+  /* Header fixo (~64px): garante que toda âncora pare abaixo dele, nunca
+     escondendo o título de destino. Vale para todos os links internos. */
+  scroll-padding-top: 5.5rem;
 }

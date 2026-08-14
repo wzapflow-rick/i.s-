@@ -112,8 +112,9 @@ export function PartnerForm() {
               Talvez seja hora de combinar.
             </h2>
             <p className="mt-8 max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:sticky lg:top-56">
-              Conte um pouco sobre o seu negócio. Vamos entender se existe uma boa
-              combinação entre a sua operação e a i.sí.
+              Queremos conhecer a sua operação, entender o que você procura e
+              descobrir se existe uma boa combinação entre o seu negócio e a
+              i.sí.
             </p>
           </Reveal>
         </div>
