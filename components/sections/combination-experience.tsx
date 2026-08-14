@@ -7,7 +7,6 @@ import {
   motion,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
   useSpring,
 } from "motion/react";
@@ -35,7 +34,6 @@ const FINAL_TINT = "#b08d4f";
  */
 export function CombinationExperience() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [ended, setEnded] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -79,7 +77,7 @@ export function CombinationExperience() {
       className="relative h-[400vh] border-t border-border bg-ink text-ink-foreground"
     >
       <div
-        onPointerMove={reduce ? undefined : handlePointer}
+        onPointerMove={handlePointer}
         onPointerEnter={() => setHovering(true)}
         onPointerLeave={() => setHovering(false)}
         className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-5 [@media(hover:hover)]:cursor-none"

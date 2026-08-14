@@ -94,7 +94,7 @@ export function Hero() {
             style={{ y: imageY, scale: imageScale }}
             className="relative h-full w-full"
           >
-            <ImageReveal from="left" className="absolute inset-0">
+            <ImageReveal className="absolute inset-0">
               <Image
                 src={SITE_IMAGES.hero.src}
                 alt={SITE_IMAGES.hero.alt}

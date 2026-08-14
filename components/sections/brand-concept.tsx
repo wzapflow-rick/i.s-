@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { Logo } from "@/components/brand/logo";
 import { Reveal } from "@/components/ui/reveal";
 import { SplitWords } from "@/components/ui/split-words";
@@ -14,7 +14,6 @@ import { SplitWords } from "@/components/ui/split-words";
  */
 export function BrandConcept() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "center center"],
@@ -65,38 +64,32 @@ export function BrandConcept() {
           {/* Interação DOCE + SALGADO → i.sí */}
           <div ref={ref} className="lg:col-span-7">
             <div className="relative flex h-[60vh] min-h-[380px] items-center justify-center overflow-hidden rounded-lg border border-border bg-card">
-              {reduce ? (
-                <Logo className="text-6xl sm:text-7xl" showTagline />
-              ) : (
-                <>
-                  <motion.span
-                    style={{ y: doceY, opacity: wordsOpacity, scale: wordsScale }}
-                    className="absolute whitespace-nowrap font-serif text-3xl uppercase tracking-wide-editorial text-foreground sm:text-5xl"
-                  >
-                    Doce
-                  </motion.span>
-                  <motion.span
-                    aria-hidden="true"
-                    style={{ opacity: wordsOpacity }}
-                    className="absolute font-serif text-2xl text-accent sm:text-4xl"
-                  >
-                    +
-                  </motion.span>
-                  <motion.span
-                    style={{ y: salgadoY, opacity: wordsOpacity, scale: wordsScale }}
-                    className="absolute whitespace-nowrap font-serif text-3xl uppercase tracking-wide-editorial text-foreground sm:text-5xl"
-                  >
-                    Salgado
-                  </motion.span>
+              <motion.span
+                style={{ y: doceY, opacity: wordsOpacity, scale: wordsScale }}
+                className="absolute whitespace-nowrap font-serif text-3xl uppercase tracking-wide-editorial text-foreground sm:text-5xl"
+              >
+                Doce
+              </motion.span>
+              <motion.span
+                aria-hidden="true"
+                style={{ opacity: wordsOpacity }}
+                className="absolute font-serif text-2xl text-accent sm:text-4xl"
+              >
+                +
+              </motion.span>
+              <motion.span
+                style={{ y: salgadoY, opacity: wordsOpacity, scale: wordsScale }}
+                className="absolute whitespace-nowrap font-serif text-3xl uppercase tracking-wide-editorial text-foreground sm:text-5xl"
+              >
+                Salgado
+              </motion.span>
 
-                  <motion.div
-                    style={{ opacity: logoOpacity, scale: logoScale }}
-                    className="absolute"
-                  >
-                    <Logo className="text-7xl sm:text-8xl" showTagline />
-                  </motion.div>
-                </>
-              )}
+              <motion.div
+                style={{ opacity: logoOpacity, scale: logoScale }}
+                className="absolute"
+              >
+                <Logo className="text-7xl sm:text-8xl" showTagline />
+              </motion.div>
 
               {/* moldura fina de canto — detalhe editorial */}
               <span className="pointer-events-none absolute left-5 top-5 h-6 w-6 border-l border-t border-line" />

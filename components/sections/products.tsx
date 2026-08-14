@@ -6,7 +6,6 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-  useReducedMotion,
 } from "motion/react";
 import type { PointerEvent } from "react";
 import { GELATO_FORMATS, FUTURE_CATEGORY, type GelatoFormat } from "@/lib/products";
@@ -77,8 +76,6 @@ export function Products() {
  * e o card ganha um leve tilt 3D. Molas suaves mantêm tudo premium, não brusco.
  */
 function ProductCard({ format, index }: { format: GelatoFormat; index: number }) {
-  const reduce = useReducedMotion();
-
   // -0.5..0.5 relativo ao centro do card
   const px = useMotionValue(0);
   const py = useMotionValue(0);
@@ -91,7 +88,8 @@ function ProductCard({ format, index }: { format: GelatoFormat; index: number })
   const rotateX = useTransform(sy, [-0.5, 0.5], ["2.5deg", "-2.5deg"]);
 
   function handleMove(e: PointerEvent<HTMLElement>) {
-    if (reduce) return;
+    // Só reagimos a ponteiro fino (mouse); toque não dispara o tilt.
+    if (e.pointerType === "touch") return;
     const rect = e.currentTarget.getBoundingClientRect();
     px.set((e.clientX - rect.left) / rect.width - 0.5);
     py.set((e.clientY - rect.top) / rect.height - 0.5);
@@ -107,38 +105,32 @@ function ProductCard({ format, index }: { format: GelatoFormat; index: number })
       <motion.article
         onPointerMove={handleMove}
         onPointerLeave={reset}
-        whileHover={reduce ? undefined : { y: -6 }}
+        whileHover={{ y: -6 }}
         transition={{ type: "spring", stiffness: 200, damping: 22 }}
-        style={
-          reduce
-            ? undefined
-            : { rotateX, rotateY, transformPerspective: 1000 }
-        }
+        style={{ rotateX, rotateY, transformPerspective: 1000 }}
         className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-[border-color,box-shadow] duration-500 hover:border-accent-soft hover:shadow-[0_24px_60px_-32px_rgba(28,24,21,0.4)]"
       >
         <div className="relative aspect-[16/10] overflow-hidden">
           <ImageReveal className="absolute inset-0">
+            {/* Camada de micro-parallax: acompanha sutilmente o ponteiro.
+                inset negativo dá folga para o deslocamento sem revelar bordas. */}
             <motion.div
-              style={reduce ? undefined : { x: imgX, y: imgY }}
-              className="relative h-full w-full"
+              style={{ x: imgX, y: imgY }}
+              className="absolute inset-[-7%]"
             >
-              {/* Parent posicionado via CSS desde a primeira pintura, para o
-                  Next/Image (fill) registrar o lazy-load sem corrida com o motion. */}
-              <div className="absolute inset-[-7%]">
-                <Image
-                  src={format.image.src}
-                  alt={format.image.alt}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-[1.06]"
-                  style={{ objectPosition: format.image.objectPosition }}
-                />
-              </div>
+              <Image
+                src={format.image.src}
+                alt={format.image.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-[1.06]"
+                style={{ objectPosition: format.image.objectPosition }}
+              />
             </motion.div>
           </ImageReveal>
           <motion.span
             className="absolute right-5 top-5 z-10 flex size-16 items-center justify-center rounded-full bg-background/90 font-serif text-xl tracking-tight text-foreground backdrop-blur-sm transition-colors duration-500 group-hover:bg-accent group-hover:text-background"
-            whileHover={reduce ? undefined : { rotate: -6 }}
+            whileHover={{ rotate: -6 }}
           >
             {format.size}
           </motion.span>
