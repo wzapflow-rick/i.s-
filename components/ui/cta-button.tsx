@@ -4,7 +4,12 @@ import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import type { ComponentProps } from "react";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant =
+  | "primary"
+  | "secondary"
+  | "ghost"
+  | "inverse"
+  | "inverseOutline";
 
 // Removemos os handlers de drag/animação do React que conflitam com os
 // tipos equivalentes do motion ao usar <motion.a>.
@@ -31,6 +36,14 @@ const variants: Record<Variant, string> = {
   secondary:
     "border border-line text-foreground hover:border-foreground hover:bg-foreground/[0.03]",
   ghost: "text-foreground/80 hover:text-foreground",
+  // Para fundos escuros (bg-ink): botão creme, texto escuro. Cores fixas na
+  // própria variante para não depender de override por className (que o
+  // tailwind-merge pode não resolver entre text-ink e text-ink-foreground).
+  inverse:
+    "border border-ink-foreground/20 bg-ink-foreground text-ink hover:bg-accent-soft",
+  // Outline para fundos escuros: contorno + texto creme, fundo transparente.
+  inverseOutline:
+    "border border-ink-foreground/30 text-ink-foreground hover:border-ink-foreground hover:bg-ink-foreground/5",
 };
 
 // Cor do brilho que atravessa o botão no hover, por variante.
@@ -38,6 +51,8 @@ const shine: Record<Variant, string> = {
   primary: "via-ink-foreground/25",
   secondary: "via-foreground/10",
   ghost: "via-foreground/10",
+  inverse: "via-ink/15",
+  inverseOutline: "via-ink-foreground/15",
 };
 
 export function CtaButton({

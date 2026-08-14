@@ -41,11 +41,7 @@ export function FirstPartners() {
 
             <Reveal delay={0.18}>
               <div className="mt-10">
-                <CtaButton
-                  href="#formulario"
-                  variant="secondary"
-                  className="border-ink-foreground/30 text-ink-foreground hover:border-ink-foreground hover:bg-ink-foreground/5"
-                >
+                <CtaButton href="#formulario" variant="inverseOutline">
                   Quero me tornar um parceiro
                 </CtaButton>
               </div>

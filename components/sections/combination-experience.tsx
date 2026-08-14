@@ -50,9 +50,20 @@ export function CombinationExperience() {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    // Divide o scroll em (COMBOS + 1) estados; o último é o CTA final.
+    // O conteúdo fica "pinned" (sticky) apenas enquanto a seção ocupa a tela.
+    // Depois disso ele se solta e sobe. Se distribuíssemos os estados em 0→1,
+    // o último estado (CTA) cairia na faixa já solta — e apareceria "vazio".
+    // Por isso mapeamos os estados só sobre a faixa realmente fixada, medindo
+    // a altura real da seção (funciona em mobile e desktop, com ou sem resize).
+    const el = ref.current;
+    const pinned =
+      el && typeof window !== "undefined"
+        ? Math.max(0.15, 1 - window.innerHeight / el.offsetHeight)
+        : 0.75;
+    const usable = Math.min(v / pinned, 1); // 0..1 durante o trecho fixado
+
     const total = COMBOS.length + 1;
-    const raw = Math.floor(v * total);
+    const raw = Math.floor(usable * total);
     const clamped = Math.min(raw, total - 1);
     if (clamped >= COMBOS.length) {
       setEnded(true);
@@ -74,7 +85,7 @@ export function CombinationExperience() {
   return (
     <section
       ref={ref}
-      className="relative h-[400vh] border-t border-border bg-ink text-ink-foreground"
+      className="relative h-[260vh] border-t border-border bg-ink text-ink-foreground lg:h-[400vh]"
     >
       <div
         onPointerMove={handlePointer}
@@ -174,11 +185,7 @@ export function CombinationExperience() {
                 E com o seu negócio?
               </h2>
               <div className="mt-12">
-                <CtaButton
-                  href="#formulario"
-                  variant="primary"
-                  className="border border-ink-foreground/20 bg-ink-foreground text-ink hover:bg-accent-soft"
-                >
+                <CtaButton href="#formulario" variant="inverse">
                   Quero ser parceiro
                 </CtaButton>
               </div>

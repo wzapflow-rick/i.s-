@@ -26,12 +26,12 @@ export function Hero() {
     >
       <div className="mx-auto grid min-h-[100svh] w-full max-w-[1500px] grid-cols-1 items-center lg:grid-cols-2">
         {/* Coluna de texto */}
-        <div className="order-2 px-5 pb-16 pt-10 sm:px-8 lg:order-1 lg:px-12 lg:py-28">
+        <div className="order-2 px-5 pb-14 pt-7 sm:px-8 lg:order-1 lg:px-12 lg:py-28">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease }}
-            className="mb-8 inline-flex items-center gap-2 font-sans text-[0.66rem] uppercase tracking-eyebrow text-muted-foreground"
+            className="mb-5 inline-flex items-center gap-2 font-sans text-[0.66rem] uppercase tracking-eyebrow text-muted-foreground sm:mb-8"
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
             Gelato artesanal <span className="text-line">•</span> Feira de Santana
@@ -56,7 +56,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 0.5 }}
-            className="mt-8 max-w-lg font-sans text-base leading-relaxed text-muted-foreground sm:text-lg"
+            className="mt-5 max-w-lg font-sans text-base leading-relaxed text-muted-foreground sm:mt-8 sm:text-lg"
           >
             Produzido em Feira de Santana com 100% leite integral, em formatos de
             5L e 10L, para operações que valorizam produto, experiência e
@@ -67,7 +67,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 0.65 }}
-            className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
+            className="mt-7 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center sm:gap-4"
           >
             <CtaButton href="#formulario" variant="primary">
               Quero ser parceiro
@@ -89,7 +89,7 @@ export function Hero() {
         </div>
 
         {/* Painel de food photography — estrutura pronta para fotos reais do produto */}
-        <div className="relative order-1 h-[48svh] w-full overflow-hidden lg:order-2 lg:h-screen">
+        <div className="relative order-1 h-[38svh] w-full overflow-hidden lg:order-2 lg:h-screen">
           <motion.div
             style={{ y: imageY, scale: imageScale }}
             className="relative h-full w-full"
