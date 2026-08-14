@@ -30,6 +30,7 @@ export function BrandStory() {
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
+              style={{ objectPosition: "center 78%" }}
             />
           </motion.div>
           {SITE_IMAGES.texture.placeholder && (

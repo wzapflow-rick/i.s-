@@ -99,7 +99,8 @@ export function Hero() {
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-center"
+              className="object-cover"
+              style={{ objectPosition: SITE_IMAGES.hero.objectPosition }}
             />
           </motion.div>
 

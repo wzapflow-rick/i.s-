@@ -4,65 +4,84 @@
 // PONTO ÚNICO de todas as imagens do site. Os componentes NÃO usam caminhos
 // fixos: todos leem deste arquivo.
 //
-// COMO SUBSTITUIR OS PLACEHOLDERS PELAS FOTOS REAIS DO CLIENTE:
-//   1. Salve a foto real em /public/images/ (ex.: hero.jpg).
-//   2. Atualize o campo `src` do slot correspondente abaixo.
-//   3. Ajuste o `alt` para descrever a foto real.
-//   4. Marque `placeholder: false` — isso remove automaticamente o selo
-//      "Foto ilustrativa" exibido sobre a imagem.
-//   5. Mantenha a proporção recomendada (`ratio`) para o enquadramento.
+// Cada foto real tem uma FUNÇÃO e é enquadrada de forma diferente por seção
+// (crop/zoom/posição), para nunca parecer a mesma imagem repetida.
 //
-// Não é necessário editar nenhum componente para trocar as imagens.
+// COMO SUBSTITUIR/ATUALIZAR AS FOTOS:
+//   1. Salve a foto em /public/images/.
+//   2. Atualize o campo `src` do slot correspondente abaixo.
+//   3. Ajuste o `alt` para descrever a foto.
+//   4. `placeholder: false` esconde o selo "Foto ilustrativa".
+//   5. `objectPosition` controla o foco do enquadramento por padrão.
 // ============================================================================
 
 export interface SiteImage {
-  /** Caminho em /public. Troque por foto real do cliente. */
+  /** Caminho em /public. */
   src: string;
-  /** Texto alternativo (acessibilidade). Descreva a foto real. */
+  /** Texto alternativo (acessibilidade). */
   alt: string;
-  /** Proporção recomendada para o enquadramento da foto real. */
+  /** Proporção recomendada para o enquadramento. */
   ratio: string;
-  /** O que a foto real deve mostrar (guia para o cliente/fotógrafo). */
+  /** Função da foto / o que ela comunica. */
   note: string;
+  /** Foco padrão do enquadramento (CSS object-position). */
+  objectPosition: string;
   /** true = ainda é placeholder (exibe selo "Foto ilustrativa"). */
   placeholder: boolean;
 }
 
 export const SITE_IMAGES = {
-  /** Hero — foto principal, ocupa ~metade da tela. Vertical/retrato no desktop. */
+  /**
+   * HERO — produto / desejo / textura.
+   * Gelato de chocolate visto de cima, coberto de pérolas brilhantes.
+   */
   hero: {
-    src: "/images/hero-gelato.png",
-    alt: "Close-up editorial de gelato artesanal i.sí com textura cremosa",
+    src: "/images/chocolate-pearls.png",
+    alt: "Gelato de chocolate i.sí coberto de pérolas de chocolate, visto de cima",
     ratio: "3:4 (retrato) ou 1:1",
-    note: "Foto premium do gelato em destaque — textura cremosa, luz suave, fundo neutro/off-white.",
-    placeholder: true,
+    note: "Produto em destaque — textura cremosa e pérolas. Gera desejo.",
+    objectPosition: "center 42%",
+    placeholder: false,
   },
 
-  /** Textura decorativa usada em fundos escuros (Qualidade) e na Marca. */
+  /**
+   * PROCESSO / ARTESANAL / FABRICAÇÃO.
+   * Gelato de chocolate sendo despejado da máquina na caixa i.sí.
+   * Usada em fundo (Qualidade) e como painel (A Marca), com crops distintos.
+   */
   texture: {
-    src: "/images/story-texture.png",
-    alt: "Textura macro de gelato artesanal cremoso",
-    ratio: "16:9 ou maior (usada como fundo)",
-    note: "Macro da textura do gelato — dobras e brilho suave. Serve de plano de fundo.",
-    placeholder: true,
+    src: "/images/chocolate-pour.png",
+    alt: "Gelato de chocolate sendo despejado da máquina em uma caixa i.sí",
+    ratio: "3:4 (retrato)",
+    note: "Processo de fabricação artesanal — o gelato saindo da máquina.",
+    objectPosition: "center 35%",
+    placeholder: false,
   },
 
-  /** Produto — caixa de 5 litros. */
+  /**
+   * PRODUTO — caixa de 5 litros.
+   * Caixa real i.sí cheia de gelato de chocolate com pérolas.
+   */
   gelato5L: {
-    src: "/images/product-gelato.png",
-    alt: "Gelato artesanal i.sí — caixa de 5 litros",
+    src: "/images/chocolate-box.png",
+    alt: "Caixa i.sí de gelato de chocolate com pérolas, ao lado de chantilly e colher",
     ratio: "16:10 (paisagem)",
-    note: "Foto do gelato/caixa de 5L. Pode ser o produto na embalagem ou servido.",
-    placeholder: true,
+    note: "Produto no formato real de venda — a caixa i.sí servida.",
+    objectPosition: "center 40%",
+    placeholder: false,
   },
 
-  /** Produto — caixa de 10 litros. */
+  /**
+   * VARIEDADE / COMBINAÇÃO / DIFERENCIAL — caixa de 10 litros.
+   * Gelato de morango com calda vermelha em swirl.
+   */
   gelato10L: {
-    src: "/images/product-gelato.png",
-    alt: "Gelato artesanal i.sí — caixa de 10 litros",
+    src: "/images/strawberry-swirl.png",
+    alt: "Gelato de morango i.sí com calda vermelha sendo revolvida em swirl",
     ratio: "16:10 (paisagem)",
-    note: "Foto do gelato/caixa de 10L. Pode ser o produto na embalagem ou servido.",
-    placeholder: true,
+    note: "Variedade de sabores e a combinação de calda — mostra o diferencial.",
+    objectPosition: "center 38%",
+    placeholder: false,
   },
 } satisfies Record<string, SiteImage>;
 

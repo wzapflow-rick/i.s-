@@ -43,6 +43,7 @@ export function Products() {
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-105"
+                    style={{ objectPosition: format.image.objectPosition }}
                   />
                   <span className="absolute right-5 top-5 flex size-16 items-center justify-center rounded-full bg-background/90 font-serif text-xl tracking-tight text-foreground backdrop-blur-sm">
                     {format.size}

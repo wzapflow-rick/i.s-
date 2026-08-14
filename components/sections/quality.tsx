@@ -27,17 +27,18 @@ const PILLARS = [
 export function Quality() {
   return (
     <section className="relative overflow-hidden bg-ink text-ink-foreground">
-      <div className="absolute inset-0 opacity-[0.14]">
+      <div className="absolute inset-0 opacity-[0.22]">
         <Image
           src={SITE_IMAGES.texture.src}
           alt=""
           fill
           sizes="100vw"
           className="object-cover"
+          style={{ objectPosition: "center 28%" }}
           aria-hidden="true"
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-ink via-ink/85 to-ink" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/88 to-ink" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-[1400px] px-5 py-24 sm:px-8 lg:px-12 lg:py-36">
         <Reveal>
