@@ -17,9 +17,8 @@ const COMBOS = [
   { with: "Açaí", color: "text-acai", tint: "#5a3a6d" },
   { with: "Gelato", color: "text-gelato", tint: "#7c8b5a" },
   { with: "Café", color: "text-cafe", tint: "#6b4a32" },
-  // "Seu negócio" e "Você" convergem para o dourado da identidade i.sí
+  // "Seu negócio" converge para o dourado da identidade i.sí
   { with: "Seu negócio", color: "text-accent", tint: "#b08d4f" },
-  { with: "Você", color: "text-accent", tint: "#c9ad78" },
 ];
 
 // Tom final quando tudo converge para a identidade i.sí
@@ -85,7 +84,8 @@ export function CombinationExperience() {
   return (
     <section
       ref={ref}
-      className="relative h-[260vh] border-t border-border bg-ink text-ink-foreground lg:h-[400vh]"
+      id="experiencia"
+      className="relative h-[180vh] border-t border-border bg-ink text-ink-foreground lg:h-[320vh]"
     >
       <div
         onPointerMove={handlePointer}

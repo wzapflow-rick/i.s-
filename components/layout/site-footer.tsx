@@ -2,10 +2,9 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 
 const nav = [
-  { label: "O conceito", href: "#conceito" },
-  { label: "Para quem", href: "#audiencia" },
   { label: "Produtos", href: "#produtos" },
-  { label: "Como funciona", href: "#como-funciona" },
+  { label: "Diferencial", href: "#diferencial" },
+  { label: "A marca", href: "#marca" },
   { label: "Seja parceiro", href: "#formulario" },
 ];
 

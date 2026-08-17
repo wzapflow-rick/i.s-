@@ -7,10 +7,9 @@ import { cn } from "@/lib/utils";
 import { scrollToId } from "@/lib/smooth-scroll";
 
 const NAV = [
-  { label: "Conceito", href: "#conceito" },
-  { label: "Para quem", href: "#audiencia" },
   { label: "Produtos", href: "#produtos" },
-  { label: "Como funciona", href: "#como-funciona" },
+  { label: "Diferencial", href: "#diferencial" },
+  { label: "A marca", href: "#marca" },
 ];
 
 export function SiteHeader() {

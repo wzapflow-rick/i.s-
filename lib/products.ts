@@ -23,8 +23,8 @@ export const GELATO_FORMATS: GelatoFormat[] = [
     name: "Caixa de 5 litros",
     short: "O formato certo para vitrines enxutas e curadas.",
     description:
-      "Gelato artesanal 100% leite integral em caixa de 5 litros. O formato ideal para manter uma vitrine selecionada, com variedade de sabores e a rotatividade que preserva a qualidade em cada colherada.",
-    bestFor: "Vitrines selecionadas e giro controlado",
+      "Para operações que querem construir seu mix com variedade, controle e espaço para descobrir os sabores que mais giram.",
+    bestFor: "Variedade e giro controlado",
     image: SITE_IMAGES.gelato5L,
   },
   {
@@ -33,20 +33,8 @@ export const GELATO_FORMATS: GelatoFormat[] = [
     name: "Caixa de 10 litros",
     short: "Para quem já tem giro e quer escalar com margem.",
     description:
-      "O mesmo gelato artesanal 100% leite integral, em caixa de 10 litros. Pensado para negócios com alto giro que buscam eficiência de operação e a melhor relação de custo por litro.",
-    bestFor: "Alto giro e maior eficiência",
+      "Para operações de maior giro que buscam eficiência e melhor aproveitamento por litro.",
+    bestFor: "Alto giro e eficiência",
     image: SITE_IMAGES.gelato10L,
   },
 ];
-
-/**
- * Portfólio ampliado — posicionamento premium.
- * Comunica curadoria e exclusividade, sem tom de "em construção"
- * e sem nomear linhas que ainda não foram confirmadas.
- */
-export const FUTURE_CATEGORY = {
-  label: "Portfólio",
-  headline: "Um portfólio que cresce com propósito.",
-  detail:
-    "Novas linhas entram na i.sí quando alcançam o mesmo padrão de qualidade. Os parceiros acompanham cada novidade de perto.",
-} as const;

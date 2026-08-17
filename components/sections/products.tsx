@@ -8,7 +8,7 @@ import {
   useTransform,
 } from "motion/react";
 import type { PointerEvent } from "react";
-import { GELATO_FORMATS, FUTURE_CATEGORY, type GelatoFormat } from "@/lib/products";
+import { GELATO_FORMATS, type GelatoFormat } from "@/lib/products";
 import { Reveal } from "@/components/ui/reveal";
 import { SplitWords } from "@/components/ui/split-words";
 import { ImageReveal } from "@/components/ui/image-reveal";
@@ -32,15 +32,14 @@ export function Products() {
             </Reveal>
             <SplitWords
               as="h2"
-              text="Um gelato. Dois formatos. Feito para o seu negócio."
+              text="Um gelato feito para vender experiência."
               className="block max-w-xl font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl"
             />
           </div>
           <Reveal delay={0.1}>
             <p className="max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:pb-2">
-              Nosso foco é fazer um gelato artesanal excepcional — 100% leite
-              integral — e entregá-lo no formato certo para cada fase da sua
-              operação.
+              Gelato artesanal produzido com 100% leite integral, disponível em
+              formatos pensados para diferentes níveis de operação.
             </p>
           </Reveal>
         </div>
@@ -50,22 +49,6 @@ export function Products() {
             <ProductCard key={format.slug} format={format} index={i} />
           ))}
         </div>
-
-        <Reveal delay={0.1}>
-          <div className="mt-6 flex flex-col items-start gap-3 rounded-lg border border-dashed border-line bg-card/40 p-8 transition-colors duration-500 hover:border-accent-soft sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="font-sans text-[0.6rem] uppercase tracking-eyebrow text-muted-foreground">
-                {FUTURE_CATEGORY.label}
-              </p>
-              <p className="mt-2 font-serif text-2xl tracking-tight text-foreground">
-                {FUTURE_CATEGORY.headline}
-              </p>
-            </div>
-            <p className="max-w-sm font-sans text-sm leading-relaxed text-muted-foreground">
-              {FUTURE_CATEGORY.detail}
-            </p>
-          </div>
-        </Reveal>
       </div>
     </section>
   );

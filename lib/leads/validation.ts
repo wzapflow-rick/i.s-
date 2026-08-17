@@ -7,7 +7,7 @@ export const STEP_FIELDS: (keyof LeadInput)[][] = [
   ["name", "whatsapp", "email"],
   ["company", "city", "state"],
   ["segment", "units", "businessAge"],
-  ["averageRevenue", "orderVolume", "currentProducts", "purchaseVolume", "structure"],
+  ["averageRevenue", "orderVolume", "purchaseVolume"],
   ["objective", "startIntent"],
   ["motivation"],
 ];
@@ -48,10 +48,6 @@ export function validateStep(step: number, data: LeadInput): LeadErrors {
       set("averageRevenue", required(data.averageRevenue, "Faturamento médio"));
       set("orderVolume", required(data.orderVolume, "Volume de vendas"));
       set("purchaseVolume", required(data.purchaseVolume, "Volume de compra"));
-      if (!data.currentProducts) {
-        set("currentProducts", "Selecione uma opção.");
-      }
-      if (!data.structure) set("structure", "Selecione uma opção.");
       break;
     case 4:
       if (!data.objective) set("objective", "Selecione o que você busca.");

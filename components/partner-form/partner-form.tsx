@@ -7,7 +7,6 @@ import {
   OBJECTIVE_OPTIONS,
   SEGMENT_OPTIONS,
   START_INTENT_OPTIONS,
-  STRUCTURE_OPTIONS,
   type LeadInput,
 } from "@/lib/leads/types";
 import { EMPTY_LEAD, validateStep, type LeadErrors } from "@/lib/leads/validation";
@@ -112,9 +111,8 @@ export function PartnerForm() {
               Talvez seja hora de combinar.
             </h2>
             <p className="mt-8 max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:sticky lg:top-56">
-              Queremos conhecer a sua operação, entender o que você procura e
-              descobrir se existe uma boa combinação entre o seu negócio e a
-              i.sí.
+              Conte um pouco sobre o seu negócio. Vamos entender se existe uma
+              boa combinação entre a sua operação e a i.sí.
             </p>
           </Reveal>
         </div>
@@ -386,24 +384,8 @@ function StepFields({
             </div>
           </div>
           <div>
-            <FieldLabel htmlFor="currentProducts">
-              Trabalha atualmente com açaí/sorvete?
-            </FieldLabel>
-            <OptionGrid
-              name="Trabalha com açaí/sorvete"
-              value={data.currentProducts}
-              onChange={(v) => set("currentProducts", v as LeadInput["currentProducts"])}
-              options={[
-                { value: "sim", label: "Sim" },
-                { value: "nao", label: "Não" },
-              ]}
-              columns={2}
-            />
-            <FieldError message={errors.currentProducts} />
-          </div>
-          <div>
             <FieldLabel htmlFor="currentSupplier" optional>
-              Marca / fornecedor atual
+              Fornecedor atual
             </FieldLabel>
             <TextField
               id="currentSupplier"
@@ -424,19 +406,6 @@ function StepFields({
               error={errors.purchaseVolume}
             />
             <FieldError message={errors.purchaseVolume} />
-          </div>
-          <div>
-            <FieldLabel htmlFor="structure">
-              Estrutura disponível para armazenar
-            </FieldLabel>
-            <OptionGrid
-              name="Estrutura disponível"
-              value={data.structure}
-              onChange={(v) => set("structure", v as LeadInput["structure"])}
-              options={STRUCTURE_OPTIONS}
-              columns={2}
-            />
-            <FieldError message={errors.structure} />
           </div>
         </div>
       );

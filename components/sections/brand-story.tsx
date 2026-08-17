@@ -21,7 +21,7 @@ export function BrandStory() {
   const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   return (
-    <section className="border-t border-border bg-surface">
+    <section id="marca" className="border-t border-border bg-surface">
       <div className="mx-auto grid max-w-[1400px] gap-0 lg:grid-cols-2">
         <div ref={ref} className="relative min-h-[60vh] overflow-hidden lg:min-h-full">
           <motion.div style={{ y: imgY }} className="absolute inset-[-8%]">
@@ -59,21 +59,18 @@ export function BrandStory() {
                 <p>
                   {/* Copy de posicionamento — sem narrativa de origem, anos ou
                       números. Ampliar apenas com fatos reais após briefing. */}
-                  A i.sí é uma fabricante de gelato artesanal B2B. Mais do que
-                  fornecer caixas de 5L e 10L, trabalhamos lado a lado com cada
-                  parceiro que coloca o nosso gelato no centro da própria
-                  experiência.
+                  A i.sí é uma fabricante de gelato artesanal B2B, criada para
+                  trabalhar ao lado de quem vende.
                 </p>
                 <p>
-                  Poucos parceiros por vez, um produto 100% leite integral e um
-                  posicionamento premium — para quem busca qualidade e não o
-                  menor preço.
+                  Produto premium, proximidade comercial e um portfólio
+                  construído com critério.
                 </p>
               </div>
             </Reveal>
             <Reveal delay={0.18}>
               <p className="mt-8 font-serif text-xl italic text-foreground">
-                Novas combinações. Novas possibilidades.
+                Poucos parceiros. Atendimento próximo. Produto que fala por si.
               </p>
             </Reveal>
           </div>

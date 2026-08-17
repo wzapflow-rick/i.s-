@@ -34,7 +34,7 @@ export function Hero() {
             className="mb-5 inline-flex items-center gap-2 font-sans text-[0.66rem] uppercase tracking-eyebrow text-muted-foreground sm:mb-8"
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-            Gelato artesanal <span className="text-line">•</span> Feira de Santana
+            Gelato artesanal <span className="text-line">•</span> Parceria B2B
           </motion.p>
 
           <h1 className="max-w-2xl font-serif text-[2.75rem] leading-[0.98] tracking-tight text-balance sm:text-6xl lg:text-[4.75rem]">
@@ -58,9 +58,8 @@ export function Hero() {
             transition={{ duration: 0.8, ease, delay: 0.5 }}
             className="mt-5 max-w-lg font-sans text-base leading-relaxed text-muted-foreground sm:mt-8 sm:text-lg"
           >
-            Produzido em Feira de Santana com 100% leite integral, em formatos de
-            5L e 10L, para operações que valorizam produto, experiência e
-            consistência.
+            100% leite integral. Produção artesanal. Formatos de 5L e 10L para
+            operações que valorizam produto, experiência e consistência.
           </motion.p>
 
           <motion.div
@@ -72,20 +71,10 @@ export function Hero() {
             <CtaButton href="#formulario" variant="primary">
               Quero ser parceiro
             </CtaButton>
-            <CtaButton href="#conceito" variant="secondary" arrow={false}>
+            <CtaButton href="#marca" variant="secondary" arrow={false}>
               Conhecer a i.sí
             </CtaButton>
           </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease, delay: 0.85 }}
-            className="mt-6 font-sans text-[0.7rem] uppercase tracking-wide-editorial text-muted-foreground"
-          >
-            Parcerias limitadas <span className="text-accent">·</span> trabalhamos
-            com poucos parceiros por vez
-          </motion.p>
         </div>
 
         {/* Painel de food photography — estrutura pronta para fotos reais do produto */}

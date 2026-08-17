@@ -7,30 +7,17 @@ interface SuccessJourneyProps {
   company?: string;
 }
 
-const NEXT_STEPS = [
-  {
-    step: "01",
-    title: "Recebemos seu interesse",
-    description:
-      "Sua candidatura chegou até nós e já entrou na nossa curadoria de parceiros.",
-  },
-  {
-    step: "02",
-    title: "Análise personalizada",
-    description:
-      "Nosso time estuda seu perfil e monta uma proposta sob medida para o seu espaço.",
-  },
-  {
-    step: "03",
-    title: "Conversa com a i.sí",
-    description:
-      "Em até 2 dias úteis entramos em contato para desenhar a parceria juntos.",
-  },
+// Jornada pós-envio: dois passos concluídos, dois pendentes.
+const JOURNEY = [
+  { label: "Cadastro recebido", done: true },
+  { label: "Dados registrados", done: true },
+  { label: "Análise do perfil", done: false },
+  { label: "Contato da equipe i.sí", done: false },
 ];
 
 export function SuccessJourney({ company }: SuccessJourneyProps) {
   return (
-    <div className="mx-auto flex max-w-3xl flex-col items-center px-6 py-24 text-center md:py-32">
+    <div className="mx-auto flex max-w-2xl flex-col items-center px-5 py-24 text-center sm:px-8 md:py-32">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -45,7 +32,7 @@ export function SuccessJourney({ company }: SuccessJourneyProps) {
         transition={{ duration: 0.6, delay: 0.15 }}
         className="mt-10 font-sans text-[0.7rem] uppercase tracking-eyebrow text-accent"
       >
-        Candidatura enviada
+        Perfil enviado
       </motion.p>
 
       <motion.h2
@@ -54,54 +41,61 @@ export function SuccessJourney({ company }: SuccessJourneyProps) {
         transition={{ duration: 0.7, delay: 0.25 }}
         className="mt-4 text-balance font-serif text-4xl leading-tight text-foreground md:text-6xl"
       >
-        {company ? (
-          <>
-            Bem-vindo à jornada,
-            <br />
-            <span className="text-accent">{company}</span>
-          </>
-        ) : (
-          <>Uma nova descoberta começa aqui</>
-        )}
+        Recebemos o seu i.sí.
       </motion.h2>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.35 }}
-        className="mt-6 max-w-xl text-pretty font-sans text-base leading-relaxed text-muted-foreground"
+        className="mt-6 max-w-lg text-pretty font-sans text-base leading-relaxed text-muted-foreground"
       >
-        Obrigado por querer levar sabores que despertam novas descobertas para o
-        seu negócio. Veja o que vem a seguir.
+        {company ? `${company}, seu ` : "Seu "}perfil foi enviado para análise
+        comercial. Nossa equipe entrará em contato caso exista um bom encaixe
+        para a parceria.
       </motion.p>
 
-      <div className="mt-16 grid w-full gap-px overflow-hidden rounded-2xl border border-border bg-border text-left md:grid-cols-3">
-        {NEXT_STEPS.map((item, i) => (
-          <motion.div
-            key={item.step}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 + i * 0.12 }}
-            className="flex flex-col gap-3 bg-card p-8"
-          >
-            <span className="font-serif text-2xl text-accent">{item.step}</span>
-            <h3 className="font-serif text-xl leading-snug text-foreground">
-              {item.title}
-            </h3>
-            <p className="font-sans text-sm leading-relaxed text-muted-foreground">
-              {item.description}
-            </p>
-          </motion.div>
-        ))}
+      <div className="mt-14 w-full max-w-md">
+        <ol className="flex flex-col gap-px overflow-hidden rounded-lg border border-border bg-border text-left">
+          {JOURNEY.map((item, i) => (
+            <motion.li
+              key={item.label}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
+              className="flex items-center gap-4 bg-card px-6 py-5"
+            >
+              <span
+                aria-hidden="true"
+                className={
+                  item.done
+                    ? "flex size-6 shrink-0 items-center justify-center rounded-full bg-accent text-[0.7rem] text-background"
+                    : "flex size-6 shrink-0 items-center justify-center rounded-full border border-line text-[0.7rem] text-muted-foreground"
+                }
+              >
+                {item.done ? "✓" : "○"}
+              </span>
+              <span
+                className={
+                  item.done
+                    ? "font-sans text-sm text-foreground"
+                    : "font-sans text-sm text-muted-foreground"
+                }
+              >
+                {item.label}
+              </span>
+            </motion.li>
+          ))}
+        </ol>
       </div>
 
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.9 }}
-        className="mt-16 font-serif text-xl italic text-foreground/80"
+        transition={{ duration: 0.8, delay: 0.95 }}
+        className="mt-14 font-serif text-xl italic text-foreground/80"
       >
-        Sabores que despertam novas descobertas.
+        Novas combinações. Novas possibilidades.
       </motion.p>
     </div>
   );
