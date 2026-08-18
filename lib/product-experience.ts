@@ -108,11 +108,8 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     description: "Novas possibilidades, sempre com critério.",
     mood: "SURPREENDENTE",
     kind: "flavor",
-    image: {
-      src: "/products/tub-mais-sabores.png",
-      alt: "Pote i.sí de gelato de caramelo e cookies com pedaços ao redor",
-      objectPosition: "center",
-    },
+    // Sem foto real ainda → placeholder elegante configurável.
+    image: null,
     bg: "#201a14",
     accent: "#c9ad78",
   },
