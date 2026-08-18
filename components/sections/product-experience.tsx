@@ -234,24 +234,30 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
         {/* ================= ONDA DE CREME ================= */}
         <CreamWave cream={cream} />
 
-        {/* ================= PALCO ================= */}
-        <div className="relative z-10 flex flex-1 items-start pt-4 lg:items-center lg:pt-0">
-          {/* Produto — uma camada por estado (desliza/escala junto) */}
-          {EXPERIENCE_STATES.map((state, i) => (
-            <ProductLayer
-              key={state.id}
-              state={state}
-              index={i}
-              progress={progress}
-              reduced={prefersReduced}
-              active={active === i}
-            />
-          ))}
+        {/* ================= PALCO =================
+            Mobile: empilhamento em FLUXO (texto em cima, pote embaixo) — nunca
+            se sobrepõem, independentemente da altura da tela. Desktop (lg+): o
+            pote volta a ser camada absoluta sobreposta ao texto centralizado. */}
+        <div className="relative z-10 flex flex-1 flex-col lg:flex-row lg:items-center">
+          {/* Produto — uma camada por estado (desliza/escala junto).
+              Em fluxo no mobile (ocupa o espaço restante), overlay no desktop. */}
+          <div className="relative order-2 flex min-h-[34vh] w-full flex-1 lg:absolute lg:inset-0 lg:order-none lg:min-h-0 lg:flex-none">
+            {EXPERIENCE_STATES.map((state, i) => (
+              <ProductLayer
+                key={state.id}
+                state={state}
+                index={i}
+                progress={progress}
+                reduced={prefersReduced}
+                active={active === i}
+              />
+            ))}
+          </div>
 
           {/* Coluna de texto à esquerda (headline fixa + sabor animado) */}
           <motion.div
             style={{ opacity: cream }}
-            className="pointer-events-none relative z-20 mx-auto flex w-full max-w-[1600px] px-5 pt-2 sm:px-8 lg:px-14 lg:pt-0"
+            className="pointer-events-none relative z-20 order-1 mx-auto flex w-full max-w-[1600px] shrink-0 px-5 pt-2 sm:px-8 lg:order-none lg:px-14 lg:pt-0"
           >
             <div className="max-w-[92%] lg:max-w-lg">
               <p className="inline-flex items-center gap-3 font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#c9ad78]">
@@ -406,12 +412,12 @@ function ProductLayer({
     <motion.div
       aria-hidden={!active}
       style={{ opacity: layerOpacity, zIndex: active ? 15 : 5 }}
-      className="pointer-events-none absolute inset-0 flex items-end justify-center pb-[16%] lg:items-center lg:pb-0"
+      className="pointer-events-none absolute inset-0 flex items-end justify-center pb-[3%] lg:items-center lg:pb-0"
     >
       <div className="mx-auto flex w-full max-w-[1600px] justify-center px-5 lg:justify-end lg:px-14">
         <motion.div
           style={{ x: productX, scale: productScale }}
-          className="relative flex w-[min(60vw,15rem)] items-center justify-center lg:w-[min(42vw,28rem)]"
+          className="relative flex w-[min(58vw,32vh)] items-center justify-center lg:w-[min(42vw,28rem)]"
         >
           {state.kind === "partner" ? (
             <PartnerScene accent={state.accent} />
