@@ -220,7 +220,7 @@ export function ProductExperience() {
         <CreamWave cream={cream} />
 
         {/* ================= PALCO ================= */}
-        <div className="relative z-10 flex flex-1 items-center">
+        <div className="relative z-10 flex flex-1 items-start pt-4 lg:items-center lg:pt-0">
           {/* Produto — uma camada por estado (desliza/escala junto) */}
           {EXPERIENCE_STATES.map((state, i) => (
             <ProductLayer
@@ -238,7 +238,7 @@ export function ProductExperience() {
             style={{ opacity: cream }}
             className="pointer-events-none relative z-20 mx-auto flex w-full max-w-[1600px] px-5 sm:px-8 lg:px-14"
           >
-            <div className="max-w-[64%] sm:max-w-md lg:max-w-lg">
+            <div className="max-w-[92%] lg:max-w-lg">
               <p className="inline-flex items-center gap-3 font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#c9ad78]">
                 <span className="inline-block h-px w-8 bg-[#c9ad78]/60" />
                 Experiência i.sí
@@ -391,20 +391,22 @@ function ProductLayer({
     <motion.div
       aria-hidden={!active}
       style={{ opacity: layerOpacity, zIndex: active ? 15 : 5 }}
-      className="pointer-events-none absolute inset-0 flex items-center justify-center lg:justify-end lg:pr-[7%]"
+      className="pointer-events-none absolute inset-0 flex items-end justify-center pb-[7%] lg:items-center lg:pb-0"
     >
-      <motion.div
-        style={{ x: productX, scale: productScale }}
-        className="relative flex w-[min(78vw,34rem)] items-center justify-center"
-      >
-        {state.kind === "partner" ? (
-          <PartnerScene accent={state.accent} />
-        ) : state.image ? (
-          <ProductTub image={state.image} priority={index === 0} accent={state.accent} />
-        ) : (
-          <ProductPlaceholder accent={state.accent} name={state.name} />
-        )}
-      </motion.div>
+      <div className="mx-auto flex w-full max-w-[1600px] justify-center px-5 lg:justify-end lg:px-14">
+        <motion.div
+          style={{ x: productX, scale: productScale }}
+          className="relative flex w-[min(52vw,13rem)] items-center justify-center lg:w-[min(42vw,28rem)]"
+        >
+          {state.kind === "partner" ? (
+            <PartnerScene accent={state.accent} />
+          ) : state.image ? (
+            <ProductTub image={state.image} priority={index === 0} accent={state.accent} />
+          ) : (
+            <ProductPlaceholder accent={state.accent} name={state.name} />
+          )}
+        </motion.div>
+      </div>
     </motion.div>
   );
 }
