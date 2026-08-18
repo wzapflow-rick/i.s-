@@ -348,7 +348,7 @@ function CreamWave({ cream }: { cream: MotionValue<number> }) {
     <motion.div
       aria-hidden
       style={{ opacity: cream }}
-      className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[46%]"
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-[15] h-[52%]"
     >
       <svg
         viewBox="0 0 1440 320"
@@ -356,7 +356,7 @@ function CreamWave({ cream }: { cream: MotionValue<number> }) {
         className="absolute inset-0 h-full w-full"
       >
         <path
-          d="M0,96 C 220,20 420,26 660,96 C 900,166 1120,196 1440,120 L1440,320 L0,320 Z"
+          d="M0,210 C 220,205 460,210 700,170 C 940,132 1160,120 1440,60 L1440,320 L0,320 Z"
           fill="#efe9dd"
         />
       </svg>
@@ -440,7 +440,15 @@ function ProductTub({
         priority={priority}
         sizes="(max-width: 640px) 78vw, 34rem"
         className="object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.45)]"
-        style={{ objectPosition: image.objectPosition }}
+        style={{
+          objectPosition: image.objectPosition,
+          // Dissolve a base refletiva "queimada" na foto; a onda de creme
+          // cobre essa faixa inferior, então o pote continua íntegro.
+          WebkitMaskImage:
+            "linear-gradient(to bottom, #000 82%, rgba(0,0,0,0.35) 90%, transparent 97%)",
+          maskImage:
+            "linear-gradient(to bottom, #000 82%, rgba(0,0,0,0.35) 90%, transparent 97%)",
+        }}
         draggable={false}
       />
     </div>
