@@ -51,7 +51,7 @@ function mixRgba(
   return `rgba(${r}, ${g}, ${bl}, ${alpha})`;
 }
 
-export function ProductExperience() {
+export function ProductExperience({ asHero = false }: { asHero?: boolean } = {}) {
   const prefersReduced = useReducedMotion() ?? false;
 
   const stageRef = useRef<HTMLDivElement>(null);
@@ -177,6 +177,7 @@ export function ProductExperience() {
 
   return (
     <section
+      id={asHero ? "top" : undefined}
       aria-roledescription="Experiência de produto"
       aria-label="Escolha a sua combinação i.sí"
       className="relative isolate w-full overflow-hidden"
@@ -205,16 +206,29 @@ export function ProductExperience() {
         onKeyDown={onKeyDown}
         className="relative flex min-h-[100svh] cursor-grab touch-pan-y select-none flex-col outline-none focus-visible:ring-2 focus-visible:ring-[#c9ad78] focus-visible:ring-offset-0 active:cursor-grabbing"
       >
-        {/* ================= BARRA SUPERIOR ================= */}
-        <header className="relative z-30 mx-auto flex w-full max-w-[1600px] items-center justify-between gap-4 px-5 pt-6 sm:px-8 lg:px-14 lg:pt-8">
-          <span className="font-serif text-2xl tracking-tight text-[#efe9dd]">i.sí</span>
-          <span className="hidden font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55 md:block">
-            Experiência i.sí
-          </span>
-          <span className="ml-auto hidden font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55 lg:flex lg:items-center lg:gap-3">
-            100% Leite Integral <Dot /> Artesanal <Dot /> 5L <Dot /> 10L
-          </span>
-        </header>
+        {/* ================= BARRA SUPERIOR =================
+            Omitida quando roda como Hero: o SiteHeader global já cobre
+            logo e navegação. Mantém-se apenas o rótulo/specs editoriais. */}
+        {asHero ? (
+          <header className="relative z-30 mx-auto flex w-full max-w-[1600px] items-center justify-between gap-4 px-5 pt-24 sm:px-8 lg:px-14 lg:pt-28">
+            <span className="font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55">
+              Experiência i.sí
+            </span>
+            <span className="ml-auto hidden font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55 lg:flex lg:items-center lg:gap-3">
+              100% Leite Integral <Dot /> Artesanal <Dot /> 5L <Dot /> 10L
+            </span>
+          </header>
+        ) : (
+          <header className="relative z-30 mx-auto flex w-full max-w-[1600px] items-center justify-between gap-4 px-5 pt-6 sm:px-8 lg:px-14 lg:pt-8">
+            <span className="font-serif text-2xl tracking-tight text-[#efe9dd]">i.sí</span>
+            <span className="hidden font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55 md:block">
+              Experiência i.sí
+            </span>
+            <span className="ml-auto hidden font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55 lg:flex lg:items-center lg:gap-3">
+              100% Leite Integral <Dot /> Artesanal <Dot /> 5L <Dot /> 10L
+            </span>
+          </header>
+        )}
 
         {/* ================= ONDA DE CREME ================= */}
         <CreamWave cream={cream} />
@@ -236,7 +250,7 @@ export function ProductExperience() {
           {/* Coluna de texto à esquerda (headline fixa + sabor animado) */}
           <motion.div
             style={{ opacity: cream }}
-            className="pointer-events-none relative z-20 mx-auto flex w-full max-w-[1600px] px-5 sm:px-8 lg:px-14"
+            className="pointer-events-none relative z-20 mx-auto flex w-full max-w-[1600px] px-5 pt-2 sm:px-8 lg:px-14 lg:pt-0"
           >
             <div className="max-w-[92%] lg:max-w-lg">
               <p className="inline-flex items-center gap-3 font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#c9ad78]">
@@ -391,12 +405,12 @@ function ProductLayer({
     <motion.div
       aria-hidden={!active}
       style={{ opacity: layerOpacity, zIndex: active ? 15 : 5 }}
-      className="pointer-events-none absolute inset-0 flex items-end justify-center pb-[7%] lg:items-center lg:pb-0"
+      className="pointer-events-none absolute inset-0 flex items-end justify-center pb-[3%] lg:items-center lg:pb-0"
     >
       <div className="mx-auto flex w-full max-w-[1600px] justify-center px-5 lg:justify-end lg:px-14">
         <motion.div
           style={{ x: productX, scale: productScale }}
-          className="relative flex w-[min(52vw,13rem)] items-center justify-center lg:w-[min(42vw,28rem)]"
+          className="relative flex w-[min(44vw,10rem)] items-center justify-center lg:w-[min(42vw,28rem)]"
         >
           {state.kind === "partner" ? (
             <PartnerScene accent={state.accent} />

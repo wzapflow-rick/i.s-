@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SmoothAnchors } from "@/components/layout/smooth-anchors";
-import { Hero } from "@/components/sections/hero";
+import { ProductExperience } from "@/components/sections/product-experience";
 import { Products } from "@/components/sections/products";
 import { Quality } from "@/components/sections/quality";
 import { BrandStory } from "@/components/sections/brand-story";
@@ -15,7 +15,7 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         {/* Fluxo objetivo: PRODUTO → DIFERENCIAL → MARCA → EXPERIÊNCIA → FORMULÁRIO */}
-        <Hero />
+        <ProductExperience asHero />
         <Products />
         <Quality />
         <BrandStory />
