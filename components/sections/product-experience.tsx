@@ -20,6 +20,7 @@ import {
   AnimatePresence,
   animate,
   motion,
+  useMotionTemplate,
   useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
@@ -32,8 +33,24 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const N = EXPERIENCE_STATES.length;
 const LAST = N - 1;
 
+const CREAM = [239, 233, 221] as const; // #efe9dd
+const INK = [42, 30, 22] as const; //   #2a1e16
+
 const clamp = (v: number, min: number, max: number) =>
   Math.min(max, Math.max(min, v));
+
+/** Interpola entre duas cores rgb; t=0 → a, t=1 → b. Retorna rgba(). */
+function mixRgba(
+  a: readonly [number, number, number],
+  b: readonly [number, number, number],
+  t: number,
+  alpha = 1,
+) {
+  const r = Math.round(a[0] + (b[0] - a[0]) * t);
+  const g = Math.round(a[1] + (b[1] - a[1]) * t);
+  const bl = Math.round(a[2] + (b[2] - a[2]) * t);
+  return `rgba(${r}, ${g}, ${bl}, ${alpha})`;
+}
 
 export function ProductExperience({ asHero = false }: { asHero?: boolean } = {}) {
   const prefersReduced = useReducedMotion() ?? false;
@@ -56,10 +73,15 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
     EXPERIENCE_STATES.map((s) => s.bg),
   );
 
-  // ---- "cream": 1 durante os sabores, 0 no desfecho (parceria) ------------
-  // Usado apenas para OPACIDADE (fade da coluna de texto / assinatura no
-  // desfecho). O ambiente permanece sempre escuro; não há mais onda bege.
+  // ---- "cream": 1 enquanto há onda de creme (sabores), 0 no desfecho ------
+  // Controla a onda, a cor da navegação e a opacidade da coluna de texto.
   const cream = useTransform(progress, [LAST - 1, LAST], [1, 0]);
+
+  // Fundo do rodapé: faixa creme (degradê suave, sem emenda dura) enquanto
+  // há sabores, some no desfecho escuro. Garante contraste dos rótulos da nav
+  // quando a onda não cobre todas as linhas no mobile.
+  const footerBgAlpha = useTransform(cream, (cr) => cr);
+  const footerBg = useMotionTemplate`linear-gradient(to bottom, rgba(239,233,221,0) 0%, rgba(239,233,221,${footerBgAlpha}) 38%)`;
 
   // ---- Navegação programática (nav / teclado): anima o progress -----------
   const goTo = useCallback(
@@ -216,6 +238,9 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
           </header>
         )}
 
+        {/* ================= ONDA DE CREME ================= */}
+        <CreamWave cream={cream} />
+
         {/* ================= PALCO =================
             Mobile: empilhamento em FLUXO (texto em cima, pote embaixo) — nunca
             se sobrepõem, independentemente da altura da tela. Desktop (lg+): o
@@ -316,9 +341,9 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
         </div>
 
         {/* ================= RODAPÉ: progresso + navegação ================= */}
-        <footer className="relative z-30 pt-8 lg:pt-0">
+        <motion.footer style={{ backgroundImage: footerBg }} className="relative z-30 pt-8 lg:bg-none lg:pt-0">
           <div className="mx-auto w-full max-w-[1600px] px-5 pb-7 sm:px-8 lg:px-14">
-          <ProgressLine progress={progress} />
+          <ProgressLine progress={progress} cream={cream} />
           <nav aria-label="Combinações" className="mt-4 flex flex-wrap items-center gap-x-7 gap-y-3">
             {EXPERIENCE_STATES.map((state, i) => (
               <NavItem
@@ -326,13 +351,14 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
                 state={state}
                 index={i}
                 progress={progress}
+                cream={cream}
                 isActive={active === i}
                 onSelect={() => goTo(i)}
               />
             ))}
           </nav>
           </div>
-        </footer>
+        </motion.footer>
 
         {/* Leitura acessível do estado atual */}
         <p aria-live="polite" className="sr-only">
@@ -345,6 +371,31 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
 
 function Dot() {
   return <span aria-hidden className="inline-block h-1 w-1 rounded-full bg-[#c9ad78]/70" />;
+}
+
+/* ========================================================================== */
+/* Onda de creme — elemento-assinatura na base da cena                        */
+/* ========================================================================== */
+
+function CreamWave({ cream }: { cream: MotionValue<number> }) {
+  return (
+    <motion.div
+      aria-hidden
+      style={{ opacity: cream }}
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-[16] h-[34%] lg:h-[52%]"
+    >
+      <svg
+        viewBox="0 0 1440 320"
+        preserveAspectRatio="none"
+        className="absolute inset-0 h-full w-full"
+      >
+        <path
+          d="M0,210 C 220,205 460,210 700,170 C 940,132 1160,120 1440,60 L1440,320 L0,320 Z"
+          fill="#efe9dd"
+        />
+      </svg>
+    </motion.div>
+  );
 }
 
 /* ========================================================================== */
@@ -541,18 +592,22 @@ function NavItem({
   state,
   index,
   progress,
+  cream,
   isActive,
   onSelect,
 }: {
   state: ExperienceState;
   index: number;
   progress: MotionValue<number>;
+  cream: MotionValue<number>;
   isActive: boolean;
   onSelect: () => void;
 }) {
   const proximity = useTransform(progress, (p) => clamp(1 - Math.abs(index - p), 0, 1));
-  // Ambiente sempre escuro → rótulo sempre claro (creme). Alpha por proximidade.
-  const labelColor = useTransform(proximity, (px) => `rgba(239,233,221,${0.5 + 0.5 * px})`);
+  // Texto: escuro sobre creme, claro sobre o desfecho escuro. Alpha por proximidade.
+  const labelColor = useTransform([proximity, cream] as MotionValue<number>[], ([px, cr]: number[]) =>
+    mixRgba(CREAM, INK, cr, 0.5 + 0.5 * px),
+  );
   const indexColor = useTransform(proximity, (px) => `rgba(201,173,120,${0.5 + 0.5 * px})`);
   const barScale = proximity;
 
@@ -588,30 +643,33 @@ function NavItem({
 /* Barra de progresso                                                         */
 /* ========================================================================== */
 
-function ProgressLine({ progress }: { progress: MotionValue<number> }) {
+function ProgressLine({ progress, cream }: { progress: MotionValue<number>; cream: MotionValue<number> }) {
   const fill = useTransform(progress, (p) => `${(clamp(p, 0, LAST) / LAST) * 100}%`);
+  const track = useTransform(cream, (cr) => mixRgba(CREAM, INK, cr, 0.18));
   return (
-    <div className="relative h-px w-full max-w-lg bg-[rgba(239,233,221,0.18)]">
+    <motion.div style={{ backgroundColor: track }} className="relative h-px w-full max-w-lg">
       <motion.div aria-hidden style={{ width: fill }} className="absolute inset-y-0 left-0 bg-[#c9ad78]" />
       <div className="absolute inset-0 flex items-center justify-between">
         {EXPERIENCE_STATES.map((s, i) => (
-          <StateNode key={s.id} progress={progress} index={i} />
+          <StateNode key={s.id} progress={progress} cream={cream} index={i} />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function StateNode({
   progress,
+  cream,
   index,
 }: {
   progress: MotionValue<number>;
+  cream: MotionValue<number>;
   index: number;
 }) {
   const scale = useTransform(progress, (p) => clamp(1 - Math.abs(index - p) * 0.6, 0.6, 1));
-  const bg = useTransform(progress, (p) =>
-    Math.abs(index - p) < 0.5 ? "rgba(201,173,120,1)" : "rgba(239,233,221,0.4)",
+  const bg = useTransform([progress, cream] as MotionValue<number>[], ([p, cr]: number[]) =>
+    Math.abs(index - p) < 0.5 ? "rgba(201,173,120,1)" : mixRgba(CREAM, INK, cr, 0.4),
   );
   return <motion.span aria-hidden style={{ scale, backgroundColor: bg }} className="h-1.5 w-1.5 rounded-full" />;
 }
