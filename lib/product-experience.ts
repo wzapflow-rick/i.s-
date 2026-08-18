@@ -16,8 +16,6 @@
 // navegação se ajustam automaticamente ao tamanho do array.
 // ============================================================================
 
-import { SITE_IMAGES } from "@/lib/site-images";
-
 export interface ExperienceProductImage {
   src: string;
   alt: string;
@@ -60,9 +58,9 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     mood: "INTENSO",
     kind: "flavor",
     image: {
-      src: SITE_IMAGES.hero.src,
-      alt: SITE_IMAGES.hero.alt,
-      objectPosition: SITE_IMAGES.hero.objectPosition,
+      src: "/products/tub-chocolate.png",
+      alt: "Pote i.sí de gelato de chocolate com pedaços de chocolate ao redor",
+      objectPosition: "center",
     },
     bg: "#3b2118",
     accent: "#c9ad78",
@@ -77,9 +75,9 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     mood: "FRESCO",
     kind: "flavor",
     image: {
-      src: SITE_IMAGES.gelato10L.src,
-      alt: SITE_IMAGES.gelato10L.alt,
-      objectPosition: SITE_IMAGES.gelato10L.objectPosition,
+      src: "/products/tub-morango.png",
+      alt: "Pote i.sí de gelato de morango com morangos ao redor",
+      objectPosition: "center",
     },
     bg: "#6e2233",
     accent: "#e8a6b0",
@@ -93,8 +91,11 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     description: "Elegante e aveludado.",
     mood: "ELEGANTE",
     kind: "flavor",
-    // Sem fotografia real ainda — placeholder elegante e configurável.
-    image: null,
+    image: {
+      src: "/products/tub-pistache.png",
+      alt: "Pote i.sí de gelato de pistache com pistaches e folhas de hortelã ao redor",
+      objectPosition: "center",
+    },
     bg: "#2e3b29",
     accent: "#a9c58c",
   },
@@ -104,10 +105,14 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     name: "Mais sabores",
     navLabel: "Mais sabores",
     wordmark: "PORTFÓLIO",
-    description: "O portfólio i.sí cresce com critério.",
-    mood: "CURADORIA",
-    kind: "teaser",
-    image: null,
+    description: "Novas possibilidades, sempre com critério.",
+    mood: "SURPREENDENTE",
+    kind: "flavor",
+    image: {
+      src: "/products/tub-mais-sabores.png",
+      alt: "Pote i.sí de gelato de caramelo e cookies com pedaços ao redor",
+      objectPosition: "center",
+    },
     bg: "#201a14",
     accent: "#c9ad78",
   },
