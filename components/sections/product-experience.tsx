@@ -482,10 +482,8 @@ function ProductLayer({
   );
 }
 
-/* Produto dominante. Dois tratamentos:
-   - "scene": fotografia de campanha (atmosfera embutida) → máscara radial
-     dissolve o retângulo no ambiente; sem halo/sombra extra.
-   - "cutout": PNG transparente → halo de cor + sombra de contato próprios. */
+/* Produto dominante — PNG recortado (fundo transparente).
+   Halo de cor do sabor + sombra de contato sobre a onda de creme. */
 function ProductTub({
   image,
   priority,
@@ -495,33 +493,6 @@ function ProductTub({
   priority: boolean;
   accent: string;
 }) {
-  const isScene = image.variant === "scene";
-
-  if (isScene) {
-    // Máscara elíptica suave: dissolve as bordas do retângulo no ambiente
-    // (a foto já traz o próprio fundo marrom), evitando cara de card.
-    const sceneMask =
-      "radial-gradient(68% 74% at 50% 45%, #000 40%, rgba(0,0,0,0.5) 66%, transparent 90%)";
-    return (
-      <div className="relative aspect-[5/4] w-full">
-        <Image
-          src={image.src || "/placeholder.svg"}
-          alt={image.alt}
-          fill
-          priority={priority}
-          sizes="(max-width: 1024px) 88vw, 56vw"
-          className="object-contain"
-          style={{
-            objectPosition: image.objectPosition,
-            WebkitMaskImage: sceneMask,
-            maskImage: sceneMask,
-          }}
-          draggable={false}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="relative aspect-square w-full">
       {/* Halo suave de cor do sabor atrás do produto */}
@@ -543,15 +514,7 @@ function ProductTub({
         priority={priority}
         sizes="(max-width: 1024px) 88vw, 52vw"
         className="object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.45)]"
-        style={{
-          objectPosition: image.objectPosition,
-          // Dissolve a base refletiva "queimada" na foto; a onda de creme
-          // cobre essa faixa inferior, então o pote continua íntegro.
-          WebkitMaskImage:
-            "linear-gradient(to bottom, #000 82%, rgba(0,0,0,0.35) 90%, transparent 97%)",
-          maskImage:
-            "linear-gradient(to bottom, #000 82%, rgba(0,0,0,0.35) 90%, transparent 97%)",
-        }}
+        style={{ objectPosition: image.objectPosition }}
         draggable={false}
       />
     </div>
