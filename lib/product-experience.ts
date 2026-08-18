@@ -21,6 +21,13 @@ export interface ExperienceProductImage {
   alt: string;
   /** Foco do enquadramento (CSS object-position). */
   objectPosition: string;
+  /**
+   * Tratamento visual:
+   * - "cutout": PNG com fundo transparente (recorte) — ganha halo/sombra próprios.
+   * - "scene": fotografia de campanha com atmosfera embutida — recebe máscara
+   *   radial nas bordas para dissolver o retângulo no ambiente.
+   */
+  variant?: "cutout" | "scene";
 }
 
 export interface ExperienceState {
@@ -58,9 +65,10 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     mood: "INTENSO",
     kind: "flavor",
     image: {
-      src: "/products/tub-chocolate.png",
-      alt: "Pote i.sí de gelato de chocolate com pedaços de chocolate ao redor",
+      src: "/products/hero-chocolate.png",
+      alt: "Pote i.sí de gelato de chocolate com montanha de gelato e pedaços de chocolate voando",
       objectPosition: "center",
+      variant: "scene",
     },
     bg: "#3b2118",
     accent: "#c9ad78",

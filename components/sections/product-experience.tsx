@@ -248,7 +248,7 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
         <div className="relative z-10 flex flex-1 flex-col lg:flex-row lg:items-center">
           {/* Produto — uma camada por estado (desliza/escala junto).
               Em fluxo no mobile (ocupa o espaço restante), overlay no desktop. */}
-          <div className="relative order-2 flex min-h-[34vh] w-full flex-1 lg:absolute lg:inset-0 lg:order-none lg:min-h-0 lg:flex-none">
+          <div className="relative order-2 flex min-h-[46vh] w-full flex-1 lg:absolute lg:inset-0 lg:order-none lg:min-h-0 lg:flex-none">
             {EXPERIENCE_STATES.map((state, i) => (
               <ProductLayer
                 key={state.id}
@@ -260,6 +260,10 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
               />
             ))}
           </div>
+
+          {/* Tipografia vertical de assinatura — editorial, baixa opacidade,
+              parallax mais lento que o produto (camada de profundidade). */}
+          <VerticalWordmark word={activeState.wordmark} progress={progress} cream={cream} />
 
           {/* Coluna de texto à esquerda (headline fixa + sabor animado) */}
           <motion.div
@@ -378,7 +382,7 @@ function CreamWave({ cream }: { cream: MotionValue<number> }) {
     <motion.div
       aria-hidden
       style={{ opacity: cream }}
-      className="pointer-events-none absolute inset-x-0 bottom-0 z-[15] h-[34%] lg:h-[52%]"
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-[16] h-[34%] lg:h-[52%]"
     >
       <svg
         viewBox="0 0 1440 320"
@@ -390,6 +394,43 @@ function CreamWave({ cream }: { cream: MotionValue<number> }) {
           fill="#efe9dd"
         />
       </svg>
+    </motion.div>
+  );
+}
+
+/* ========================================================================== */
+/* Tipografia vertical de assinatura — camada de profundidade editorial       */
+/* ========================================================================== */
+
+function VerticalWordmark({
+  word,
+  progress,
+  cream,
+}: {
+  word: string;
+  progress: MotionValue<number>;
+  cream: MotionValue<number>;
+}) {
+  // Parallax lento: metade do deslocamento do produto → sensação de câmera.
+  const y = useTransform(progress, (p) => `${(p % 1) * -18}px`);
+  return (
+    <motion.div
+      aria-hidden
+      style={{ opacity: cream, y }}
+      className="pointer-events-none absolute right-3 top-1/2 z-[4] hidden -translate-y-1/2 select-none lg:block"
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={word}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.06 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="block font-serif uppercase leading-none tracking-tight text-[#efe9dd] [writing-mode:vertical-rl] text-[clamp(7rem,18vw,16rem)]"
+        >
+          {word}
+        </motion.span>
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -421,12 +462,12 @@ function ProductLayer({
     <motion.div
       aria-hidden={!active}
       style={{ opacity: layerOpacity, zIndex: active ? 15 : 5 }}
-      className="pointer-events-none absolute inset-0 flex items-end justify-center pb-[3%] lg:items-center lg:pb-0"
+      className="pointer-events-none absolute inset-0 flex items-end justify-center pb-0 lg:items-center"
     >
-      <div className="mx-auto flex w-full max-w-[1600px] justify-center px-5 lg:justify-end lg:px-14">
+      <div className="flex w-full justify-center lg:justify-end lg:pr-[2vw]">
         <motion.div
           style={{ x: productX, scale: productScale }}
-          className="relative flex w-[min(58vw,32vh)] items-center justify-center lg:w-[min(42vw,28rem)]"
+          className="relative flex w-[min(98vw,54vh)] items-center justify-center lg:w-[min(56vw,52rem)]"
         >
           {state.kind === "partner" ? (
             <PartnerScene accent={state.accent} />
@@ -441,7 +482,10 @@ function ProductLayer({
   );
 }
 
-/* Produto — pote com fundo transparente, dominante, ancorado por sombra */
+/* Produto dominante. Dois tratamentos:
+   - "scene": fotografia de campanha (atmosfera embutida) → máscara radial
+     dissolve o retângulo no ambiente; sem halo/sombra extra.
+   - "cutout": PNG transparente → halo de cor + sombra de contato próprios. */
 function ProductTub({
   image,
   priority,
@@ -451,6 +495,33 @@ function ProductTub({
   priority: boolean;
   accent: string;
 }) {
+  const isScene = image.variant === "scene";
+
+  if (isScene) {
+    // Máscara elíptica suave: dissolve as bordas do retângulo no ambiente
+    // (a foto já traz o próprio fundo marrom), evitando cara de card.
+    const sceneMask =
+      "radial-gradient(68% 74% at 50% 45%, #000 40%, rgba(0,0,0,0.5) 66%, transparent 90%)";
+    return (
+      <div className="relative aspect-[5/4] w-full">
+        <Image
+          src={image.src || "/placeholder.svg"}
+          alt={image.alt}
+          fill
+          priority={priority}
+          sizes="(max-width: 1024px) 88vw, 56vw"
+          className="object-contain"
+          style={{
+            objectPosition: image.objectPosition,
+            WebkitMaskImage: sceneMask,
+            maskImage: sceneMask,
+          }}
+          draggable={false}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="relative aspect-square w-full">
       {/* Halo suave de cor do sabor atrás do produto */}
@@ -470,7 +541,7 @@ function ProductTub({
         alt={image.alt}
         fill
         priority={priority}
-        sizes="(max-width: 640px) 78vw, 34rem"
+        sizes="(max-width: 1024px) 88vw, 52vw"
         className="object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.45)]"
         style={{
           objectPosition: image.objectPosition,
