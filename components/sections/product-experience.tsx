@@ -211,7 +211,8 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
             logo e navegação. Mantém-se apenas o rótulo/specs editoriais. */}
         {asHero ? (
           <header className="relative z-30 mx-auto flex w-full max-w-[1600px] items-center justify-between gap-4 px-5 pt-24 sm:px-8 lg:px-14 lg:pt-28">
-            <span className="font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55">
+            {/* Rótulo só no desktop: abaixo de lg o kicker já o exibe (evita duplicar) */}
+            <span className="hidden font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55 lg:block">
               Experiência i.sí
             </span>
             <span className="ml-auto hidden font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55 lg:flex lg:items-center lg:gap-3">
@@ -362,7 +363,7 @@ function CreamWave({ cream }: { cream: MotionValue<number> }) {
     <motion.div
       aria-hidden
       style={{ opacity: cream }}
-      className="pointer-events-none absolute inset-x-0 bottom-0 z-[15] h-[52%]"
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-[15] h-[34%] lg:h-[52%]"
     >
       <svg
         viewBox="0 0 1440 320"
@@ -405,12 +406,12 @@ function ProductLayer({
     <motion.div
       aria-hidden={!active}
       style={{ opacity: layerOpacity, zIndex: active ? 15 : 5 }}
-      className="pointer-events-none absolute inset-0 flex items-end justify-center pb-[3%] lg:items-center lg:pb-0"
+      className="pointer-events-none absolute inset-0 flex items-end justify-center pb-[16%] lg:items-center lg:pb-0"
     >
       <div className="mx-auto flex w-full max-w-[1600px] justify-center px-5 lg:justify-end lg:px-14">
         <motion.div
           style={{ x: productX, scale: productScale }}
-          className="relative flex w-[min(44vw,10rem)] items-center justify-center lg:w-[min(42vw,28rem)]"
+          className="relative flex w-[min(60vw,15rem)] items-center justify-center lg:w-[min(42vw,28rem)]"
         >
           {state.kind === "partner" ? (
             <PartnerScene accent={state.accent} />
