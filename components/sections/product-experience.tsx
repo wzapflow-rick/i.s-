@@ -483,7 +483,8 @@ function ProductLayer({
 }
 
 /* Produto dominante — PNG recortado (fundo transparente).
-   Halo de cor do sabor + sombra de contato sobre a onda de creme. */
+   Halo de cor do sabor atrás; o aterramento vem do drop-shadow, que segue
+   o formato do recorte (sem faixa retangular estranha ao fundo do sabor). */
 function ProductTub({
   image,
   priority,
@@ -501,19 +502,13 @@ function ProductTub({
         className="absolute left-1/2 top-[42%] -z-10 h-[62%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
         style={{ background: accent, opacity: 0.18 }}
       />
-      {/* Sombra de contato sobre a onda de creme */}
-      <div
-        aria-hidden
-        className="absolute inset-x-[18%] bottom-[6%] -z-10 h-[8%] rounded-[50%] blur-xl"
-        style={{ background: "rgba(0,0,0,0.28)" }}
-      />
       <Image
         src={image.src || "/placeholder.svg"}
         alt={image.alt}
         fill
         priority={priority}
         sizes="(max-width: 1024px) 88vw, 52vw"
-        className="object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.45)]"
+        className="object-contain drop-shadow-[0_28px_45px_rgba(0,0,0,0.38)]"
         style={{ objectPosition: image.objectPosition }}
         draggable={false}
       />
