@@ -38,6 +38,8 @@ export interface ExperienceState {
   wordmark: string;
   /** Copy visual provisória — NÃO são especificações técnicas do cliente. */
   description: string;
+  /** Microelemento editorial — palavra-humor discreta (ex.: "INTENSO"). */
+  mood: string;
   kind: "flavor" | "teaser" | "partner";
   /** Foto real do produto. `null` = placeholder configurável. */
   image: ExperienceProductImage | null;
@@ -54,7 +56,8 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     name: "Chocolate",
     navLabel: "Chocolate",
     wordmark: "CHOCOLATE",
-    description: "Intenso, cremoso e pensado para destacar a experiência.",
+    description: "Intenso, cremoso e marcante.",
+    mood: "INTENSO",
     kind: "flavor",
     image: {
       src: SITE_IMAGES.hero.src,
@@ -70,7 +73,8 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     name: "Morango",
     navLabel: "Morango",
     wordmark: "MORANGO",
-    description: "Vivo e delicado, para composições que pedem frescor.",
+    description: "Vivo, delicado e fresco.",
+    mood: "FRESCO",
     kind: "flavor",
     image: {
       src: SITE_IMAGES.gelato10L.src,
@@ -86,7 +90,8 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     name: "Pistache",
     navLabel: "Pistache",
     wordmark: "PISTACHE",
-    description: "Em breve no portfólio i.sí.",
+    description: "Elegante e aveludado.",
+    mood: "ELEGANTE",
     kind: "flavor",
     // Sem fotografia real ainda — placeholder elegante e configurável.
     image: null,
@@ -100,6 +105,7 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     navLabel: "Mais sabores",
     wordmark: "PORTFÓLIO",
     description: "O portfólio i.sí cresce com critério.",
+    mood: "CURADORIA",
     kind: "teaser",
     image: null,
     bg: "#201a14",
@@ -112,6 +118,7 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     navLabel: "Seu negócio",
     wordmark: "PARCERIA",
     description: "E com o seu negócio?",
+    mood: "PARCERIA",
     kind: "partner",
     image: null,
     bg: "#171310",

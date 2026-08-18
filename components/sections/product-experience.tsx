@@ -202,15 +202,15 @@ export function ProductExperience() {
       >
         {/* ---------- Cabeçalho editorial (posição fixa) ---------- */}
         <header className="relative z-20 mx-auto flex w-full max-w-[1500px] flex-col px-5 pt-24 sm:px-8 sm:pt-28 lg:px-16">
-          <p className="inline-flex items-center gap-3 font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/60">
-            <span className="inline-block h-px w-8 bg-[#efe9dd]/40" />
+          <p className="inline-flex items-center gap-3 font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/55">
+            <span className="inline-block h-px w-8 bg-[#efe9dd]/35" />
             Experiência i.sí
           </p>
-          <h2 className="mt-4 max-w-2xl font-serif text-[2rem] leading-[0.98] tracking-tight text-balance text-[#efe9dd] sm:text-5xl">
-            Escolha a sua combinação.
+          <h2 className="mt-4 max-w-2xl font-serif text-[1.7rem] leading-[1.02] tracking-tight text-balance text-[#efe9dd] sm:text-[2.6rem]">
+            Cada combinação cria uma experiência.
           </h2>
-          <p className="mt-3 max-w-md font-sans text-sm leading-relaxed text-[#efe9dd]/70 sm:text-base">
-            Cada sabor cria uma nova possibilidade.
+          <p className="mt-2 font-sans text-[0.7rem] uppercase tracking-eyebrow text-[#c9ad78]/80">
+            Descubra a próxima.
           </p>
         </header>
 
@@ -229,46 +229,30 @@ export function ProductExperience() {
           ))}
         </div>
 
-        {/* ---------- Rodapé: assinatura, progresso e navegação ---------- */}
+        {/* ---------- Rodapé: progresso e navegação editorial ---------- */}
         <footer className="relative z-20 mx-auto w-full max-w-[1500px] px-5 pb-8 sm:px-8 lg:px-16">
-          {/* Barra de progresso elegante */}
+          {/* Barra de progresso contínua entre estados */}
           <ProgressLine progress={progress} />
 
           <nav
             aria-label="Combinações"
-            className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3"
+            className="mt-5 flex flex-wrap items-center gap-x-7 gap-y-3"
           >
-            {EXPERIENCE_STATES.map((state, i) => {
-              const isActive = active === i;
-              return (
-                <button
-                  key={state.id}
-                  type="button"
-                  data-no-drag
-                  onClick={() => goTo(i)}
-                  aria-current={isActive ? "true" : undefined}
-                  className="group flex items-baseline gap-2 outline-none transition-opacity focus-visible:ring-2 focus-visible:ring-[#c9ad78]"
-                >
-                  <span
-                    className="font-sans text-[0.62rem] tabular-nums tracking-wide-editorial transition-colors"
-                    style={{ color: isActive ? "#c9ad78" : "rgba(239,233,221,0.45)" }}
-                  >
-                    {state.index}
-                  </span>
-                  <span
-                    className="font-sans text-xs uppercase tracking-wide-editorial transition-colors"
-                    style={{ color: isActive ? "#efe9dd" : "rgba(239,233,221,0.55)" }}
-                  >
-                    {state.navLabel}
-                  </span>
-                </button>
-              );
-            })}
+            {EXPERIENCE_STATES.map((state, i) => (
+              <NavItem
+                key={state.id}
+                state={state}
+                index={i}
+                progress={progress}
+                isActive={active === i}
+                onSelect={() => goTo(i)}
+              />
+            ))}
           </nav>
 
           {/* Dica de gesto (some sob reduced-motion) */}
           {!prefersReduced && (
-            <p className="mt-4 font-sans text-[0.6rem] uppercase tracking-eyebrow text-[#efe9dd]/35">
+            <p className="mt-4 font-sans text-[0.58rem] uppercase tracking-eyebrow text-[#efe9dd]/30">
               Arraste para combinar
             </p>
           )}
@@ -280,6 +264,72 @@ export function ProductExperience() {
         </p>
       </div>
     </section>
+  );
+}
+
+/* ========================================================================== */
+/* Item de navegação editorial: 01 — CHOCOLATE + sublinhado reativo           */
+/* ========================================================================== */
+
+function NavItem({
+  state,
+  index,
+  progress,
+  isActive,
+  onSelect,
+}: {
+  state: ExperienceState;
+  index: number;
+  progress: MotionValue<number>;
+  isActive: boolean;
+  onSelect: () => void;
+}) {
+  // Proximidade contínua (1 = neste estado, 0 = a um passo ou mais).
+  const proximity = useTransform(progress, (p) =>
+    clamp(1 - Math.abs(index - p), 0, 1),
+  );
+  const labelColor = useTransform(proximity, [0, 1], [
+    "rgba(239,233,221,0.5)",
+    "rgba(239,233,221,1)",
+  ]);
+  const indexColor = useTransform(proximity, [0, 1], [
+    "rgba(239,233,221,0.35)",
+    "rgba(201,173,120,1)",
+  ]);
+  const barScale = useTransform(proximity, [0, 1], [0, 1]);
+
+  return (
+    <button
+      type="button"
+      data-no-drag
+      onClick={onSelect}
+      aria-current={isActive ? "true" : undefined}
+      className="group relative flex flex-col gap-1.5 pb-1.5 outline-none focus-visible:ring-2 focus-visible:ring-[#c9ad78]"
+    >
+      <span className="flex items-baseline gap-2">
+        <motion.span
+          style={{ color: indexColor }}
+          className="font-sans text-[0.6rem] tabular-nums tracking-wide-editorial"
+        >
+          {state.index}
+        </motion.span>
+        <span aria-hidden className="text-[0.6rem] text-[#efe9dd]/25">
+          —
+        </span>
+        <motion.span
+          style={{ color: labelColor }}
+          className="font-sans text-[0.7rem] uppercase tracking-wide-editorial"
+        >
+          {state.navLabel}
+        </motion.span>
+      </span>
+      {/* Sublinhado de progresso individual (dourado) */}
+      <motion.span
+        aria-hidden
+        style={{ scaleX: barScale }}
+        className="absolute bottom-0 left-0 h-px w-full origin-left bg-[#c9ad78]"
+      />
+    </button>
   );
 }
 
@@ -301,22 +351,27 @@ function SceneLayer({
   active: boolean;
 }) {
   // Distância relativa d = index - progress (0 = centralizado).
-  // Produto desliza 72% da própria largura por passo; escala/rotação leves.
+  // Produto desliza com profundidade; escala/rotação leves. Entra enquanto o
+  // anterior sai — cor, produto, texto e gráficos mudam juntos (contínuo).
   const productX = useTransform(progress, (p) =>
-    reduced ? "0%" : `${(index - p) * 72}%`,
+    reduced ? "0%" : `${(index - p) * 66}%`,
   );
   const productScale = useTransform(progress, (p) =>
-    reduced ? 1 : clamp(1 - Math.abs(index - p) * 0.16, 0.72, 1),
+    reduced ? 1 : clamp(1 - Math.abs(index - p) * 0.14, 0.78, 1),
   );
   const productRotate = useTransform(progress, (p) =>
-    reduced ? 0 : (index - p) * 4,
+    reduced ? 0 : (index - p) * 3.5,
   );
   const layerOpacity = useTransform(progress, (p) =>
     clamp(1 - Math.abs(index - p) * 1.15, 0, 1),
   );
   // Gráficos ao fundo: menos deslocamento = sensação de profundidade.
   const graphicsX = useTransform(progress, (p) =>
-    reduced ? "0%" : `${(index - p) * 26}%`,
+    reduced ? "0%" : `${(index - p) * 24}%`,
+  );
+  // Assinatura vertical: parallax próprio, ainda mais lento (fundo profundo).
+  const wordmarkX = useTransform(progress, (p) =>
+    reduced ? "0%" : `${(index - p) * 14}%`,
   );
   // Texto: mantém a posição horizontal; só opacity + leve translateY.
   const textY = useTransform(progress, (p) =>
@@ -331,27 +386,27 @@ function SceneLayer({
     >
       {/* Detalhe gráfico editorial da cena */}
       <motion.div style={{ x: graphicsX }} className="absolute inset-0">
-        <SceneGraphics accent={state.accent} kind={state.kind} />
+        <SceneGraphics accent={state.accent} kind={state.kind} mood={state.mood} />
       </motion.div>
 
-      {/* Assinatura vertical (lateral direita) */}
+      {/* Assinatura vertical (lateral direita) — detalhe discreto, não compete */}
       <motion.span
-        style={{ x: graphicsX }}
+        style={{ x: wordmarkX }}
         aria-hidden
-        className="absolute right-3 top-1/2 hidden -translate-y-1/2 select-none font-serif text-[clamp(2.5rem,7vw,5rem)] leading-none tracking-tight sm:block lg:right-8"
+        className="absolute right-2 top-1/2 hidden -translate-y-1/2 select-none font-sans text-[clamp(1.4rem,3.4vw,2.4rem)] font-light uppercase leading-none tracking-[0.32em] sm:block lg:right-5"
       >
         <span
           className="block [writing-mode:vertical-rl] rotate-180"
-          style={{ color: state.accent, opacity: 0.16 }}
+          style={{ color: state.accent, opacity: 0.14 }}
         >
           {state.wordmark}
         </span>
       </motion.span>
 
-      {/* Produto central */}
+      {/* Produto central — dominante, pode transbordar a composição */}
       <motion.div
         style={{ x: productX, scale: productScale, rotate: productRotate }}
-        className="relative z-10 flex w-full max-w-[560px] items-center justify-center px-6"
+        className="relative z-10 flex w-full max-w-[720px] items-center justify-center px-2 sm:px-6"
       >
         {state.kind === "partner" ? (
           <PartnerScene accent={state.accent} />
@@ -369,15 +424,21 @@ function SceneLayer({
       {state.kind === "flavor" && state.image && (
         <motion.div
           style={{ y: textY }}
-          className="absolute bottom-[16%] left-5 z-20 max-w-xs sm:left-8 lg:bottom-[20%] lg:left-16"
+          className="absolute bottom-[15%] left-5 z-20 max-w-xs sm:left-8 lg:bottom-[19%] lg:left-16"
         >
+          <span
+            className="font-sans text-[0.58rem] uppercase tracking-eyebrow"
+            style={{ color: state.accent }}
+          >
+            {state.mood}
+          </span>
           <p
-            className="font-serif text-3xl leading-none tracking-tight sm:text-4xl"
+            className="mt-2 font-serif text-[2rem] leading-none tracking-tight sm:text-5xl"
             style={{ color: "#efe9dd" }}
           >
             {state.name}
           </p>
-          <p className="mt-3 font-sans text-sm leading-relaxed text-[#efe9dd]/70">
+          <p className="mt-2 font-sans text-sm leading-relaxed text-[#efe9dd]/65">
             {state.description}
           </p>
         </motion.div>
@@ -400,20 +461,20 @@ function ProductPhoto({
   priority: boolean;
 }) {
   return (
-    <div className="relative aspect-square w-[min(78vw,30rem)]">
-      {/* Halo suave atrás do produto */}
+    <div className="relative aspect-square w-[min(94vw,38rem)]">
+      {/* Sombra de contato suave — ancora o produto sem moldura de slider */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 rounded-full blur-2xl"
-        style={{ background: "rgba(0,0,0,0.35)", transform: "translateY(8%) scale(0.9)" }}
+        className="absolute inset-x-[12%] bottom-[4%] -z-10 h-[26%] rounded-[50%] blur-2xl"
+        style={{ background: "rgba(0,0,0,0.45)" }}
       />
-      <div className="relative h-full w-full overflow-hidden rounded-full ring-1 ring-white/10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.7)]">
+      <div className="relative h-full w-full overflow-hidden rounded-full ring-1 ring-white/8 shadow-[0_60px_150px_-40px_rgba(0,0,0,0.75)]">
         <Image
           src={image.src || "/placeholder.svg"}
           alt={`Gelato i.sí de ${name}`}
           fill
           priority={priority}
-          sizes="(max-width: 640px) 78vw, 30rem"
+          sizes="(max-width: 640px) 94vw, 38rem"
           className="object-cover"
           style={{ objectPosition: image.objectPosition }}
           draggable={false}
@@ -426,12 +487,11 @@ function ProductPhoto({
 /* Placeholder elegante para sabor sem foto real (claramente configurável) */
 function ProductPlaceholder({ accent, name }: { accent: string; name: string }) {
   return (
-    <div className="relative aspect-square w-[min(78vw,30rem)]">
+    <div className="relative aspect-square w-[min(90vw,34rem)]">
       <div
-        className="flex h-full w-full flex-col items-center justify-center gap-4 rounded-full border border-dashed"
+        className="flex h-full w-full flex-col items-center justify-center gap-4 rounded-full"
         style={{
-          borderColor: `${accent}66`,
-          background: `radial-gradient(circle at 50% 40%, ${accent}22, transparent 70%)`,
+          background: `radial-gradient(circle at 50% 42%, ${accent}2e, transparent 68%)`,
         }}
       >
         <span
@@ -468,40 +528,65 @@ function TeaserScene({ accent, name }: { accent: string; name: string }) {
   );
 }
 
-/* Desfecho: i.sí + seu negócio */
+/* Desfecho / clímax: i.sí + seu negócio (composição minimalista) */
 function PartnerScene({ accent }: { accent: string }) {
+  const ease = [0.22, 1, 0.36, 1] as const;
+  const rise = (delay: number) => ({
+    initial: { opacity: 0, y: 16 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: false, amount: 0.6 },
+    transition: { duration: 0.7, ease, delay },
+  });
+
   return (
-    <div className="relative flex aspect-square w-[min(82vw,32rem)] flex-col items-center justify-center text-center">
-      <span className="font-serif text-[clamp(3rem,12vw,6rem)] leading-[0.9] tracking-tight text-[#efe9dd]">
+    <div className="relative flex w-[min(90vw,36rem)] flex-col items-center justify-center text-center">
+      <motion.span
+        {...rise(0.05)}
+        className="font-sans text-[0.58rem] uppercase tracking-eyebrow text-[#efe9dd]/45"
+      >
+        A combinação final
+      </motion.span>
+
+      <motion.span
+        {...rise(0.12)}
+        className="mt-5 font-serif text-[clamp(3.5rem,13vw,7rem)] leading-[0.85] tracking-tight text-[#efe9dd]"
+      >
         i.sí
-      </span>
-      <span
-        className="my-1 font-serif text-3xl leading-none sm:text-4xl"
+      </motion.span>
+
+      <motion.span
+        {...rise(0.24)}
+        className="my-2 font-serif text-3xl leading-none sm:text-4xl"
         style={{ color: accent }}
       >
         +
-      </span>
-      <span
-        className="font-serif text-[clamp(2rem,8vw,3.75rem)] leading-[0.95] tracking-tight"
-        style={{
-          color: "transparent",
-          WebkitTextStroke: `1px ${accent}`,
-        }}
+      </motion.span>
+
+      <motion.span
+        {...rise(0.34)}
+        className="font-serif text-[clamp(2.2rem,9vw,4.25rem)] leading-[0.92] tracking-tight"
+        style={{ color: "transparent", WebkitTextStroke: `1px ${accent}` }}
       >
         SEU NEGÓCIO
-      </span>
-      <p className="mt-5 font-sans text-sm leading-relaxed text-[#efe9dd]/70">
+      </motion.span>
+
+      <motion.p
+        {...rise(0.46)}
+        className="mt-6 font-serif text-lg italic text-[#efe9dd]/80"
+      >
         E com o seu negócio?
-      </p>
-      <a
+      </motion.p>
+
+      <motion.a
+        {...rise(0.56)}
         href="/#formulario"
         data-no-drag
-        className="pointer-events-auto mt-6 inline-flex items-center gap-2 rounded-full px-7 py-3 font-sans text-xs uppercase tracking-wide-editorial transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c9ad78]"
+        className="pointer-events-auto mt-6 inline-flex items-center gap-2 rounded-full px-8 py-3.5 font-sans text-xs uppercase tracking-wide-editorial transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c9ad78]"
         style={{ backgroundColor: accent, color: "#171310" }}
       >
         Quero ser parceiro
         <span aria-hidden>→</span>
-      </a>
+      </motion.a>
     </div>
   );
 }
@@ -513,46 +598,59 @@ function PartnerScene({ accent }: { accent: string }) {
 function SceneGraphics({
   accent,
   kind,
+  mood,
 }: {
   accent: string;
   kind: ExperienceState["kind"];
+  mood: string;
 }) {
-  // Poucos elementos, apenas transform/opacity, sem animação infinita.
+  // Sem círculos "de slider": apenas linhas incompletas, marcadores e etiqueta.
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
-      {/* Anel amplo atrás do produto */}
-      <div
-        className="absolute left-1/2 top-1/2 h-[72vmin] w-[72vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border"
-        style={{ borderColor: `${accent}33` }}
-      />
-      <div
-        className="absolute left-1/2 top-1/2 h-[52vmin] w-[52vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border"
-        style={{ borderColor: `${accent}22` }}
-      />
-      {/* Pontos / detalhes soltos */}
+      {/* Linha editorial superior, incompleta */}
       <span
-        className="absolute left-[14%] top-[30%] h-2 w-2 rounded-full"
+        className="absolute left-0 top-[22%] h-px w-[22vw] max-w-[16rem]"
+        style={{ background: `linear-gradient(90deg, transparent, ${accent}55)` }}
+      />
+      {/* Linha editorial inferior direita, incompleta */}
+      <span
+        className="absolute right-0 bottom-[28%] h-px w-[18vw] max-w-[13rem]"
+        style={{ background: `linear-gradient(90deg, ${accent}44, transparent)` }}
+      />
+      {/* Microelemento: palavra-humor discreta (item 9) */}
+      <span
+        className="absolute right-[8%] top-[20%] hidden font-sans text-[0.58rem] uppercase tracking-eyebrow sm:block"
+        style={{ color: `${accent}`, opacity: 0.55 }}
+      >
+        {mood}
+      </span>
+      {/* Marcadores soltos */}
+      <span
+        className="absolute left-[16%] top-[34%] h-1.5 w-1.5 rounded-full"
         style={{ backgroundColor: accent, opacity: 0.5 }}
       />
       <span
-        className="absolute right-[18%] top-[24%] h-1.5 w-1.5 rounded-full"
+        className="absolute right-[22%] top-[30%] h-1 w-1 rounded-full"
         style={{ backgroundColor: accent, opacity: 0.4 }}
-      />
-      <span
-        className="absolute left-[22%] bottom-[26%] h-1 w-1 rounded-full"
-        style={{ backgroundColor: accent, opacity: 0.45 }}
-      />
-      {/* Linha fina editorial */}
-      <span
-        className="absolute right-[12%] top-1/2 h-px w-[10vw]"
-        style={{ backgroundColor: `${accent}55` }}
       />
       {kind === "flavor" && (
         <span
-          className="absolute left-[10%] top-1/2 h-px w-[8vw]"
-          style={{ backgroundColor: `${accent}44` }}
+          className="absolute left-[20%] bottom-[30%] h-1 w-1 rounded-full"
+          style={{ backgroundColor: accent, opacity: 0.4 }}
         />
       )}
+      {/* Etiqueta discreta inferior esquerda */}
+      <span
+        className="absolute left-0 bottom-[16%] flex items-center gap-2 pl-5 sm:pl-8 lg:pl-16"
+      >
+        <span className="h-px w-6" style={{ backgroundColor: `${accent}66` }} />
+        <span
+          className="font-sans text-[0.52rem] uppercase tracking-eyebrow"
+          style={{ color: "#efe9dd", opacity: 0.4 }}
+        >
+          i.sí · combina
+        </span>
+      </span>
     </div>
   );
 }
