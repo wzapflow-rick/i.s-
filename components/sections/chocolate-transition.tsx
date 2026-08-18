@@ -1,94 +1,73 @@
 "use client";
 
 import { useRef } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 /**
- * TRANSIÇÃO SUAVE — o chocolate DERRETE do fim da cena de sabores para o bege
- * da seção O PRODUTO, seguindo o scroll. Sem emenda dura.
+ * TRANSIÇÃO SUAVE — do fim da cena de sabores (que repousa em #171310) o
+ * ambiente esquenta em chocolate e escorre, via PNG realista de chocolate
+ * derretido, para o bege da seção O PRODUTO. Sem emenda dura.
  * ---------------------------------------------------------------------------
  * COMO A EMENDA SOME:
- *  - O wrapper é TRANSPARENTE e sobe sobre o fim da cena (margin negativa).
- *  - O topo da massa de chocolate é um gradiente que começa 100% transparente
- *    e só então adensa em chocolate. Assim, QUALQUER cor de ambiente da cena
- *    (chocolate, morango, etc.) "escorre" para dentro do chocolate sem linha.
- *  - A base termina numa borda orgânica + gotas que caem sobre o bege.
+ *  - O TOPO da massa começa EXATAMENTE em #171310 — a mesma cor em que a cena
+ *    de sabores repousa no último estado. Topo = fundo anterior → sem linha.
+ *  - A massa esquenta para um chocolate quente (#3a241a) descendo.
+ *  - A borda derretida + gotas é o PNG real (fundo transparente): a parte
+ *    transparente acima da onda mostra o chocolate da massa (contínuo) e as
+ *    gotas pingam sobre o bege da próxima seção.
  *
  * Determinístico (sem Math.random/Date) → SSR = client, sem erro de hidratação.
- * Só transform/opacity dirigidos pelo scroll (GPU); nunca bloqueia a rolagem.
+ * Só transform/opacity dirigidos pelo scroll (GPU).
  */
 
-// Gotas finas — posições/alturas fixas e irregulares (orgânico, não geométrico).
-const DRIPS = [
-  { left: 9, w: 6, h: 34 },
-  { left: 22, w: 8, h: 58 },
-  { left: 38, w: 6, h: 42 },
-  { left: 52, w: 9, h: 74 },
-  { left: 68, w: 6, h: 38 },
-  { left: 84, w: 8, h: 56 },
-  { left: 94, w: 5, h: 30 },
-] as const;
+// Cor em que a BASE da cena de sabores repousa por padrão (1º estado =
+// chocolate). O topo da massa começa EXATAMENTE nela → encontro invisível.
+const SCENE_REST = "#3b2118";
+// Chocolate quente para onde a massa esquenta descendo (casa com o PNG).
+const CHOC_WARM = "#3a241a";
 
-const CHOC_DEEP = "#2a1610";
-const CHOC_WARM = "#3a2016";
-
-// Topo transparente → adensa em chocolate. O ambiente da cena (atrás) derrete
-// para dentro deste gradiente: nenhuma linha reta separando as seções.
-const MELT_BODY =
-  `linear-gradient(180deg,` +
-  ` rgba(30,17,11,0) 0%,` +
-  ` rgba(30,17,11,0) 26%,` +
-  ` rgba(32,18,12,0.35) 42%,` +
-  ` rgba(35,19,13,0.72) 56%,` +
-  ` ${CHOC_DEEP} 74%,` +
-  ` ${CHOC_WARM} 100%)`;
+const MELT_BODY = `linear-gradient(180deg, ${SCENE_REST} 0%, #3a2118 40%, ${CHOC_WARM} 100%)`;
 
 export function ChocolateTransition() {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion() ?? false;
 
-  // O escorrer acompanha o scroll: começa antes de a faixa centralizar e
-  // termina quando o bege já domina a tela.
+  // O escorrer acompanha o scroll: a calda "desce" um pouco e a frase surge.
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end center"],
   });
 
-  const dripGrowMV = useTransform(scrollYProgress, [0.15, 0.75], [0.25, 1]);
-  const edgeYMV = useTransform(scrollYProgress, [0.1, 0.7], [-10, 0]);
-  const dripGrow = reduced ? 1 : dripGrowMV;
-  const edgeY = reduced ? 0 : edgeYMV;
+  const dripYMV = useTransform(scrollYProgress, [0, 0.85], ["-4%", "0%"]);
+  const glossMV = useTransform(scrollYProgress, [0.1, 0.6], [0, 1]);
+  const dripY = reduced ? "0%" : dripYMV;
+  const gloss = reduced ? 1 : glossMV;
 
   return (
-    // Sobe sobre o fim da cena de sabores; fundo transparente para o chocolate
-    // "nascer" da cor que estiver acima. z alto para escorrer sobre o bege.
-    <div
-      aria-hidden
-      ref={ref}
-      className="relative z-20 -mt-20 bg-transparent sm:-mt-24 lg:-mt-28"
-    >
-      {/* ===== MASSA DE CHOCOLATE DERRETENDO ===== */}
+    // Sobe levemente sobre o fim da cena para garantir que o topo #171310
+    // encoste no fundo anterior sem qualquer fresta.
+    <div aria-hidden ref={ref} className="relative z-20 -mt-px bg-transparent">
+      {/* ===== MASSA DE CHOCOLATE (esquenta descendo) ===== */}
       <div
-        className="relative h-[240px] w-full sm:h-[280px] lg:h-[300px]"
+        className="relative h-[280px] w-full sm:h-[330px] lg:h-[380px]"
         style={{ backgroundImage: MELT_BODY }}
       >
-        {/* Brilho glossy sutil na parte já adensada */}
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(122,74,48,0) 0%, rgba(122,74,48,0.28) 55%, rgba(122,74,48,0) 100%)",
-          }}
-        />
+        {/* Brilho glossy sutil que surge no scroll */}
+        <motion.div
+          style={{ opacity: gloss }}
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
+        >
+          <div
+            className="h-full w-full"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(122,74,48,0) 0%, rgba(140,86,54,0.28) 60%, rgba(122,74,48,0) 100%)",
+            }}
+          />
+        </motion.div>
 
-        {/* Frase discreta — assenta na parte sólida (inferior) da massa */}
-        <div className="absolute inset-x-0 bottom-9 flex items-center justify-center px-6 sm:bottom-11">
+        {/* Frase discreta — na parte alta do chocolate, acima das gotas */}
+        <div className="absolute inset-x-0 top-[42%] flex items-center justify-center px-6">
           <p className="flex items-center gap-4 font-serif text-sm tracking-[0.22em] text-[#c9ad78] sm:gap-5 sm:text-base">
             <span aria-hidden className="hidden h-px w-8 bg-[#c9ad78]/45 sm:block" />
             FEITO PARA COMBINAR.
@@ -97,56 +76,15 @@ export function ChocolateTransition() {
         </div>
       </div>
 
-      {/* ===== BORDA ORGÂNICA + GOTAS (escorrem sobre o bege) ===== */}
-      <motion.div style={{ y: edgeY }} className="pointer-events-none relative">
-        <svg
-          viewBox="0 0 1440 70"
-          preserveAspectRatio="none"
-          className="-mt-px block h-8 w-full sm:h-10"
-        >
-          <path
-            d="M0,0 L1440,0 L1440,26 C1360,30 1332,44 1290,43 C1246,42 1236,24 1180,26 C1092,29 1030,50 950,46 C902,44 894,22 858,24 C772,28 702,49 620,45 C576,43 568,20 536,22 C472,26 402,48 320,43 C272,40 260,22 226,24 C160,28 92,46 0,34 Z"
-            fill={CHOC_WARM}
-          />
-        </svg>
-
-        <div className="relative h-0">
-          {DRIPS.map((d, i) => (
-            <Drip key={i} drip={d} scaleY={dripGrow} />
-          ))}
-        </div>
-      </motion.div>
+      {/* ===== CALDA REAL DERRETENDO (PNG, escorre sobre o bege) =====
+          bottom-0 + translateY: a onda superior do PNG alinha no fim da massa
+          (transparente acima = chocolate contínuo) e as gotas pingam no bege. */}
+      <motion.img
+        src="/images/chocolate-drip.png"
+        alt=""
+        style={{ y: dripY }}
+        className="pointer-events-none absolute inset-x-0 bottom-0 w-full translate-y-[64%] select-none"
+      />
     </div>
-  );
-}
-
-/** Fio fino que cresce para baixo (origin no topo) e termina numa gota. */
-function Drip({
-  drip,
-  scaleY,
-}: {
-  drip: (typeof DRIPS)[number];
-  scaleY: MotionValue<number> | number;
-}) {
-  const blob = drip.w * 1.7;
-  return (
-    <motion.div
-      style={{ left: `${drip.left}%`, width: drip.w, scaleY }}
-      className="absolute top-0 origin-top -translate-x-1/2 will-change-transform"
-    >
-      <div
-        className="w-full rounded-b-full"
-        style={{ height: drip.h, background: CHOC_WARM }}
-      />
-      <div
-        className="mx-auto rounded-full"
-        style={{
-          width: blob,
-          height: blob,
-          marginTop: -blob * 0.5,
-          background: CHOC_WARM,
-        }}
-      />
-    </motion.div>
   );
 }
