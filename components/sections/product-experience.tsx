@@ -20,6 +20,7 @@ import {
   AnimatePresence,
   animate,
   motion,
+  useMotionTemplate,
   useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
@@ -75,6 +76,12 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
   // ---- "cream": 1 enquanto há onda de creme (sabores), 0 no desfecho ------
   // Controla a onda, a cor da navegação e a opacidade da coluna de texto.
   const cream = useTransform(progress, [LAST - 1, LAST], [1, 0]);
+
+  // Fundo do rodapé: faixa creme (degradê suave, sem emenda dura) enquanto
+  // há sabores, some no desfecho escuro. Garante contraste dos rótulos da nav
+  // quando a onda não cobre todas as linhas no mobile.
+  const footerBgAlpha = useTransform(cream, (cr) => cr);
+  const footerBg = useMotionTemplate`linear-gradient(to bottom, rgba(239,233,221,0) 0%, rgba(239,233,221,${footerBgAlpha}) 38%)`;
 
   // ---- Navegação programática (nav / teclado): anima o progress -----------
   const goTo = useCallback(
@@ -330,7 +337,8 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
         </div>
 
         {/* ================= RODAPÉ: progresso + navegação ================= */}
-        <footer className="relative z-30 mx-auto w-full max-w-[1600px] px-5 pb-7 sm:px-8 lg:px-14">
+        <motion.footer style={{ backgroundImage: footerBg }} className="relative z-30 pt-8 lg:bg-none lg:pt-0">
+          <div className="mx-auto w-full max-w-[1600px] px-5 pb-7 sm:px-8 lg:px-14">
           <ProgressLine progress={progress} cream={cream} />
           <nav aria-label="Combinações" className="mt-4 flex flex-wrap items-center gap-x-7 gap-y-3">
             {EXPERIENCE_STATES.map((state, i) => (
@@ -345,7 +353,8 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
               />
             ))}
           </nav>
-        </footer>
+          </div>
+        </motion.footer>
 
         {/* Leitura acessível do estado atual */}
         <p aria-live="polite" className="sr-only">
