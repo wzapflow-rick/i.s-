@@ -21,7 +21,7 @@ import { ImageReveal } from "@/components/ui/image-reveal";
  */
 export function Products() {
   return (
-    <section id="produtos" className="border-t border-border bg-surface">
+    <section id="produtos" className="bg-surface">
       <div className="mx-auto max-w-[1400px] px-5 py-24 sm:px-8 lg:px-12 lg:py-36">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
