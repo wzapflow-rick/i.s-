@@ -4,17 +4,20 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 /**
- * TRANSIÇÃO — CALDA DE CHOCOLATE (100% SVG inline + CSS)
+ * TRANSIÇÃO ORGÂNICA — MASSA DE CHOCOLATE (100% SVG inline + CSS)
  *
- * NÃO é uma seção. É apenas a borda inferior da seção de sabores escorrendo
- * sobre o bege de "O PRODUTO":
- *   navegação de sabores → calda fina de chocolate → fundo bege.
+ * NÃO é uma faixa, barra ou seção. É uma massa de chocolate/calda que se
+ * espalha organicamente sobre o bege, dando continuidade à grande curva que
+ * a seção de sabores já possui:
+ *   - espessa e profunda no centro-esquerda (perto do copo);
+ *   - uma curva ampla e elegante que sobe suavemente para a direita;
+ *   - poucas extensões orgânicas (não gotas alinhadas);
+ *   - DESAPARECE gradualmente nas duas laterais (máscara horizontal);
+ *   - sem texto, sem divisória, sem espaço vazio.
  *
- * - Faixa MUITO fina (~64–88px). Sem texto. Só 4 gotas irregulares.
- * - Margem negativa encosta a calda logo abaixo da navegação (elimina o
- *   espaço bege que fazia parecer uma seção independente).
- * - Determinística (sem Math.random / Date) → SSR e client idênticos.
- * - Fade sutil ligado ao scroll; respeita prefers-reduced-motion.
+ * Determinística (sem Math.random / Date) → SSR e client idênticos.
+ * Animação: revelação sutil + leve espalhar no scroll; respeita
+ * prefers-reduced-motion.
  */
 export function ChocolateTransition() {
   const ref = useRef<HTMLDivElement>(null);
@@ -25,100 +28,112 @@ export function ChocolateTransition() {
     offset: ["start end", "center end"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [8, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.55], [0, 1]);
+  const scaleX = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [0.965, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [10, 0]);
 
   return (
     <div
       ref={ref}
       aria-hidden
-      className="relative z-20 -mt-5 w-full overflow-hidden bg-surface leading-[0] sm:-mt-6 lg:-mt-8"
+      className="relative z-20 -mt-10 w-full overflow-hidden bg-surface leading-[0] lg:-mt-16"
     >
       <motion.div
-        style={{ opacity, y }}
-        className="relative h-[64px] sm:h-[76px] lg:h-[88px]"
+        style={{ opacity, scaleX, y, transformOrigin: "50% 0%" }}
+        className="relative h-[110px] sm:h-[130px] lg:h-[150px]"
       >
         <svg
-          viewBox="0 0 1440 120"
+          viewBox="0 0 1440 200"
           preserveAspectRatio="none"
           className="absolute inset-0 h-full w-full"
         >
           <defs>
-            {/* Corpo: brilhante no topo, escuro na base — calda espessa. */}
+            {/* Corpo: brilho quente no topo → chocolate profundo na base. */}
             <linearGradient
               id="ct-body"
               gradientUnits="userSpaceOnUse"
               x1="0"
               y1="0"
               x2="0"
-              y2="120"
+              y2="200"
             >
-              <stop offset="0" stopColor="#4a2110" />
-              <stop offset="0.4" stopColor="#35170f" />
-              <stop offset="1" stopColor="#260e07" />
+              <stop offset="0" stopColor="#5a2e18" />
+              <stop offset="0.35" stopColor="#3c1d11" />
+              <stop offset="1" stopColor="#22100a" />
             </linearGradient>
-            {/* Highlight glossy logo abaixo da borda superior. */}
+            {/* Brilho glossy discreto acompanhando a borda superior. */}
             <linearGradient
               id="ct-gloss"
               gradientUnits="userSpaceOnUse"
               x1="0"
-              y1="4"
+              y1="14"
               x2="0"
-              y2="34"
+              y2="60"
             >
-              <stop offset="0" stopColor="#9a6238" stopOpacity="0.5" />
+              <stop offset="0" stopColor="#9a6238" stopOpacity="0.45" />
               <stop offset="1" stopColor="#9a6238" stopOpacity="0" />
             </linearGradient>
+            {/* Máscara horizontal: dissolve a massa nas duas laterais. */}
+            <linearGradient
+              id="ct-fade"
+              gradientUnits="userSpaceOnUse"
+              x1="0"
+              y1="0"
+              x2="1440"
+              y2="0"
+            >
+              <stop offset="0" stopColor="#000" />
+              <stop offset="0.12" stopColor="#fff" />
+              <stop offset="0.88" stopColor="#fff" />
+              <stop offset="1" stopColor="#000" />
+            </linearGradient>
+            <mask id="ct-mask">
+              <rect x="0" y="0" width="1440" height="200" fill="url(#ct-fade)" />
+            </mask>
           </defs>
 
-          {/* ===== MASSA: topo levemente ondulado, base irregular ===== */}
-          <path
-            fill="url(#ct-body)"
-            d="M0,9
-               C200,3 380,15 560,8
-               C760,1 940,14 1120,7
-               C1260,2 1360,11 1440,8
-               L1440,60
-               C1320,66 1240,56 1120,62
-               C980,69 880,58 760,64
-               C620,71 500,59 380,65
-               C260,70 130,60 0,64
-               Z"
-          />
+          <g mask="url(#ct-mask)">
+            {/* ===== MASSA PRINCIPAL — assimétrica, curva ampla =====
+                Topo com ondulação suave; base mergulha num lobo profundo no
+                centro-esquerda (pour espesso) e sobe elegantemente à direita,
+                afinando até as bordas. */}
+            <path
+              fill="url(#ct-body)"
+              d="M0,40
+                 C 300,28 560,22 760,30
+                 C 980,38 1200,34 1440,42
+                 L 1440,58
+                 C 1260,64 1120,68 1000,76
+                 C 880,84 800,98 700,122
+                 C 620,142 550,172 460,172
+                 C 380,172 320,140 250,116
+                 C 170,88 90,64 0,58
+                 Z"
+            />
 
-          {/* ===== HIGHLIGHT glossy sob a borda superior ===== */}
-          <path
-            fill="url(#ct-gloss)"
-            d="M0,11
-               C200,5 380,17 560,10
-               C760,3 940,16 1120,9
-               C1260,4 1360,13 1440,10
-               L1440,26
-               C1260,31 1080,20 900,26
-               C720,32 560,21 380,27
-               C240,31 120,23 0,27
-               Z"
-          />
+            {/* ===== EXTENSÃO ORGÂNICA — uma só, larga e claramente fundida
+                ao lobo (uma língua de calda, não uma gota). Base do lobo
+                (~x=430–490) que se estende suavemente para baixo. ===== */}
+            <path
+              fill="url(#ct-body)"
+              d="M418,164
+                 C 410,184 420,202 458,206
+                 C 496,202 506,184 498,164
+                 C 470,172 446,172 418,164 Z"
+            />
 
-          {/* ===== GOTAS — apenas 4, tamanhos e posições irregulares =====
-              A: grande e longa | B: média | C: minúscula (quase some) | D: média-longa
-              Posições NÃO uniformes (235, 615, 880, 1175). */}
-          <path
-            fill="url(#ct-body)"
-            d="M223,62 C215,86 215,108 235,115 C255,108 255,86 247,62 Z"
-          />
-          <path
-            fill="url(#ct-body)"
-            d="M606,63 C600,80 601,91 615,96 C629,91 630,80 624,63 Z"
-          />
-          <path
-            fill="url(#ct-body)"
-            d="M874,62 C871,70 871,76 880,79 C889,76 889,70 886,62 Z"
-          />
-          <path
-            fill="url(#ct-body)"
-            d="M1165,62 C1157,84 1158,101 1175,108 C1192,101 1193,84 1185,62 Z"
-          />
+            {/* ===== BRILHO glossy sob a borda superior ===== */}
+            <path
+              fill="url(#ct-gloss)"
+              d="M0,44
+                 C 300,32 560,26 760,34
+                 C 980,42 1200,38 1440,46
+                 L 1440,60
+                 C 1200,54 980,58 760,50
+                 C 560,44 300,50 0,60
+                 Z"
+            />
+          </g>
         </svg>
       </motion.div>
     </div>
