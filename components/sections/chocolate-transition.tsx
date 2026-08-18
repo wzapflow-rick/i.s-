@@ -4,16 +4,17 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 /**
- * TRANSIÇÃO — CHOCOLATE DERRETIDO (100% SVG inline + CSS)
+ * TRANSIÇÃO — CALDA DE CHOCOLATE (100% SVG inline + CSS)
  *
- * Divisória orgânica e CURTA entre a seção de sabores e a seção "O PRODUTO".
- * - Nada de PNG/JPG/IA: a forma é um SVG inline, totalmente responsivo.
- * - Fundo bege (surface) → o chocolate é uma faixa que pinga sobre o bege,
- *   emendando sem linha dura com a onda de creme dos sabores (acima) e com
- *   "O PRODUTO" (abaixo), ambos bege.
- * - Determinístico: sem Math.random / Date → SSR e client idênticos.
- * - Animação sutil ligada ao scroll (fade + leve deriva). Sem sticky, sem
- *   pinning, sem scroll-hijacking — a página rola normalmente.
+ * NÃO é uma seção. É apenas a borda inferior da seção de sabores escorrendo
+ * sobre o bege de "O PRODUTO":
+ *   navegação de sabores → calda fina de chocolate → fundo bege.
+ *
+ * - Faixa MUITO fina (~64–88px). Sem texto. Só 4 gotas irregulares.
+ * - Margem negativa encosta a calda logo abaixo da navegação (elimina o
+ *   espaço bege que fazia parecer uma seção independente).
+ * - Determinística (sem Math.random / Date) → SSR e client idênticos.
+ * - Fade sutil ligado ao scroll; respeita prefers-reduced-motion.
  */
 export function ChocolateTransition() {
   const ref = useRef<HTMLDivElement>(null);
@@ -21,140 +22,104 @@ export function ChocolateTransition() {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    offset: ["start end", "center end"],
   });
 
-  // Revelação suave + micro-deriva orgânica (desativadas se reduced-motion).
-  const opacity = useTransform(scrollYProgress, [0, 0.32], [0, 1]);
-  const y = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    reduced ? [0, 0, 0] : [12, 0, -6],
-  );
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [0, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [8, 0]);
 
   return (
     <div
       ref={ref}
       aria-hidden
-      className="relative w-full overflow-hidden bg-surface leading-[0]"
+      className="relative z-20 -mt-5 w-full overflow-hidden bg-surface leading-[0] sm:-mt-6 lg:-mt-8"
     >
       <motion.div
         style={{ opacity, y }}
-        className="relative h-[80px] sm:h-[120px] lg:h-[150px]"
+        className="relative h-[64px] sm:h-[76px] lg:h-[88px]"
       >
         <svg
-          viewBox="0 0 1440 200"
+          viewBox="0 0 1440 120"
           preserveAspectRatio="none"
           className="absolute inset-0 h-full w-full"
         >
           <defs>
-            {/* Corpo do chocolate: profundidade vertical (brilhante no topo,
-                escuro na base). userSpaceOnUse para casar massa + gotas. */}
+            {/* Corpo: brilhante no topo, escuro na base — calda espessa. */}
             <linearGradient
-              id="choco-body"
+              id="ct-body"
               gradientUnits="userSpaceOnUse"
               x1="0"
-              y1="24"
+              y1="0"
               x2="0"
-              y2="200"
+              y2="120"
             >
-              <stop offset="0" stopColor="#48200f" />
-              <stop offset="0.42" stopColor="#35170f" />
-              <stop offset="1" stopColor="#280f08" />
+              <stop offset="0" stopColor="#4a2110" />
+              <stop offset="0.4" stopColor="#35170f" />
+              <stop offset="1" stopColor="#260e07" />
             </linearGradient>
-
-            {/* Highlight glossy discreto logo abaixo da borda superior. */}
+            {/* Highlight glossy logo abaixo da borda superior. */}
             <linearGradient
-              id="choco-gloss"
+              id="ct-gloss"
               gradientUnits="userSpaceOnUse"
               x1="0"
-              y1="30"
+              y1="4"
               x2="0"
-              y2="78"
+              y2="34"
             >
-              <stop offset="0" stopColor="#8a5836" stopOpacity="0.42" />
-              <stop offset="1" stopColor="#8a5836" stopOpacity="0" />
+              <stop offset="0" stopColor="#9a6238" stopOpacity="0.5" />
+              <stop offset="1" stopColor="#9a6238" stopOpacity="0" />
             </linearGradient>
           </defs>
 
-          {/* ===== MASSA: topo levemente ondulado + base irregular ===== */}
+          {/* ===== MASSA: topo levemente ondulado, base irregular ===== */}
           <path
-            fill="url(#choco-body)"
-            d="M0,38
-               C160,28 300,46 460,37
-               C620,28 760,47 920,37
-               C1080,28 1240,45 1440,37
-               L1440,150
-               C1300,150 1200,140 1060,148
-               C900,157 780,141 620,150
-               C460,159 320,143 160,150
-               C104,153 52,150 0,150
+            fill="url(#ct-body)"
+            d="M0,9
+               C200,3 380,15 560,8
+               C760,1 940,14 1120,7
+               C1260,2 1360,11 1440,8
+               L1440,60
+               C1320,66 1240,56 1120,62
+               C980,69 880,58 760,64
+               C620,71 500,59 380,65
+               C260,70 130,60 0,64
                Z"
           />
 
           {/* ===== HIGHLIGHT glossy sob a borda superior ===== */}
           <path
-            fill="url(#choco-gloss)"
-            d="M0,40
-               C160,30 300,48 460,39
-               C620,30 760,49 920,39
-               C1080,30 1240,47 1440,39
-               L1440,70
-               C1240,76 1080,62 920,69
-               C760,76 620,60 460,69
-               C300,76 160,62 0,70
+            fill="url(#ct-gloss)"
+            d="M0,11
+               C200,5 380,17 560,10
+               C760,3 940,16 1120,9
+               C1260,4 1360,13 1440,10
+               L1440,26
+               C1260,31 1080,20 900,26
+               C720,32 560,21 380,27
+               C240,31 120,23 0,27
                Z"
           />
 
-          {/* ===== GOTAS (teardrops com pontas arredondadas) =====
-              Tamanhos variados; as pequenas somem no mobile (hidden sm:block)
-              para reduzir a quantidade e a densidade em telas estreitas. */}
-          {/* grande */}
+          {/* ===== GOTAS — apenas 4, tamanhos e posições irregulares =====
+              A: grande e longa | B: média | C: minúscula (quase some) | D: média-longa
+              Posições NÃO uniformes (235, 615, 880, 1175). */}
           <path
-            fill="url(#choco-body)"
-            d="M132,146 C124,170 126,192 140,198 C154,192 156,170 148,146 Z"
+            fill="url(#ct-body)"
+            d="M223,62 C215,86 215,108 235,115 C255,108 255,86 247,62 Z"
           />
-          {/* pequena (só ≥ sm) */}
           <path
-            className="hidden sm:block"
-            fill="url(#choco-body)"
-            d="M295,147 C291,158 291,167 300,171 C309,167 309,158 305,147 Z"
+            fill="url(#ct-body)"
+            d="M606,63 C600,80 601,91 615,96 C629,91 630,80 624,63 Z"
           />
-          {/* média */}
           <path
-            fill="url(#choco-body)"
-            d="M514,147 C508,168 509,180 520,185 C531,180 532,168 526,147 Z"
+            fill="url(#ct-body)"
+            d="M874,62 C871,70 871,76 880,79 C889,76 889,70 886,62 Z"
           />
-          {/* grande */}
           <path
-            fill="url(#choco-body)"
-            d="M722,147 C714,171 716,193 730,199 C744,193 746,171 738,147 Z"
-          />
-          {/* pequena (só ≥ sm) */}
-          <path
-            className="hidden sm:block"
-            fill="url(#choco-body)"
-            d="M935,147 C931,158 931,167 940,172 C949,167 949,158 945,147 Z"
-          />
-          {/* média */}
-          <path
-            fill="url(#choco-body)"
-            d="M1114,147 C1108,168 1109,180 1120,186 C1131,180 1132,168 1126,147 Z"
-          />
-          {/* pequena (só ≥ sm) */}
-          <path
-            className="hidden sm:block"
-            fill="url(#choco-body)"
-            d="M1305,147 C1301,158 1301,167 1310,171 C1319,167 1319,158 1315,147 Z"
+            fill="url(#ct-body)"
+            d="M1165,62 C1157,84 1158,101 1175,108 C1192,101 1193,84 1185,62 Z"
           />
         </svg>
-
-        {/* ===== ASSINATURA: frase pequena e elegante dentro da massa ===== */}
-        <div className="absolute inset-x-0 top-[24%] flex justify-center px-6 sm:top-[28%]">
-          <span className="font-sans text-[0.58rem] uppercase tracking-[0.34em] text-accent-soft sm:text-[0.68rem]">
-            Feito para combinar.
-          </span>
-        </div>
       </motion.div>
     </div>
   );
