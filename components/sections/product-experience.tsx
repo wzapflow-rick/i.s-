@@ -60,6 +60,11 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
 
   const [active, setActive] = useState(0);
 
+  // Autoplay: a cena percorre os estados sozinha até o usuário assumir o
+  // controle (drag, roda, teclado ou clique na navegação).
+  const [autoplay, setAutoplay] = useState(true);
+  const stopAutoplay = useCallback(() => setAutoplay(false), []);
+
   // Índice ativo (mais próximo) → z-index, aria-current e leitura acessível.
   useMotionValueEvent(progress, "change", (v) => {
     const nearest = clamp(Math.round(v), 0, LAST);
@@ -95,12 +100,42 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
     [progress, prefersReduced],
   );
 
+  // ---- Autoplay: avança sozinho de estado em estado, em loop --------------
+  // Pausa quando a seção sai da viewport; para de vez na 1ª interação do
+  // usuário; desligado sob prefers-reduced-motion.
+  useEffect(() => {
+    if (prefersReduced || !autoplay) return;
+    const el = stageRef.current;
+    let visible = true;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+      },
+      { threshold: 0.4 },
+    );
+    if (el) io.observe(el);
+
+    const id = setInterval(() => {
+      if (!visible) return;
+      const cur = clamp(Math.round(progress.get()), 0, LAST);
+      const next = cur >= LAST ? 0 : cur + 1;
+      goTo(next);
+    }, 3400);
+
+    return () => {
+      clearInterval(id);
+      io.disconnect();
+    };
+  }, [prefersReduced, autoplay, goTo, progress]);
+
   // ---- Drag em tempo real (pointer) ---------------------------------------
   const drag = useRef({ active: false, startX: 0, startProgress: 0, travel: 520, moved: false });
 
   const onPointerDown = (e: React.PointerEvent) => {
     if (prefersReduced) return; // reduced-motion: só nav/teclado
     if ((e.target as HTMLElement).closest("[data-no-drag]")) return;
+    stopAutoplay();
     const width = stageRef.current?.getBoundingClientRect().width ?? 520;
     drag.current = {
       active: true,
@@ -136,6 +171,13 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
 
   // ---- Teclado ------------------------------------------------------------
   const onKeyDown = (e: React.KeyboardEvent) => {
+    if (
+      ["ArrowRight", "PageDown", "ArrowLeft", "PageUp", "Home", "End"].includes(
+        e.key,
+      )
+    ) {
+      stopAutoplay();
+    }
     if (e.key === "ArrowRight" || e.key === "PageDown") {
       e.preventDefault();
       goTo(active + 1);
@@ -161,6 +203,7 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
     const onWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) * 1.2) return;
       e.preventDefault();
+      stopAutoplay();
       const travel = Math.min(el.getBoundingClientRect().width, 560);
       let next = progress.get() + e.deltaX / travel;
       if (next < 0) next = next * 0.35;
@@ -177,7 +220,7 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
       el.removeEventListener("wheel", onWheel);
       if (snapTimer) clearTimeout(snapTimer);
     };
-  }, [prefersReduced, progress, goTo]);
+  }, [prefersReduced, progress, goTo, stopAutoplay]);
 
   const activeState = EXPERIENCE_STATES[active];
   const isPartner = activeState.kind === "partner";
@@ -353,7 +396,10 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
                 progress={progress}
                 cream={cream}
                 isActive={active === i}
-                onSelect={() => goTo(i)}
+                onSelect={() => {
+                  stopAutoplay();
+                  goTo(i);
+                }}
               />
             ))}
           </nav>
