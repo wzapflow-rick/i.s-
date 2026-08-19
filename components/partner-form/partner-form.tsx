@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { submitLead } from "@/app/actions/submit-lead";
+import { SITE_IMAGES } from "@/lib/site-images";
 import {
   OBJECTIVE_OPTIONS,
   SEGMENT_OPTIONS,
@@ -98,114 +100,154 @@ export function PartnerForm() {
   return (
     <section
       id="formulario"
-      className="scroll-mt-20 border-t border-border bg-background"
+      className="relative scroll-mt-20 overflow-hidden bg-[#0b0a09] text-[#f4efe4]"
     >
-      <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-20 sm:px-8 lg:grid-cols-12 lg:px-12 lg:py-28">
-        {/* Coluna editorial */}
-        <div className="lg:col-span-5">
-          <Reveal>
-            <p className="mb-6 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent">
-              A parceria
-            </p>
-            <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl lg:sticky lg:top-32">
-              Vamos começar pelo seu negócio.
-            </h2>
-            <p className="mt-8 max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:sticky lg:top-56">
-              Vamos entender onde a i.sí pode fazer sentido na sua operação.
-            </p>
-          </Reveal>
-        </div>
+      {/* Fotografia cinematográfica — sangra na borda direita (desktop).
+          Funde-se ao preto pela esquerda, sem parecer um card. */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] lg:block">
+        <Image
+          src={SITE_IMAGES.hero.src}
+          alt={SITE_IMAGES.hero.alt}
+          fill
+          sizes="46vw"
+          className="object-cover"
+          style={{ objectPosition: "center 45%" }}
+        />
+        {/* fade horizontal forte — mantém a esquerda da faixa quase preta
+            (para o formulário respirar) e revela a foto só no terço direito */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to right, #0b0a09 0%, #0b0a09 52%, rgba(11,10,9,0.55) 74%, rgba(11,10,9,0) 100%)",
+          }}
+        />
+        {/* vinheta vertical sutil — profundidade */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b0a09]/70 via-transparent to-[#0b0a09]/25" />
+      </div>
 
-        {/* Formulário */}
-        <div className="lg:col-span-7">
-          <div className="rounded-lg border border-border bg-card p-6 sm:p-8">
-            {/* Progresso editorial — discreto: 01 / 06 + barra fina */}
-            <div className="mb-7">
-              <div className="mb-2.5 flex items-baseline gap-2 font-sans text-[0.72rem] tabular-nums tracking-wide-editorial">
-                <span className="text-accent">
-                  {String(step + 1).padStart(2, "0")}
-                </span>
-                <span className="text-muted-foreground/40">/</span>
-                <span className="text-muted-foreground/50">
-                  {String(TOTAL).padStart(2, "0")}
-                </span>
-              </div>
-              <div className="h-px w-full bg-border">
-                <motion.div
-                  className="h-px bg-accent"
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                />
-              </div>
-            </div>
-
-            <h3 className="mb-7 font-serif text-2xl tracking-tight text-foreground sm:text-[1.75rem]">
-              {STEP_META[step].title}
-            </h3>
-
-            <div className="relative overflow-hidden">
-              <AnimatePresence mode="wait" custom={dir}>
-                <motion.div
-                  key={step}
-                  custom={dir}
-                  initial={{ opacity: 0, x: dir * 40 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: dir * -40 }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <StepFields step={step} data={data} errors={errors} set={set} />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {submitError && (
-              <p role="alert" className="mt-6 rounded-md bg-acai/10 px-4 py-3 font-sans text-sm text-acai">
-                {submitError}
+      <div className="relative mx-auto max-w-[1400px] px-5 py-24 sm:px-8 lg:px-12 lg:py-32">
+        <div className="grid items-start gap-x-14 gap-y-12 lg:grid-cols-12">
+          {/* ESQUERDA — editorial. A headline é o maior elemento. */}
+          <div className="lg:col-span-5">
+            <Reveal>
+              <p className="mb-7 font-sans text-[0.68rem] uppercase tracking-eyebrow text-[color:var(--accent-soft)]">
+                A parceria
               </p>
-            )}
+              <h2 className="font-serif text-[2.75rem] leading-[1.02] tracking-tight text-balance text-[#f7f2e8] sm:text-6xl lg:text-[4rem]">
+                Vamos descobrir a combinação perfeita para o seu negócio?
+              </h2>
+              <p className="mt-8 max-w-sm font-sans text-base leading-relaxed text-[#f4efe4]/55">
+                Conte um pouco sobre a sua operação. A gente quer entender onde a
+                i.sí pode fazer sentido para você.
+              </p>
+            </Reveal>
+          </div>
 
-            {/* Navegação */}
-            <div className="mt-9 flex items-center justify-between gap-4">
-              <button
-                type="button"
-                onClick={goBack}
-                disabled={step === 0 || loading}
-                className="font-sans text-[0.7rem] uppercase tracking-wide-editorial text-muted-foreground transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-0"
-              >
-                ← Voltar
-              </button>
+          {/* Fotografia no mobile — entre o texto e o formulário, com impacto. */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg lg:hidden">
+            <Image
+              src={SITE_IMAGES.hero.src}
+              alt={SITE_IMAGES.hero.alt}
+              fill
+              sizes="100vw"
+              className="object-cover"
+              style={{ objectPosition: "center 45%" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0b0a09]/55 via-transparent to-transparent" />
+          </div>
 
-              <button
-                type="button"
-                onClick={goNext}
-                disabled={loading}
-                className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-7 py-3.5 font-sans text-[0.72rem] tracking-wide-editorial text-ink-foreground transition-colors hover:bg-foreground disabled:opacity-70"
-              >
-                {loading ? (
-                  <>
-                    <span className="size-3.5 animate-spin rounded-full border-[1.5px] border-ink-foreground/40 border-t-ink-foreground" />
-                    Enviando
-                  </>
-                ) : step === TOTAL - 1 ? (
-                  <>
-                    Quero conversar com a i.sí
-                    <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
-                  </>
-                ) : (
-                  <>
-                    Vamos continuar
-                    <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
-                  </>
-                )}
-              </button>
-            </div>
+          {/* CENTRO — formulário compacto, integrado (sem card). */}
+          <div className="lg:col-span-4 lg:col-start-6">
+            <Reveal delay={0.1}>
+              {/* Progresso discreto: 01 / 06 + linha fina */}
+              <div className="mb-6">
+                <div className="mb-2 flex items-baseline gap-1.5 font-sans text-[0.7rem] tabular-nums tracking-wide-editorial">
+                  <span className="text-[color:var(--accent-soft)]">
+                    {String(step + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-[#f4efe4]/30">/</span>
+                  <span className="text-[#f4efe4]/40">
+                    {String(TOTAL).padStart(2, "0")}
+                  </span>
+                </div>
+                <div className="h-px w-full bg-[#f4efe4]/12">
+                  <motion.div
+                    className="h-px bg-[color:var(--accent-soft)]"
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </div>
+              </div>
 
-            {/* Microcopy discreta */}
-            <p className="mt-5 text-right font-sans text-[0.72rem] leading-relaxed text-muted-foreground/50">
-              {step === TOTAL - 1
-                ? "Seus dados serão usados apenas para contato comercial."
-                : "Leva menos de 2 minutos."}
-            </p>
+              <h3 className="mb-6 font-serif text-xl tracking-tight text-[#f7f2e8] sm:text-2xl">
+                {STEP_META[step].title}
+              </h3>
+
+              <div className="relative overflow-hidden">
+                <AnimatePresence mode="wait" custom={dir}>
+                  <motion.div
+                    key={step}
+                    custom={dir}
+                    initial={{ opacity: 0, x: dir * 40 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: dir * -40 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <StepFields step={step} data={data} errors={errors} set={set} />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {submitError && (
+                <p role="alert" className="mt-6 rounded-md bg-[#e2a5a0]/10 px-4 py-3 font-sans text-sm text-[#e2a5a0]">
+                  {submitError}
+                </p>
+              )}
+
+              {/* Navegação */}
+              <div className="mt-8 flex items-center justify-between gap-4">
+                <button
+                  type="button"
+                  onClick={goBack}
+                  disabled={step === 0 || loading}
+                  className="font-sans text-[0.7rem] uppercase tracking-wide-editorial text-[#f4efe4]/45 transition-colors hover:text-[#f4efe4] disabled:pointer-events-none disabled:opacity-0"
+                >
+                  ← Voltar
+                </button>
+
+                <button
+                  type="button"
+                  onClick={goNext}
+                  disabled={loading}
+                  className="group inline-flex items-center gap-2.5 whitespace-nowrap rounded-full bg-[#f4efe4] px-7 py-3.5 font-sans text-[0.72rem] tracking-wide-editorial text-[#0b0a09] transition-colors hover:bg-white disabled:opacity-70"
+                >
+                  {loading ? (
+                    <>
+                      <span className="size-3.5 animate-spin rounded-full border-[1.5px] border-[#0b0a09]/30 border-t-[#0b0a09]" />
+                      Enviando
+                    </>
+                  ) : step === TOTAL - 1 ? (
+                    <>
+                      Quero conversar com a i.sí
+                      <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+                    </>
+                  ) : (
+                    <>
+                      Vamos continuar
+                      <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Microcopy discreta */}
+              <p className="mt-5 font-sans text-[0.72rem] leading-relaxed text-[#f4efe4]/40">
+                {step === TOTAL - 1
+                  ? "Seus dados serão usados apenas para contato comercial."
+                  : "Leva menos de 2 minutos."}
+              </p>
+            </Reveal>
           </div>
         </div>
       </div>

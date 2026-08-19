@@ -15,7 +15,7 @@ export function FieldLabel({
   return (
     <label
       htmlFor={htmlFor}
-      className="mb-2 block font-sans text-[0.68rem] uppercase tracking-wide-editorial text-muted-foreground"
+      className="mb-1.5 block font-sans text-[0.66rem] uppercase tracking-wide-editorial text-[#f4efe4]/45"
     >
       {children}
       {optional && <span className="ml-1 lowercase tracking-normal">(opcional)</span>}
@@ -26,16 +26,18 @@ export function FieldLabel({
 export function FieldError({ message }: { message?: string }) {
   if (!message) return null;
   return (
-    <p role="alert" className="mt-1.5 font-sans text-xs text-acai">
+    <p role="alert" className="mt-1.5 font-sans text-xs text-[#e2a5a0]">
       {message}
     </p>
   );
 }
 
+// Inputs em estilo "linha" — apenas borda inferior discreta sobre o fundo
+// escuro cinematográfico. Sem caixa/preenchimento.
 const inputBase =
-  "w-full rounded-md border bg-background px-4 py-3 font-sans text-sm text-foreground " +
-  "placeholder:text-muted-foreground/60 transition-colors duration-300 outline-none " +
-  "focus:border-accent focus:ring-1 focus:ring-accent";
+  "w-full border-0 border-b bg-transparent px-0 py-2.5 font-sans text-[0.95rem] text-[#f4efe4] " +
+  "placeholder:text-[#f4efe4]/25 transition-colors duration-300 outline-none " +
+  "focus:border-[color:var(--accent-soft)]";
 
 export function TextField({
   error,
@@ -44,7 +46,7 @@ export function TextField({
 }: ComponentProps<"input"> & { error?: string }) {
   return (
     <input
-      className={cn(inputBase, error ? "border-acai/60" : "border-border", className)}
+      className={cn(inputBase, error ? "border-[#e2a5a0]/70" : "border-[#f4efe4]/20", className)}
       aria-invalid={!!error}
       {...props}
     />
@@ -58,7 +60,12 @@ export function TextArea({
 }: ComponentProps<"textarea"> & { error?: string }) {
   return (
     <textarea
-      className={cn(inputBase, "min-h-32 resize-none", error ? "border-acai/60" : "border-border", className)}
+      className={cn(
+        "w-full resize-none rounded-md border bg-transparent px-4 py-3 font-sans text-[0.95rem] text-[#f4efe4] min-h-28 " +
+          "placeholder:text-[#f4efe4]/25 transition-colors duration-300 outline-none focus:border-[color:var(--accent-soft)]",
+        error ? "border-[#e2a5a0]/70" : "border-[#f4efe4]/20",
+        className,
+      )}
       aria-invalid={!!error}
       {...props}
     />
@@ -97,21 +104,21 @@ export function OptionGrid({
             className={cn(
               "flex items-center gap-3 rounded-md border px-4 py-3.5 text-left font-sans text-sm transition-all duration-300",
               selected
-                ? "border-accent bg-accent/[0.07] text-foreground"
-                : "border-border bg-background text-muted-foreground hover:border-line hover:text-foreground",
+                ? "border-[color:var(--accent-soft)] bg-[#f4efe4]/[0.05] text-[#f4efe4]"
+                : "border-[#f4efe4]/15 bg-transparent text-[#f4efe4]/60 hover:border-[#f4efe4]/35 hover:text-[#f4efe4]",
             )}
           >
             <span
               aria-hidden="true"
               className={cn(
                 "flex size-4 shrink-0 items-center justify-center rounded-full border transition-colors",
-                selected ? "border-accent" : "border-line",
+                selected ? "border-[color:var(--accent-soft)]" : "border-[#f4efe4]/30",
               )}
             >
               <span
                 className={cn(
                   "size-2 rounded-full transition-transform duration-300",
-                  selected ? "scale-100 bg-accent" : "scale-0 bg-transparent",
+                  selected ? "scale-100 bg-[color:var(--accent-soft)]" : "scale-0 bg-transparent",
                 )}
               />
             </span>
