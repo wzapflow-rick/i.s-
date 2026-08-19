@@ -114,8 +114,10 @@ export function PartnerForm() {
           style={{
             objectPosition: "center 45%",
             // Tratamento gastronômico premium: dessatura o excesso de quente,
-            // aprofunda os pretos e reforça o contraste — sem filtro marrom.
-            filter: "saturate(0.82) contrast(1.14) brightness(0.92)",
+            // esfria levemente os tons, aprofunda os pretos e reforça o
+            // contraste — mantém real e apetitoso, sem filtro marrom.
+            filter:
+              "saturate(0.72) contrast(1.18) brightness(0.9) hue-rotate(-8deg)",
           }}
         />
         {/* fade horizontal forte — mantém a esquerda da faixa quase preta
@@ -159,7 +161,8 @@ export function PartnerForm() {
               className="object-cover"
               style={{
                 objectPosition: "center 45%",
-                filter: "saturate(0.82) contrast(1.14) brightness(0.92)",
+                filter:
+                  "saturate(0.72) contrast(1.18) brightness(0.9) hue-rotate(-8deg)",
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0b0a09]/55 via-transparent to-transparent" />
@@ -250,7 +253,7 @@ export function PartnerForm() {
               </div>
 
               {/* Microcopy discreta */}
-              <p className="mt-5 font-sans text-[0.72rem] leading-relaxed text-[#f4efe4]/40">
+              <p className="mt-5 font-sans text-[0.72rem] leading-relaxed text-[#f4efe4]/55">
                 {step === TOTAL - 1
                   ? "Seus dados serão usados apenas para contato comercial."
                   : "Leva menos de 2 minutos."}

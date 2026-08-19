@@ -36,7 +36,7 @@ export function FieldError({ message }: { message?: string }) {
 // escuro cinematográfico. Sem caixa/preenchimento.
 const inputBase =
   "w-full border-0 border-b bg-transparent px-0 py-2.5 font-sans text-[0.95rem] text-[#f8f4ea] " +
-  "placeholder:text-[#f4efe4]/40 transition-colors duration-300 outline-none " +
+  "placeholder:text-[#f4efe4]/55 transition-colors duration-300 outline-none " +
   "focus:border-[color:var(--accent-soft)]";
 
 export function TextField({
@@ -62,7 +62,7 @@ export function TextArea({
     <textarea
       className={cn(
         "w-full resize-none rounded-md border bg-transparent px-4 py-3 font-sans text-[0.95rem] text-[#f8f4ea] min-h-28 " +
-          "placeholder:text-[#f4efe4]/40 transition-colors duration-300 outline-none focus:border-[color:var(--accent-soft)]",
+          "placeholder:text-[#f4efe4]/55 transition-colors duration-300 outline-none focus:border-[color:var(--accent-soft)]",
         error ? "border-[#e2a5a0]/70" : "border-[#f4efe4]/35",
         className,
       )}
