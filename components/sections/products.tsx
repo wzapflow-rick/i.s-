@@ -1,53 +1,61 @@
 "use client";
 
 import Image from "next/image";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "motion/react";
-import type { PointerEvent } from "react";
+import { motion } from "motion/react";
 import { GELATO_FORMATS, type GelatoFormat } from "@/lib/products";
 import { Reveal } from "@/components/ui/reveal";
 import { SplitWords } from "@/components/ui/split-words";
-import { ImageReveal } from "@/components/ui/image-reveal";
 
 /**
- * SEÇÃO 04 — PRODUTOS
- * Foco no produto confirmado: gelato artesanal 100% leite integral,
- * priorizando os formatos de 5L e 10L. Arquitetura pronta para novas
- * categorias, sem inventar linhas não confirmadas.
+ * SEÇÃO 04 — PRODUTOS ("Dois formatos")
+ * Bloco escuro e editorial: título à esquerda, duas embalagens reais
+ * (pote 5L branco e 10L preto) apresentadas como produto sobre o fundo
+ * escuro. Foco no que está confirmado — gelato artesanal 100% leite
+ * integral, nos formatos 5L e 10L.
  */
 export function Products() {
   return (
-    <section id="produtos" className="border-t border-border bg-surface">
+    <section
+      id="produtos"
+      className="bg-ink text-ink-foreground"
+    >
       <div className="mx-auto max-w-[1400px] px-5 py-24 sm:px-8 lg:px-12 lg:py-36">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-20">
+          {/* ===== Coluna editorial ===== */}
           <div>
             <Reveal>
-              <p className="mb-6 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent">
+              <p className="mb-6 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent-soft">
                 O produto
               </p>
             </Reveal>
-            <SplitWords
-              as="h2"
-              text="Feito para entrar na sua operação."
-              className="block max-w-xl font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl"
-            />
+            <h2 className="font-serif text-4xl leading-[1.04] tracking-tight text-balance sm:text-5xl">
+              <SplitWords as="span" text="Dois formatos." className="block" />
+              <SplitWords
+                as="span"
+                text="O mesmo padrão de excelência."
+                className="mt-1 block text-ink-foreground/80"
+                delay={0.18}
+              />
+            </h2>
+            <Reveal delay={0.25}>
+              <p className="mt-7 max-w-sm font-sans text-base leading-relaxed text-ink-foreground/60">
+                Escolha o que faz mais sentido para o ritmo do seu negócio.
+              </p>
+            </Reveal>
+            <Reveal delay={0.35}>
+              <p className="mt-10 flex items-center gap-3 font-sans text-[0.66rem] uppercase tracking-wide-editorial text-ink-foreground/45">
+                <MilkDrop />
+                Produzido com 100% leite integral
+              </p>
+            </Reveal>
           </div>
-          <Reveal delay={0.1}>
-            <p className="max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:pb-2">
-              Gelato artesanal produzido com 100% leite integral, com formatos
-              pensados para diferentes ritmos de venda.
-            </p>
-          </Reveal>
-        </div>
 
-        <div className="mt-16 grid gap-6 lg:grid-cols-2">
-          {GELATO_FORMATS.map((format, i) => (
-            <ProductCard key={format.slug} format={format} index={i} />
-          ))}
+          {/* ===== Vitrine de embalagens ===== */}
+          <div className="grid grid-cols-2 gap-6 sm:gap-10">
+            {GELATO_FORMATS.map((format, i) => (
+              <ProductStage key={format.slug} format={format} index={i} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -55,102 +63,78 @@ export function Products() {
 }
 
 /**
- * Card de produto com micro-parallax: a foto acompanha sutilmente o ponteiro
- * e o card ganha um leve tilt 3D. Molas suaves mantêm tudo premium, não brusco.
+ * Embalagem apresentada como produto: a foto flutua no fundo escuro
+ * (uma vinheta radial funde a borda da imagem na cor da seção), e abaixo
+ * ficam o formato e a descrição, em ritmo editorial.
  */
-function ProductCard({ format, index }: { format: GelatoFormat; index: number }) {
-  // -0.5..0.5 relativo ao centro do card
-  const px = useMotionValue(0);
-  const py = useMotionValue(0);
-  const sx = useSpring(px, { stiffness: 150, damping: 20, mass: 0.4 });
-  const sy = useSpring(py, { stiffness: 150, damping: 20, mass: 0.4 });
-
-  const imgX = useTransform(sx, [-0.5, 0.5], ["-14px", "14px"]);
-  const imgY = useTransform(sy, [-0.5, 0.5], ["-14px", "14px"]);
-  const rotateY = useTransform(sx, [-0.5, 0.5], ["-2.5deg", "2.5deg"]);
-  const rotateX = useTransform(sy, [-0.5, 0.5], ["2.5deg", "-2.5deg"]);
-
-  function handleMove(e: PointerEvent<HTMLElement>) {
-    // Só reagimos a ponteiro fino (mouse); toque não dispara o tilt.
-    if (e.pointerType === "touch") return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    px.set((e.clientX - rect.left) / rect.width - 0.5);
-    py.set((e.clientY - rect.top) / rect.height - 0.5);
-  }
-
-  function reset() {
-    px.set(0);
-    py.set(0);
-  }
-
+function ProductStage({
+  format,
+  index,
+}: {
+  format: GelatoFormat;
+  index: number;
+}) {
   return (
-    <Reveal delay={index * 0.1}>
-      <motion.article
-        onPointerMove={handleMove}
-        onPointerLeave={reset}
-        whileHover={{ y: -6 }}
-        transition={{ type: "spring", stiffness: 200, damping: 22 }}
-        style={{ rotateX, rotateY, transformPerspective: 1000 }}
-        className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-[border-color,box-shadow] duration-500 hover:border-accent-soft hover:shadow-[0_24px_60px_-32px_rgba(28,24,21,0.4)]"
-      >
-        <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/10]">
-          <ImageReveal className="absolute inset-0">
-            {/* Camada de micro-parallax: acompanha sutilmente o ponteiro.
-                inset negativo dá folga para o deslocamento sem revelar bordas. */}
-            <motion.div
-              style={{ x: imgX, y: imgY }}
-              className="absolute inset-[-7%]"
-            >
-              <Image
-                src={format.image.src}
-                alt={format.image.alt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-[1.06]"
-                style={{ objectPosition: format.image.objectPosition }}
-              />
-            </motion.div>
-          </ImageReveal>
-          <motion.span
-            className="absolute right-5 top-5 z-10 flex size-16 items-center justify-center rounded-full bg-background/90 font-serif text-xl tracking-tight text-foreground backdrop-blur-sm transition-colors duration-500 group-hover:bg-accent group-hover:text-background"
-            whileHover={{ rotate: -6 }}
-          >
-            {format.size}
-          </motion.span>
-          {format.image.placeholder && (
-            <span className="absolute left-5 top-5 z-10 rounded-full bg-background/80 px-3 py-1 font-sans text-[0.56rem] uppercase tracking-eyebrow text-muted-foreground backdrop-blur-sm">
-              Foto ilustrativa
+    <Reveal delay={index * 0.12}>
+      <div className="group flex flex-col">
+        <motion.div
+          className="relative aspect-square overflow-hidden"
+          whileHover={{ y: -8 }}
+          transition={{ type: "spring", stiffness: 180, damping: 20 }}
+        >
+          <Image
+            src={format.image.src}
+            alt={format.image.alt}
+            fill
+            sizes="(max-width: 1024px) 45vw, 32vw"
+            className="object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-[1.05]"
+            style={{ objectPosition: format.image.objectPosition }}
+          />
+          {/* Vinheta: funde as bordas da foto no fundo escuro da seção,
+              para o pote parecer flutuar (sem retângulo aparente). */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 68% 66% at 50% 47%, transparent 52%, var(--ink) 100%)",
+            }}
+          />
+        </motion.div>
+
+        <div className="mt-5 border-t border-ink-foreground/12 pt-5">
+          <div className="flex items-baseline justify-between gap-3">
+            <h3 className="font-serif text-4xl leading-none tracking-tight">
+              {format.size}
+            </h3>
+            <span className="hidden font-sans text-[0.58rem] uppercase tracking-eyebrow text-accent-soft sm:inline">
+              {format.bestFor.split(".")[0]}
             </span>
-          )}
-        </div>
-        <div className="flex flex-1 flex-col p-8">
-          <h3 className="font-serif text-3xl tracking-tight text-foreground">
-            {format.name}
-          </h3>
-          <p className="mt-3 font-sans text-sm leading-relaxed text-muted-foreground">
+          </div>
+          <p className="mt-4 font-sans text-sm leading-relaxed text-ink-foreground/55">
             {format.description}
           </p>
-          <div className="mt-8 flex items-center justify-between border-t border-border pt-6">
-            <div>
-              <p className="font-sans text-[0.6rem] uppercase tracking-eyebrow text-muted-foreground">
-                Ideal para
-              </p>
-              <p className="mt-1 font-sans text-sm text-foreground">
-                {format.bestFor}
-              </p>
-            </div>
-            <a
-              href="#formulario"
-              className="flex items-center gap-2 font-sans text-[0.7rem] uppercase tracking-wide-editorial text-accent"
-            >
-              Quero este formato
-              <span className="transition-transform duration-500 group-hover:translate-x-1">
-                →
-              </span>
-            </a>
-          </div>
         </div>
-      </motion.article>
+      </div>
     </Reveal>
+  );
+}
+
+/** Gota de leite — ícone minimalista para o selo "100% leite integral". */
+function MilkDrop() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 3s6 6.6 6 11a6 6 0 0 1-12 0c0-4.4 6-11 6-11Z" />
+    </svg>
   );
 }

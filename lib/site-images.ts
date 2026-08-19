@@ -63,24 +63,24 @@ export const SITE_IMAGES = {
    * Caixa real i.sí cheia de gelato de chocolate com pérolas.
    */
   gelato5L: {
-    src: "/images/chocolate-box.png",
-    alt: "Caixa i.sí de gelato de chocolate com pérolas, ao lado de chantilly e colher",
-    ratio: "16:10 (paisagem)",
-    note: "Produto no formato real de venda — a caixa i.sí servida.",
-    objectPosition: "center 40%",
+    src: "/images/tub-5l.png",
+    alt: "Pote i.sí de gelato artesanal no formato de 5 litros, embalagem branca com logo dourado",
+    ratio: "1:1 (produto)",
+    note: "Embalagem real de 5L — pote branco com a marca i.sí em dourado, sobre fundo escuro.",
+    objectPosition: "center 50%",
     placeholder: false,
   },
 
   /**
-   * VARIEDADE / COMBINAÇÃO / DIFERENCIAL — caixa de 10 litros.
-   * Gelato de morango com calda vermelha em swirl.
+   * PRODUTO — pote de 10 litros.
+   * Embalagem preta i.sí, formato maior, para operações de alto giro.
    */
   gelato10L: {
-    src: "/images/strawberry-swirl.png",
-    alt: "Gelato de morango i.sí com calda vermelha sendo revolvida em swirl",
-    ratio: "16:10 (paisagem)",
-    note: "Variedade de sabores e a combinação de calda — mostra o diferencial.",
-    objectPosition: "center 38%",
+    src: "/images/tub-10l.png",
+    alt: "Pote i.sí de gelato artesanal no formato de 10 litros, embalagem preta com logo dourado",
+    ratio: "1:1 (produto)",
+    note: "Embalagem real de 10L — pote preto com a marca i.sí em dourado, sobre fundo escuro.",
+    objectPosition: "center 50%",
     placeholder: false,
   },
 } satisfies Record<string, SiteImage>;
