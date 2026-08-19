@@ -32,14 +32,14 @@ export function Products() {
             </Reveal>
             <SplitWords
               as="h2"
-              text="Um gelato feito para vender experiência."
+              text="Feito para entrar na sua operação."
               className="block max-w-xl font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl"
             />
           </div>
           <Reveal delay={0.1}>
             <p className="max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:pb-2">
-              Gelato artesanal produzido com 100% leite integral, disponível em
-              formatos pensados para diferentes níveis de operação.
+              Gelato artesanal produzido com 100% leite integral, com formatos
+              pensados para diferentes ritmos de venda.
             </p>
           </Reveal>
         </div>

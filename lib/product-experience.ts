@@ -54,7 +54,7 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     name: "Chocolate",
     navLabel: "Chocolate",
     wordmark: "CHOCOLATE",
-    description: "Intenso, cremoso e marcante.",
+    description: "Intenso, cremoso, marcante.",
     mood: "INTENSO",
     kind: "flavor",
     image: {
@@ -71,7 +71,7 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     name: "Morango",
     navLabel: "Morango",
     wordmark: "MORANGO",
-    description: "Vivo, delicado e fresco.",
+    description: "Fresco, doce, envolvente.",
     mood: "FRESCO",
     kind: "flavor",
     image: {
@@ -88,7 +88,7 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     name: "Pistache",
     navLabel: "Pistache",
     wordmark: "PISTACHE",
-    description: "Elegante e aveludado.",
+    description: "Elegante, equilibrado, surpreendente.",
     mood: "ELEGANTE",
     kind: "flavor",
     image: {
@@ -105,7 +105,7 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     name: "Mais sabores",
     navLabel: "Mais sabores",
     wordmark: "PORTFÓLIO",
-    description: "Novas possibilidades, sempre com critério.",
+    description: "Porque três nunca seriam suficientes.",
     mood: "SURPREENDENTE",
     kind: "flavor",
     // Sem foto real ainda → placeholder elegante configurável.
@@ -119,7 +119,7 @@ export const EXPERIENCE_STATES: ExperienceState[] = [
     name: "Seu negócio",
     navLabel: "Seu negócio",
     wordmark: "PARCERIA",
-    description: "E com o seu negócio?",
+    description: "Aqui começa a parte mais interessante.",
     mood: "PARCERIA",
     kind: "partner",
     image: null,

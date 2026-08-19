@@ -8,15 +8,16 @@ import { SITE_IMAGES } from "@/lib/site-images";
 const PILLARS = [
   {
     label: "100% leite integral",
-    detail: "Corpo, textura e cremosidade como base.",
+    detail: "Uma base que entrega corpo, textura e cremosidade.",
   },
   {
     label: "Produção artesanal",
-    detail: "Cuidado em cada etapa, do preparo ao produto final.",
+    detail: "Cuidado no processo e atenção ao resultado.",
   },
   {
-    label: "Qualidade que aparece",
-    detail: "Porque um bom produto não precisa se explicar.",
+    label: "Qualidade consistente",
+    detail:
+      "Porque o cliente precisa gostar da primeira vez. E da próxima também.",
   },
 ];
 
@@ -52,7 +53,7 @@ export function Quality() {
         </Reveal>
         <SplitWords
           as="h2"
-          text="Não é só gelato. É o que você coloca na experiência do seu cliente."
+          text="O que faz um bom gelato aparecer na experiência?"
           className="block max-w-3xl font-serif text-4xl leading-[1.06] tracking-tight text-balance sm:text-5xl lg:text-6xl"
         />
 

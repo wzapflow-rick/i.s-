@@ -16,8 +16,8 @@ export function SiteFooter() {
           <div className="flex flex-col gap-3">
             <Logo tone="cream" showTagline className="items-start text-4xl" />
             <p className="max-w-sm text-pretty font-sans text-sm leading-relaxed text-ink-foreground/60">
-              Sabores que despertam novas descobertas. Uma marca premium para
-              negócios que querem crescer com experiências memoráveis.
+              Gelato artesanal para negócios que gostam de criar novas
+              possibilidades.
             </p>
           </div>
 

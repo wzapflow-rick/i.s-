@@ -23,8 +23,8 @@ export const GELATO_FORMATS: GelatoFormat[] = [
     name: "Caixa de 5 litros",
     short: "O formato certo para vitrines enxutas e curadas.",
     description:
-      "Para operações que querem construir seu mix com variedade, controle e espaço para descobrir os sabores que mais giram.",
-    bestFor: "Variedade e giro controlado",
+      "Para quem quer explorar sabores, testar combinações e construir o mix com mais liberdade.",
+    bestFor: "Mais variedade. Mais possibilidades.",
     image: SITE_IMAGES.gelato5L,
   },
   {
@@ -33,8 +33,8 @@ export const GELATO_FORMATS: GelatoFormat[] = [
     name: "Caixa de 10 litros",
     short: "Para quem já tem giro e quer escalar com margem.",
     description:
-      "Para operações de maior giro que buscam eficiência e melhor aproveitamento por litro.",
-    bestFor: "Alto giro e eficiência",
+      "Para operações de maior giro que precisam de volume, eficiência e consistência.",
+    bestFor: "Mais escala. Mais eficiência.",
     image: SITE_IMAGES.gelato10L,
   },
 ];

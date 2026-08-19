@@ -108,11 +108,11 @@ export function PartnerForm() {
               A parceria
             </p>
             <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl lg:sticky lg:top-32">
-              Talvez seja hora de combinar.
+              Vamos começar pelo seu negócio.
             </h2>
             <p className="mt-8 max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:sticky lg:top-56">
-              Conte um pouco sobre o seu negócio. Vamos entender se existe uma
-              boa combinação entre a sua operação e a i.sí.
+              A gente conhece a sua operação, entende o que você procura e
+              descobre se existe uma boa combinação entre vocês.
             </p>
           </Reveal>
         </div>

@@ -276,10 +276,10 @@ export function ProductExperience({ asHero = false }: { asHero?: boolean } = {})
                 Experiência i.sí
               </p>
               <h2 className="mt-5 font-serif text-[1.9rem] leading-[1.02] tracking-tight text-balance text-[#efe9dd] sm:text-5xl lg:text-6xl">
-                Cada combinação cria uma experiência.
+                Cada combinação abre uma possibilidade.
               </h2>
               <p className="mt-4 font-sans text-sm text-[#efe9dd]/70 sm:text-base">
-                Descubra a próxima.
+                Nem todo sabor termina no pote.
               </p>
               <span className="mt-7 block h-px w-14 bg-[#efe9dd]/25" />
 

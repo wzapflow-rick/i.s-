@@ -15,8 +15,8 @@ import { CtaButton } from "@/components/ui/cta-button";
 const COMBOS = [
   // tint = tom que entra sutilmente no fundo a cada combinação
   { with: "Açaí", color: "text-acai", tint: "#5a3a6d" },
-  { with: "Gelato", color: "text-gelato", tint: "#7c8b5a" },
-  { with: "Café", color: "text-cafe", tint: "#6b4a32" },
+  { with: "Sobremesas", color: "text-gelato", tint: "#7c8b5a" },
+  { with: "Cafés", color: "text-cafe", tint: "#6b4a32" },
   // "Seu negócio" converge para o dourado da identidade i.sí
   { with: "Seu negócio", color: "text-accent", tint: "#b08d4f" },
 ];
@@ -150,7 +150,7 @@ export function CombinationExperience() {
               className="relative z-10 flex flex-col items-center text-center"
             >
               <p className="mb-10 font-sans text-[0.68rem] uppercase tracking-eyebrow text-ink-foreground/50">
-                Com o que a i.sí combina?
+                O gelato pode ocupar mais lugares do que você imagina.
               </p>
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
                 <span className="font-serif text-6xl tracking-tight sm:text-8xl">
@@ -182,11 +182,11 @@ export function CombinationExperience() {
               className="relative z-10 flex flex-col items-center text-center"
             >
               <h2 className="max-w-3xl font-serif text-5xl leading-[1.02] tracking-tight text-balance sm:text-7xl">
-                E com o seu negócio?
+                Talvez a próxima combinação seja a sua.
               </h2>
               <div className="mt-12">
                 <CtaButton href="#formulario" variant="inverse">
-                  Quero ser parceiro
+                  Quero conversar com a i.sí
                 </CtaButton>
               </div>
             </motion.div>
