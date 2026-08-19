@@ -21,12 +21,12 @@ import {
 } from "./fields";
 
 const STEP_META = [
-  { eyebrow: "Etapa 1 de 6", title: "Sobre você" },
-  { eyebrow: "Etapa 2 de 6", title: "Sobre a empresa" },
-  { eyebrow: "Etapa 3 de 6", title: "Seu negócio" },
-  { eyebrow: "Etapa 4 de 6", title: "Sua operação" },
-  { eyebrow: "Etapa 5 de 6", title: "O que você busca?" },
-  { eyebrow: "Etapa 6 de 6", title: "Motivação" },
+  { title: "Vamos começar pelo básico." },
+  { title: "Seu negócio." },
+  { title: "Sua operação." },
+  { title: "O que você procura." },
+  { title: "Seu momento." },
+  { title: "Vamos conversar." },
 ];
 
 const TOTAL = STEP_META.length;
@@ -100,7 +100,7 @@ export function PartnerForm() {
       id="formulario"
       className="scroll-mt-20 border-t border-border bg-background"
     >
-      <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-24 sm:px-8 lg:grid-cols-12 lg:px-12 lg:py-36">
+      <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-20 sm:px-8 lg:grid-cols-12 lg:px-12 lg:py-28">
         {/* Coluna editorial */}
         <div className="lg:col-span-5">
           <Reveal>
@@ -111,23 +111,23 @@ export function PartnerForm() {
               Vamos começar pelo seu negócio.
             </h2>
             <p className="mt-8 max-w-md font-sans text-base leading-relaxed text-muted-foreground lg:sticky lg:top-56">
-              A gente conhece a sua operação, entende o que você procura e
-              descobre se existe uma boa combinação entre vocês.
+              Vamos entender onde a i.sí pode fazer sentido na sua operação.
             </p>
           </Reveal>
         </div>
 
         {/* Formulário */}
         <div className="lg:col-span-7">
-          <div className="rounded-lg border border-border bg-card p-6 sm:p-10">
-            {/* Progresso */}
-            <div className="mb-8">
-              <div className="mb-3 flex items-center justify-between">
-                <span className="font-sans text-[0.66rem] uppercase tracking-wide-editorial text-accent">
-                  {STEP_META[step].eyebrow}
+          <div className="rounded-lg border border-border bg-card p-6 sm:p-8">
+            {/* Progresso editorial — discreto: 01 / 06 + barra fina */}
+            <div className="mb-7">
+              <div className="mb-2.5 flex items-baseline gap-2 font-sans text-[0.72rem] tabular-nums tracking-wide-editorial">
+                <span className="text-accent">
+                  {String(step + 1).padStart(2, "0")}
                 </span>
-                <span className="font-sans text-[0.66rem] tabular-nums text-muted-foreground">
-                  {Math.round(progress)}%
+                <span className="text-muted-foreground/40">/</span>
+                <span className="text-muted-foreground/50">
+                  {String(TOTAL).padStart(2, "0")}
                 </span>
               </div>
               <div className="h-px w-full bg-border">
@@ -139,7 +139,7 @@ export function PartnerForm() {
               </div>
             </div>
 
-            <h3 className="mb-8 font-serif text-2xl tracking-tight text-foreground sm:text-3xl">
+            <h3 className="mb-7 font-serif text-2xl tracking-tight text-foreground sm:text-[1.75rem]">
               {STEP_META[step].title}
             </h3>
 
@@ -165,7 +165,7 @@ export function PartnerForm() {
             )}
 
             {/* Navegação */}
-            <div className="mt-10 flex items-center justify-between gap-4">
+            <div className="mt-9 flex items-center justify-between gap-4">
               <button
                 type="button"
                 onClick={goBack}
@@ -179,7 +179,7 @@ export function PartnerForm() {
                 type="button"
                 onClick={goNext}
                 disabled={loading}
-                className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-7 py-3.5 font-sans text-[0.7rem] uppercase tracking-wide-editorial text-ink-foreground transition-colors hover:bg-foreground disabled:opacity-70"
+                className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-7 py-3.5 font-sans text-[0.72rem] tracking-wide-editorial text-ink-foreground transition-colors hover:bg-foreground disabled:opacity-70"
               >
                 {loading ? (
                   <>
@@ -188,17 +188,24 @@ export function PartnerForm() {
                   </>
                 ) : step === TOTAL - 1 ? (
                   <>
-                    Quero conhecer a parceria
+                    Quero conversar com a i.sí
                     <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
                   </>
                 ) : (
                   <>
-                    Continuar
+                    Vamos continuar
                     <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
                   </>
                 )}
               </button>
             </div>
+
+            {/* Microcopy discreta */}
+            <p className="mt-5 text-right font-sans text-[0.72rem] leading-relaxed text-muted-foreground/50">
+              {step === TOTAL - 1
+                ? "Seus dados serão usados apenas para contato comercial."
+                : "Leva menos de 2 minutos."}
+            </p>
           </div>
         </div>
       </div>
