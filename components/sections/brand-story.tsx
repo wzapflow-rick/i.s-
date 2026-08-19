@@ -32,7 +32,12 @@ export function BrandStory() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
-                style={{ objectPosition: "center 78%" }}
+                style={{
+                  objectPosition: "center 78%",
+                  // Reduz a temperatura/saturação quente sem virar filtro marrom:
+                  // dessatura levemente e esfria os tons, mantendo foto real.
+                  filter: "saturate(0.82) hue-rotate(-6deg) brightness(1.02)",
+                }}
               />
             </ImageReveal>
           </motion.div>
@@ -44,34 +49,43 @@ export function BrandStory() {
         </div>
 
         <div className="flex items-center px-5 py-24 sm:px-8 lg:px-16 lg:py-36">
-          <div>
+          <div className="max-w-md">
             <Reveal>
-              <p className="mb-6 font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent">
-                A marca
-              </p>
-              <h2 className="max-w-xl font-serif text-4xl leading-[1.08] tracking-tight text-balance sm:text-5xl">
+              {/* Detalhe editorial: numeração da seção + linha fina */}
+              <div className="mb-8 flex items-center gap-4">
+                <span className="font-sans text-[0.68rem] uppercase tracking-eyebrow text-accent">
+                  A marca
+                </span>
+                <span className="h-px flex-1 bg-foreground/12" aria-hidden />
+                <span className="font-sans text-[0.68rem] tracking-eyebrow text-muted-foreground/60">
+                  04
+                </span>
+              </div>
+              <h2 className="font-serif text-[2.5rem] leading-[1.05] tracking-tight text-balance text-foreground sm:text-5xl">
                 A i.sí nasceu para combinar.
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <div className="mt-8 max-w-xl space-y-5 font-sans text-base leading-relaxed text-muted-foreground">
+              <div className="mt-7 space-y-4 font-sans text-[0.95rem] leading-relaxed text-muted-foreground">
                 <p>
                   {/* Copy de posicionamento — sem narrativa de origem, anos ou
                       números. Ampliar apenas com fatos reais após briefing. */}
-                  Somos uma fabricante de gelato artesanal B2B, feita para
-                  trabalhar próxima de negócios que querem oferecer mais.
+                  A i.sí é uma fabricante de gelato artesanal B2B. Trabalhamos
+                  próximos de negócios que querem oferecer mais.
                 </p>
                 <p>
-                  Selecionamos nossos parceiros com critério e construímos
-                  relações próximas porque acreditamos que bons produtos merecem
-                  bons contextos para acontecer.
+                  Trabalhamos com poucos parceiros, escolhidos com critério.
+                  Porque proximidade também faz parte do nosso produto.
                 </p>
               </div>
             </Reveal>
             <Reveal delay={0.18}>
-              <p className="mt-8 font-serif text-xl italic text-foreground">
-                Poucos parceiros. Muito cuidado.
-              </p>
+              <div className="mt-9 flex items-center gap-4">
+                <span className="h-8 w-px bg-accent/50" aria-hidden />
+                <p className="font-serif text-2xl italic leading-snug text-foreground sm:text-[1.7rem]">
+                  Poucos parceiros. Muito cuidado.
+                </p>
+              </div>
             </Reveal>
           </div>
         </div>
