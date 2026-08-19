@@ -15,7 +15,7 @@ export function FieldLabel({
   return (
     <label
       htmlFor={htmlFor}
-      className="mb-1.5 block font-sans text-[0.66rem] uppercase tracking-wide-editorial text-[#f4efe4]/45"
+      className="mb-1.5 block font-sans text-[0.66rem] uppercase tracking-wide-editorial text-[#f4efe4]/70"
     >
       {children}
       {optional && <span className="ml-1 lowercase tracking-normal">(opcional)</span>}
@@ -35,8 +35,8 @@ export function FieldError({ message }: { message?: string }) {
 // Inputs em estilo "linha" — apenas borda inferior discreta sobre o fundo
 // escuro cinematográfico. Sem caixa/preenchimento.
 const inputBase =
-  "w-full border-0 border-b bg-transparent px-0 py-2.5 font-sans text-[0.95rem] text-[#f4efe4] " +
-  "placeholder:text-[#f4efe4]/25 transition-colors duration-300 outline-none " +
+  "w-full border-0 border-b bg-transparent px-0 py-2.5 font-sans text-[0.95rem] text-[#f8f4ea] " +
+  "placeholder:text-[#f4efe4]/40 transition-colors duration-300 outline-none " +
   "focus:border-[color:var(--accent-soft)]";
 
 export function TextField({
@@ -46,7 +46,7 @@ export function TextField({
 }: ComponentProps<"input"> & { error?: string }) {
   return (
     <input
-      className={cn(inputBase, error ? "border-[#e2a5a0]/70" : "border-[#f4efe4]/20", className)}
+      className={cn(inputBase, error ? "border-[#e2a5a0]/70" : "border-[#f4efe4]/35", className)}
       aria-invalid={!!error}
       {...props}
     />
@@ -61,9 +61,9 @@ export function TextArea({
   return (
     <textarea
       className={cn(
-        "w-full resize-none rounded-md border bg-transparent px-4 py-3 font-sans text-[0.95rem] text-[#f4efe4] min-h-28 " +
-          "placeholder:text-[#f4efe4]/25 transition-colors duration-300 outline-none focus:border-[color:var(--accent-soft)]",
-        error ? "border-[#e2a5a0]/70" : "border-[#f4efe4]/20",
+        "w-full resize-none rounded-md border bg-transparent px-4 py-3 font-sans text-[0.95rem] text-[#f8f4ea] min-h-28 " +
+          "placeholder:text-[#f4efe4]/40 transition-colors duration-300 outline-none focus:border-[color:var(--accent-soft)]",
+        error ? "border-[#e2a5a0]/70" : "border-[#f4efe4]/35",
         className,
       )}
       aria-invalid={!!error}

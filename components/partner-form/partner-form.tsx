@@ -111,7 +111,12 @@ export function PartnerForm() {
           fill
           sizes="46vw"
           className="object-cover"
-          style={{ objectPosition: "center 45%" }}
+          style={{
+            objectPosition: "center 45%",
+            // Tratamento gastronômico premium: dessatura o excesso de quente,
+            // aprofunda os pretos e reforça o contraste — sem filtro marrom.
+            filter: "saturate(0.82) contrast(1.14) brightness(0.92)",
+          }}
         />
         {/* fade horizontal forte — mantém a esquerda da faixa quase preta
             (para o formulário respirar) e revela a foto só no terço direito */}
@@ -134,7 +139,7 @@ export function PartnerForm() {
               <p className="mb-7 font-sans text-[0.68rem] uppercase tracking-eyebrow text-[color:var(--accent-soft)]">
                 A parceria
               </p>
-              <h2 className="font-serif text-[2.75rem] leading-[1.02] tracking-tight text-balance text-[#f7f2e8] sm:text-6xl lg:text-[4rem]">
+              <h2 className="max-w-[20ch] font-serif text-[2.1rem] leading-[1.08] tracking-tight text-pretty text-[#f7f2e8] sm:text-[2.35rem] lg:text-[2.5rem]">
                 Vamos descobrir a combinação perfeita para o seu negócio?
               </h2>
               <p className="mt-8 max-w-sm font-sans text-base leading-relaxed text-[#f4efe4]/55">
@@ -152,7 +157,10 @@ export function PartnerForm() {
               fill
               sizes="100vw"
               className="object-cover"
-              style={{ objectPosition: "center 45%" }}
+              style={{
+                objectPosition: "center 45%",
+                filter: "saturate(0.82) contrast(1.14) brightness(0.92)",
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0b0a09]/55 via-transparent to-transparent" />
           </div>
