@@ -3,6 +3,11 @@
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import type { ComponentProps } from "react";
+import NeonBorder from "@/components/ui/neon-border";
+
+// Dourado da identidade i.sí (--accent-soft) em hex, pois o NeonBorder
+// desenha em canvas/conic-gradient e só entende hex ou rgb(), não variáveis CSS.
+const NEON_COLOR = "#c9ad78";
 
 type Variant =
   | "primary"
@@ -21,10 +26,12 @@ type AnchorProps = Omit<
 interface CtaButtonProps extends AnchorProps {
   variant?: Variant;
   arrow?: boolean;
+  /** Ativa a borda animada "neon" ao redor do botão. */
+  neon?: boolean;
 }
 
 const base =
-  "group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full px-7 py-3.5 " +
+  "group relative inline-flex items-center justify-center gap-3 rounded-full px-7 py-3.5 " +
   "font-sans text-[0.7rem] uppercase tracking-wide-editorial font-medium " +
   "transition-colors duration-500 ease-out focus-visible:outline-none " +
   "focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 " +
@@ -58,6 +65,7 @@ const shine: Record<Variant, string> = {
 export function CtaButton({
   variant = "primary",
   arrow = true,
+  neon = true,
   className,
   children,
   ...props
@@ -69,15 +77,37 @@ export function CtaButton({
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
       {...props}
     >
-      {/* Brilho diagonal que passa sutilmente no hover */}
+      {/* Borda "neon" animada — camada sobreposta que percorre o perímetro.
+          Fica fora do recorte (o glow pode extravasar as bordas do botão). */}
+      {neon && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0"
+        >
+          <NeonBorder
+            color={NEON_COLOR}
+            rounded={100}
+            thickness={2}
+            borderSize={42}
+            glow={70}
+            speed={9}
+          />
+        </span>
+      )}
+
+      {/* Brilho diagonal que passa sutilmente no hover — recortado ao pill */}
       <span
         aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute inset-0 -translate-x-[130%] bg-gradient-to-r from-transparent to-transparent",
-          "transition-transform duration-700 ease-out group-hover:translate-x-[130%]",
-          shine[variant],
-        )}
-      />
+        className="pointer-events-none absolute inset-0 z-[1] overflow-hidden rounded-full"
+      >
+        <span
+          className={cn(
+            "absolute inset-0 -translate-x-[130%] bg-gradient-to-r from-transparent to-transparent",
+            "transition-transform duration-700 ease-out group-hover:translate-x-[130%]",
+            shine[variant],
+          )}
+        />
+      </span>
       <span className="relative z-10">{children}</span>
       {arrow && (
         <span
