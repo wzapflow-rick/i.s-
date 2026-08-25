@@ -102,7 +102,7 @@ export function OptionGrid({
             aria-checked={selected}
             onClick={() => onChange(opt.value)}
             className={cn(
-              "flex items-center gap-3 rounded-md border px-4 py-3.5 text-left font-sans text-sm transition-all duration-300",
+              "flex items-start gap-3 rounded-md border px-4 py-3.5 text-left font-sans text-sm leading-snug transition-all duration-300",
               selected
                 ? "border-[color:var(--accent-soft)] bg-[#f4efe4]/[0.05] text-[#f4efe4]"
                 : "border-[#f4efe4]/15 bg-transparent text-[#f4efe4]/60 hover:border-[#f4efe4]/35 hover:text-[#f4efe4]",
@@ -111,7 +111,7 @@ export function OptionGrid({
             <span
               aria-hidden="true"
               className={cn(
-                "flex size-4 shrink-0 items-center justify-center rounded-full border transition-colors",
+                "mt-px flex size-4 shrink-0 items-center justify-center rounded-full border transition-colors",
                 selected ? "border-[color:var(--accent-soft)]" : "border-[#f4efe4]/30",
               )}
             >
@@ -122,7 +122,7 @@ export function OptionGrid({
                 )}
               />
             </span>
-            {opt.label}
+            <span className="flex-1">{opt.label}</span>
           </button>
         );
       })}

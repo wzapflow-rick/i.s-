@@ -23,11 +23,12 @@ const iconProps = {
   "aria-hidden": true,
 };
 
-/** Gota — 100% leite integral. */
-function DropIcon() {
+/** Tendência de alta — alto rendimento. */
+function YieldIcon() {
   return (
     <svg {...iconProps}>
-      <path d="M12 3.5c3 4 5 6.4 5 9.2a5 5 0 0 1-10 0c0-2.8 2-5.2 5-9.2Z" />
+      <path d="M3.5 16.5 9 11l3.2 3.2L20.5 6" />
+      <path d="M15.5 6h5v5" />
     </svg>
   );
 }
@@ -67,9 +68,9 @@ function TargetIcon() {
 
 const PILLARS = [
   {
-    Icon: DropIcon,
-    label: "100% leite integral",
-    detail: "Uma base que entrega corpo, textura e cremosidade.",
+    Icon: YieldIcon,
+    label: "Alto rendimento",
+    detail: "Rende mais por balde e melhora o custo por porção da sua operação.",
   },
   {
     Icon: WhiskIcon,
