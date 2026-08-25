@@ -1,6 +1,7 @@
 "use server";
 
 import { calculateLeadScore } from "@/lib/leads/score";
+import { insertLead } from "@/lib/leads/repository";
 import type { Lead, LeadInput } from "@/lib/leads/types";
 import { validateStep } from "@/lib/leads/validation";
 
@@ -13,9 +14,8 @@ export interface SubmitLeadResult {
 /**
  * Recebe o lead do formulário público.
  *
- * V1: valida no servidor, calcula o score e devolve um recibo.
- * A persistência real (DB) e o encaminhamento comercial serão plugados aqui —
- * a estrutura já está pronta para um painel administrativo posterior.
+ * Valida no servidor, calcula o score, PERSISTE no Postgres e devolve um recibo.
+ * Os leads salvos ficam disponíveis no painel administrativo em /admin.
  */
 export async function submitLead(data: LeadInput): Promise<SubmitLeadResult> {
   // Revalida todas as etapas no servidor (nunca confiar só no cliente).
@@ -30,35 +30,29 @@ export async function submitLead(data: LeadInput): Promise<SubmitLeadResult> {
   }
 
   const score = calculateLeadScore(data);
+  const createdAt = new Date().toISOString();
 
-  const lead: Lead = {
-    ...data,
-    id: crypto.randomUUID(),
-    score,
-    status: "new",
-    createdAt: new Date().toISOString(),
-  };
+  try {
+    const id = await insertLead(data, score);
 
-  // TODO(persistência): salvar `lead` em um banco de dados e disparar
-  // a análise comercial. Nesta V1 apenas registramos no log do servidor.
-  console.log("[v0] Novo lead i.sí recebido:", {
-    id: lead.id,
-    company: lead.company,
-    operationModel: lead.operationModel,
-    score: lead.score,
-  });
+    console.log("[v0] Novo lead i.sí salvo:", {
+      id,
+      company: data.company,
+      operationModel: data.operationModel,
+      score,
+    });
 
-  // Simula latência de rede para uma transição de loading realista.
-  await new Promise((r) => setTimeout(r, 900));
-
-  return {
-    ok: true,
-    message: "Lead recebido com sucesso.",
-    lead: {
-      id: lead.id,
-      score: lead.score,
-      status: lead.status,
-      createdAt: lead.createdAt,
-    },
-  };
+    return {
+      ok: true,
+      message: "Lead recebido com sucesso.",
+      lead: { id, score, status: "new", createdAt },
+    };
+  } catch (error) {
+    console.error("[v0] Erro ao salvar lead:", error);
+    return {
+      ok: false,
+      message:
+        "Não foi possível registrar seu cadastro agora. Tente novamente em instantes.",
+    };
+  }
 }
