@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { GELATO_FORMATS, type GelatoFormat } from "@/lib/products";
 import { Reveal } from "@/components/ui/reveal";
 import { SplitWords } from "@/components/ui/split-words";
+import ScrollVelocity from "@/components/ui/scroll-velocity";
 
 /**
  * SEÇÃO 04 — PRODUTOS ("Dois formatos")
@@ -55,13 +56,25 @@ export function Products() {
           ))}
         </div>
 
-        {/* ===== Assinatura horizontal da seção ===== */}
+        {/* ===== Assinatura horizontal da seção (Sync Scroll) ===== */}
         <Reveal delay={0.2}>
-          <div className="mt-14 flex items-center justify-center gap-3 border-t border-white/10 pt-7 lg:mt-20">
-            <MilkDrop />
-            <p className="font-sans text-[0.68rem] uppercase tracking-wide-editorial text-[#8f8981]">
-              Produzido com 100% leite integral
-            </p>
+          <div className="mt-14 border-t border-white/10 pt-7 lg:mt-20">
+            <ScrollVelocity
+              words={["Produzido com 100% leite integral"]}
+              baseVelocity={22}
+              gap={28}
+              textColor="#8f8981"
+              className="h-6"
+              font={{
+                fontFamily: "inherit",
+                fontSize: "0.68rem",
+                fontWeight: 500,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                lineHeight: 1,
+              }}
+              separator
+            />
           </div>
         </Reveal>
       </div>
@@ -127,22 +140,3 @@ function ProductStage({
   );
 }
 
-/** Gota de leite — ícone minimalista para a assinatura "100% leite integral". */
-function MilkDrop() {
-  return (
-    <svg
-      width="13"
-      height="13"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="text-accent-soft"
-    >
-      <path d="M12 3s6 6.6 6 11a6 6 0 0 1-12 0c0-4.4 6-11 6-11Z" />
-    </svg>
-  );
-}
