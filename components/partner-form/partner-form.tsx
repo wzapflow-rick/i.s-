@@ -6,9 +6,20 @@ import { AnimatePresence, motion } from "motion/react";
 import { submitLead } from "@/app/actions/submit-lead";
 import { SITE_IMAGES } from "@/lib/site-images";
 import {
-  OBJECTIVE_OPTIONS,
-  SEGMENT_OPTIONS,
-  START_INTENT_OPTIONS,
+  SERVICE_TYPE_OPTIONS,
+  OPERATION_MODEL_OPTIONS,
+  POSITIONING_OPTIONS,
+  AUDIENCE_OPTIONS,
+  SUPPLIER_VALUE_OPTIONS,
+  MONTHLY_VOLUME_OPTIONS,
+  RESTOCK_OPTIONS,
+  PREMIUM_SPACE_OPTIONS,
+  PURCHASE_EXPECTATION_OPTIONS,
+  FIRST_PURCHASE_OPTIONS,
+  BRAND_STRATEGY_OPTIONS,
+  PAYMENT_OPTIONS,
+  INNOVATION_OPTIONS,
+  YES_NO_OPTIONS,
   type LeadInput,
 } from "@/lib/leads/types";
 import { EMPTY_LEAD, validateStep, type LeadErrors } from "@/lib/leads/validation";
@@ -24,12 +35,13 @@ import {
 } from "./fields";
 
 const STEP_META = [
-  { title: "Vamos começar pelo básico." },
-  { title: "Seu negócio." },
-  { title: "Sua operação." },
-  { title: "O que você procura." },
-  { title: "Seu momento." },
-  { title: "Vamos conversar." },
+  { title: "Sobre a empresa." },
+  { title: "Posicionamento da loja." },
+  { title: "Perfil de consumo." },
+  { title: "Estrutura e operação." },
+  { title: "Compra e potencial comercial." },
+  { title: "Perfil financeiro e comercial." },
+  { title: "Identificação do perfil i.sí." },
 ];
 
 const TOTAL = STEP_META.length;
@@ -258,7 +270,7 @@ export function PartnerForm() {
               <p className="mt-5 font-sans text-[0.72rem] leading-relaxed text-[#f4efe4]/55">
                 {step === TOTAL - 1
                   ? "Seus dados serão usados apenas para contato comercial."
-                  : "Leva menos de 2 minutos."}
+                  : "Suas respostas ajudam a i.sí a entender sua operação."}
               </p>
             </Reveal>
           </div>
@@ -280,54 +292,12 @@ function StepFields({
   set: <K extends keyof LeadInput>(key: K, value: LeadInput[K]) => void;
 }) {
   switch (step) {
+    // 1 — SOBRE A EMPRESA
     case 0:
       return (
         <div className="space-y-6">
           <div>
-            <FieldLabel htmlFor="name">Nome</FieldLabel>
-            <TextField
-              id="name"
-              value={data.name}
-              onChange={(e) => set("name", e.target.value)}
-              placeholder="Seu nome completo"
-              error={errors.name}
-              autoComplete="name"
-            />
-            <FieldError message={errors.name} />
-          </div>
-          <div>
-            <FieldLabel htmlFor="whatsapp">WhatsApp</FieldLabel>
-            <TextField
-              id="whatsapp"
-              value={data.whatsapp}
-              onChange={(e) => set("whatsapp", e.target.value)}
-              placeholder="(00) 00000-0000"
-              inputMode="tel"
-              error={errors.whatsapp}
-              autoComplete="tel"
-            />
-            <FieldError message={errors.whatsapp} />
-          </div>
-          <div>
-            <FieldLabel htmlFor="email">E-mail</FieldLabel>
-            <TextField
-              id="email"
-              type="email"
-              value={data.email}
-              onChange={(e) => set("email", e.target.value)}
-              placeholder="voce@empresa.com"
-              error={errors.email}
-              autoComplete="email"
-            />
-            <FieldError message={errors.email} />
-          </div>
-        </div>
-      );
-    case 1:
-      return (
-        <div className="space-y-6">
-          <div>
-            <FieldLabel htmlFor="company">Empresa</FieldLabel>
+            <FieldLabel htmlFor="company">Nome da empresa</FieldLabel>
             <TextField
               id="company"
               value={data.company}
@@ -338,60 +308,89 @@ function StepFields({
             />
             <FieldError message={errors.company} />
           </div>
+          <div>
+            <FieldLabel htmlFor="responsibleName">Nome do responsável</FieldLabel>
+            <TextField
+              id="responsibleName"
+              value={data.responsibleName}
+              onChange={(e) => set("responsibleName", e.target.value)}
+              placeholder="Quem responde pela operação"
+              error={errors.responsibleName}
+              autoComplete="name"
+            />
+            <FieldError message={errors.responsibleName} />
+          </div>
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
-              <FieldLabel htmlFor="city">Cidade</FieldLabel>
+              <FieldLabel htmlFor="whatsapp">Telefone / WhatsApp</FieldLabel>
               <TextField
-                id="city"
-                value={data.city}
-                onChange={(e) => set("city", e.target.value)}
-                placeholder="Cidade"
-                error={errors.city}
-                autoComplete="address-level2"
+                id="whatsapp"
+                value={data.whatsapp}
+                onChange={(e) => set("whatsapp", e.target.value)}
+                placeholder="(00) 00000-0000"
+                inputMode="tel"
+                error={errors.whatsapp}
+                autoComplete="tel"
               />
-              <FieldError message={errors.city} />
+              <FieldError message={errors.whatsapp} />
             </div>
             <div>
-              <FieldLabel htmlFor="state">Estado</FieldLabel>
+              <FieldLabel htmlFor="cityState">Cidade / Estado</FieldLabel>
               <TextField
-                id="state"
-                value={data.state}
-                onChange={(e) => set("state", e.target.value)}
-                placeholder="UF"
-                error={errors.state}
-                autoComplete="address-level1"
+                id="cityState"
+                value={data.cityState}
+                onChange={(e) => set("cityState", e.target.value)}
+                placeholder="Ex.: São Paulo / SP"
+                error={errors.cityState}
               />
-              <FieldError message={errors.state} />
+              <FieldError message={errors.cityState} />
             </div>
           </div>
           <div>
             <FieldLabel htmlFor="instagram" optional>
-              Instagram / site
+              Instagram da empresa
             </FieldLabel>
             <TextField
               id="instagram"
               value={data.instagram}
               onChange={(e) => set("instagram", e.target.value)}
-              placeholder="@seunegocio ou www.seunegocio.com"
+              placeholder="@seunegocio"
             />
           </div>
-        </div>
-      );
-    case 2:
-      return (
-        <div className="space-y-6">
           <div>
-            <FieldLabel htmlFor="segment">Segmento</FieldLabel>
+            <FieldLabel htmlFor="operationModel">Modelo da operação</FieldLabel>
             <OptionGrid
-              name="Segmento"
-              value={data.segment}
-              onChange={(v) => set("segment", v as LeadInput["segment"])}
-              options={SEGMENT_OPTIONS}
+              name="Modelo da operação"
+              value={data.operationModel}
+              onChange={(v) => set("operationModel", v)}
+              options={OPERATION_MODEL_OPTIONS}
+              columns={3}
+            />
+            <FieldError message={errors.operationModel} />
+          </div>
+          <div>
+            <FieldLabel htmlFor="serviceType">Tipo de operação da loja</FieldLabel>
+            <OptionGrid
+              name="Tipo de operação"
+              value={data.serviceType}
+              onChange={(v) => set("serviceType", v)}
+              options={SERVICE_TYPE_OPTIONS}
               columns={2}
             />
-            <FieldError message={errors.segment} />
+            <FieldError message={errors.serviceType} />
           </div>
           <div className="grid gap-6 sm:grid-cols-2">
+            <div>
+              <FieldLabel htmlFor="businessAge">Tempo de funcionamento</FieldLabel>
+              <TextField
+                id="businessAge"
+                value={data.businessAge}
+                onChange={(e) => set("businessAge", e.target.value)}
+                placeholder="Ex.: 2 anos"
+                error={errors.businessAge}
+              />
+              <FieldError message={errors.businessAge} />
+            </div>
             <div>
               <FieldLabel htmlFor="units">Número de unidades</FieldLabel>
               <TextField
@@ -404,118 +403,448 @@ function StepFields({
               />
               <FieldError message={errors.units} />
             </div>
-            <div>
-              <FieldLabel htmlFor="businessAge">Tempo de operação</FieldLabel>
-              <TextField
-                id="businessAge"
-                value={data.businessAge}
-                onChange={(e) => set("businessAge", e.target.value)}
-                placeholder="Ex.: 2 anos"
-                error={errors.businessAge}
-              />
-              <FieldError message={errors.businessAge} />
-            </div>
           </div>
         </div>
       );
-    case 3:
+
+    // 2 — POSICIONAMENTO DA LOJA
+    case 1:
       return (
-        <div className="space-y-6">
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <FieldLabel htmlFor="positioning">
+              Como você definiria o posicionamento da sua loja?
+            </FieldLabel>
+            <OptionGrid
+              name="Posicionamento"
+              value={data.positioning}
+              onChange={(v) => set("positioning", v)}
+              options={POSITIONING_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.positioning} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="mainAudience">
+              Qual é o principal público da sua loja?
+            </FieldLabel>
+            <OptionGrid
+              name="Público principal"
+              value={data.mainAudience}
+              onChange={(v) => set("mainAudience", v)}
+              options={AUDIENCE_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.mainAudience} />
+          </div>
+          <div>
+            <FieldLabel htmlFor="averageTicket">
+              Ticket médio aproximado dos clientes
+            </FieldLabel>
+            <TextField
+              id="averageTicket"
+              value={data.averageTicket}
+              onChange={(e) => set("averageTicket", e.target.value)}
+              placeholder="Ex.: R$ 25"
+              error={errors.averageTicket}
+            />
+            <FieldError message={errors.averageTicket} />
+          </div>
+          <div>
+            <FieldLabel htmlFor="currentBrands">
+              Quais marcas de sorvete/gelato você trabalha atualmente?
+            </FieldLabel>
+            <TextField
+              id="currentBrands"
+              value={data.currentBrands}
+              onChange={(e) => set("currentBrands", e.target.value)}
+              placeholder="Cite as principais"
+              error={errors.currentBrands}
+            />
+            <FieldError message={errors.currentBrands} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="supplierValue">
+              O que você mais valoriza ao escolher um fornecedor?
+            </FieldLabel>
+            <OptionGrid
+              name="Valor no fornecedor"
+              value={data.supplierValue}
+              onChange={(v) => set("supplierValue", v)}
+              options={SUPPLIER_VALUE_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.supplierValue} />
+          </div>
+        </div>
+      );
+
+    // 3 — PERFIL DE CONSUMO
+    case 2:
+      return (
+        <div className="space-y-8">
+          <div>
+            <FieldLabel htmlFor="mainProduct">
+              Qual é o principal produto vendido pela sua loja atualmente?
+            </FieldLabel>
+            <TextField
+              id="mainProduct"
+              value={data.mainProduct}
+              onChange={(e) => set("mainProduct", e.target.value)}
+              placeholder="Ex.: açaí, sorvete, gelato..."
+              error={errors.mainProduct}
+            />
+            <FieldError message={errors.mainProduct} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="monthlyVolume">
+              Volume aproximado de sorvete/gelato vendido por mês
+            </FieldLabel>
+            <OptionGrid
+              name="Volume mensal"
+              value={data.monthlyVolume}
+              onChange={(v) => set("monthlyVolume", v)}
+              options={MONTHLY_VOLUME_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.monthlyVolume} />
+          </div>
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
-              <FieldLabel htmlFor="averageRevenue">Faturamento médio</FieldLabel>
+              <FieldLabel htmlFor="simultaneousFlavors">
+                Sabores trabalhados simultaneamente
+              </FieldLabel>
               <TextField
-                id="averageRevenue"
-                value={data.averageRevenue}
-                onChange={(e) => set("averageRevenue", e.target.value)}
-                placeholder="Ex.: R$ 30 mil/mês"
-                error={errors.averageRevenue}
+                id="simultaneousFlavors"
+                value={data.simultaneousFlavors}
+                onChange={(e) => set("simultaneousFlavors", e.target.value)}
+                placeholder="Ex.: 12"
+                inputMode="numeric"
+                error={errors.simultaneousFlavors}
               />
-              <FieldError message={errors.averageRevenue} />
+              <FieldError message={errors.simultaneousFlavors} />
             </div>
             <div>
-              <FieldLabel htmlFor="orderVolume">Volume de vendas/pedidos</FieldLabel>
+              <FieldLabel htmlFor="averagePortionPrice">
+                Preço médio de uma porção
+              </FieldLabel>
               <TextField
-                id="orderVolume"
-                value={data.orderVolume}
-                onChange={(e) => set("orderVolume", e.target.value)}
-                placeholder="Ex.: 500 pedidos/mês"
-                error={errors.orderVolume}
+                id="averagePortionPrice"
+                value={data.averagePortionPrice}
+                onChange={(e) => set("averagePortionPrice", e.target.value)}
+                placeholder="Ex.: R$ 18"
+                error={errors.averagePortionPrice}
               />
-              <FieldError message={errors.orderVolume} />
+              <FieldError message={errors.averagePortionPrice} />
             </div>
           </div>
-          <div>
-            <FieldLabel htmlFor="currentSupplier" optional>
-              Fornecedor atual
+          <div className="space-y-3">
+            <FieldLabel htmlFor="higherValueProducts">
+              Você trabalha com produtos de maior valor agregado?
             </FieldLabel>
-            <TextField
-              id="currentSupplier"
-              value={data.currentSupplier}
-              onChange={(e) => set("currentSupplier", e.target.value)}
-              placeholder="Se aplicável"
+            <OptionGrid
+              name="Produtos de maior valor"
+              value={data.higherValueProducts}
+              onChange={(v) => set("higherValueProducts", v)}
+              options={YES_NO_OPTIONS}
+              columns={2}
             />
-          </div>
-          <div>
-            <FieldLabel htmlFor="purchaseVolume">
-              Volume aproximado de compra
-            </FieldLabel>
-            <TextField
-              id="purchaseVolume"
-              value={data.purchaseVolume}
-              onChange={(e) => set("purchaseVolume", e.target.value)}
-              placeholder="Ex.: 40L a 80L por mês"
-              error={errors.purchaseVolume}
-            />
-            <FieldError message={errors.purchaseVolume} />
+            <FieldError message={errors.higherValueProducts} />
           </div>
         </div>
       );
+
+    // 4 — ESTRUTURA E OPERAÇÃO
+    case 3:
+      return (
+        <div className="space-y-8">
+          <div>
+            <FieldLabel htmlFor="freezers">
+              Quantos freezers/expositores possui atualmente?
+            </FieldLabel>
+            <TextField
+              id="freezers"
+              value={data.freezers}
+              onChange={(e) => set("freezers", e.target.value)}
+              placeholder="Ex.: 3"
+              inputMode="numeric"
+              error={errors.freezers}
+            />
+            <FieldError message={errors.freezers} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="restockFrequency">
+              Como funciona sua reposição de estoque?
+            </FieldLabel>
+            <OptionGrid
+              name="Reposição de estoque"
+              value={data.restockFrequency}
+              onChange={(v) => set("restockFrequency", v)}
+              options={RESTOCK_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.restockFrequency} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="salesTeam">
+              Possui equipe responsável pela apresentação e venda dos produtos?
+            </FieldLabel>
+            <OptionGrid
+              name="Equipe de vendas"
+              value={data.salesTeam}
+              onChange={(v) => set("salesTeam", v)}
+              options={YES_NO_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.salesTeam} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="premiumSpace">
+              A loja possui espaço adequado para exposição de uma linha premium?
+            </FieldLabel>
+            <OptionGrid
+              name="Espaço para linha premium"
+              value={data.premiumSpace}
+              onChange={(v) => set("premiumSpace", v)}
+              options={PREMIUM_SPACE_OPTIONS}
+              columns={3}
+            />
+            <FieldError message={errors.premiumSpace} />
+          </div>
+          <div>
+            <FieldLabel htmlFor="displayDetails">
+              Detalhes da exposição dos produtos e atendimento na sua loja
+            </FieldLabel>
+            <TextArea
+              id="displayDetails"
+              value={data.displayDetails}
+              onChange={(e) => set("displayDetails", e.target.value)}
+              placeholder="Como os produtos são expostos e como é o atendimento..."
+              error={errors.displayDetails}
+            />
+            <FieldError message={errors.displayDetails} />
+          </div>
+          <div>
+            <FieldLabel htmlFor="staffInfo">
+              Quantidade de funcionários e cargos
+            </FieldLabel>
+            <TextField
+              id="staffInfo"
+              value={data.staffInfo}
+              onChange={(e) => set("staffInfo", e.target.value)}
+              placeholder="Ex.: 5 funcionários (2 atendentes, 1 gerente...)"
+              error={errors.staffInfo}
+            />
+            <FieldError message={errors.staffInfo} />
+          </div>
+        </div>
+      );
+
+    // 5 — COMPRA E POTENCIAL COMERCIAL
     case 4:
       return (
         <div className="space-y-8">
           <div className="space-y-3">
-            <FieldLabel htmlFor="objective">O que você busca?</FieldLabel>
-            <OptionGrid
-              name="Objetivo"
-              value={data.objective}
-              onChange={(v) => set("objective", v as LeadInput["objective"])}
-              options={OBJECTIVE_OPTIONS}
-              columns={2}
-            />
-            <FieldError message={errors.objective} />
-          </div>
-          <div className="space-y-3">
-            <FieldLabel htmlFor="startIntent">
-              Quando pretende começar?
+            <FieldLabel htmlFor="purchaseExpectation">
+              Expectativa inicial de compra da i.sí (baldes por mês)
             </FieldLabel>
             <OptionGrid
-              name="Intenção de início"
-              value={data.startIntent}
-              onChange={(v) => set("startIntent", v as LeadInput["startIntent"])}
-              options={START_INTENT_OPTIONS}
+              name="Expectativa de compra"
+              value={data.purchaseExpectation}
+              onChange={(v) => set("purchaseExpectation", v)}
+              options={PURCHASE_EXPECTATION_OPTIONS}
               columns={2}
             />
-            <FieldError message={errors.startIntent} />
+            <FieldError message={errors.purchaseExpectation} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="firstPurchaseTime">
+              Caso aprovado, em quanto tempo pretende realizar a primeira compra?
+            </FieldLabel>
+            <OptionGrid
+              name="Prazo da primeira compra"
+              value={data.firstPurchaseTime}
+              onChange={(v) => set("firstPurchaseTime", v)}
+              options={FIRST_PURCHASE_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.firstPurchaseTime} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="exclusiveFlavors">
+              Interesse em desenvolver sabores/produtos exclusivos com a i.sí?
+            </FieldLabel>
+            <OptionGrid
+              name="Sabores exclusivos"
+              value={data.exclusiveFlavors}
+              onChange={(v) => set("exclusiveFlavors", v)}
+              options={YES_NO_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.exclusiveFlavors} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="brandStrategy">
+              Como pretende trabalhar a marca i.sí?
+            </FieldLabel>
+            <OptionGrid
+              name="Estratégia da marca"
+              value={data.brandStrategy}
+              onChange={(v) => set("brandStrategy", v)}
+              options={BRAND_STRATEGY_OPTIONS}
+              columns={3}
+            />
+            <FieldError message={errors.brandStrategy} />
           </div>
         </div>
       );
+
+    // 6 — PERFIL FINANCEIRO E COMERCIAL
     case 5:
       return (
-        <div>
-          <FieldLabel htmlFor="motivation">
-            Por que você quer trabalhar com a i.sí?
-          </FieldLabel>
-          <TextArea
-            id="motivation"
-            value={data.motivation}
-            onChange={(e) => set("motivation", e.target.value)}
-            placeholder="Conte o que te motiva a buscar essa parceria..."
-            error={errors.motivation}
-          />
-          <FieldError message={errors.motivation} />
+        <div className="space-y-8">
+          <div>
+            <FieldLabel htmlFor="supplierFrequency">
+              Frequência média de compra dos seus fornecedores
+            </FieldLabel>
+            <TextField
+              id="supplierFrequency"
+              value={data.supplierFrequency}
+              onChange={(e) => set("supplierFrequency", e.target.value)}
+              placeholder="Ex.: semanal, quinzenal..."
+              error={errors.supplierFrequency}
+            />
+            <FieldError message={errors.supplierFrequency} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="paymentMethod">
+              Como normalmente realiza seus pagamentos?
+            </FieldLabel>
+            <OptionGrid
+              name="Forma de pagamento"
+              value={data.paymentMethod}
+              onChange={(v) => set("paymentMethod", v)}
+              options={PAYMENT_OPTIONS}
+              columns={3}
+            />
+            <FieldError message={errors.paymentMethod} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="dependsOnTerm">
+              Depende de prazo para compra?
+            </FieldLabel>
+            <OptionGrid
+              name="Depende de prazo"
+              value={data.dependsOnTerm}
+              onChange={(v) => set("dependsOnTerm", v)}
+              options={YES_NO_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.dependsOnTerm} />
+          </div>
         </div>
       );
+
+    // 7 — IDENTIFICAÇÃO DO PERFIL i.sí
+    case 6:
+      return (
+        <div className="space-y-8">
+          <div>
+            <FieldLabel htmlFor="expectation">
+              O que você espera encontrar em um produto como a i.sí?
+            </FieldLabel>
+            <TextArea
+              id="expectation"
+              value={data.expectation}
+              onChange={(e) => set("expectation", e.target.value)}
+              placeholder="Conte o que é essencial para você..."
+              error={errors.expectation}
+            />
+            <FieldError message={errors.expectation} />
+          </div>
+          <div>
+            <FieldLabel htmlFor="premiumMeaning">
+              O que significa &quot;produto premium&quot; para você?
+            </FieldLabel>
+            <TextField
+              id="premiumMeaning"
+              value={data.premiumMeaning}
+              onChange={(e) => set("premiumMeaning", e.target.value)}
+              placeholder="Em poucas palavras"
+              error={errors.premiumMeaning}
+            />
+            <FieldError message={errors.premiumMeaning} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="innovationImportance">
+              Importância da inovação de sabores para sua loja
+            </FieldLabel>
+            <OptionGrid
+              name="Importância da inovação"
+              value={data.innovationImportance}
+              onChange={(v) => set("innovationImportance", v)}
+              options={INNOVATION_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.innovationImportance} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="willingHigherPrice">
+              Trabalharia produtos com preço superior, havendo percepção real de
+              valor pelo consumidor?
+            </FieldLabel>
+            <OptionGrid
+              name="Disposição a preço superior"
+              value={data.willingHigherPrice}
+              onChange={(v) => set("willingHigherPrice", v)}
+              options={YES_NO_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.willingHigherPrice} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="interestLaunches">
+              Tem interesse em participar de lançamentos e testes de novos sabores?
+            </FieldLabel>
+            <OptionGrid
+              name="Interesse em lançamentos"
+              value={data.interestLaunches}
+              onChange={(v) => set("interestLaunches", v)}
+              options={YES_NO_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.interestLaunches} />
+          </div>
+          <div className="space-y-3">
+            <FieldLabel htmlFor="followBrandGuidelines">
+              Apresentaria a i.sí conforme as orientações de exposição e
+              posicionamento da marca?
+            </FieldLabel>
+            <OptionGrid
+              name="Seguir orientações da marca"
+              value={data.followBrandGuidelines}
+              onChange={(v) => set("followBrandGuidelines", v)}
+              options={YES_NO_OPTIONS}
+              columns={2}
+            />
+            <FieldError message={errors.followBrandGuidelines} />
+          </div>
+          <div>
+            <FieldLabel htmlFor="whyMatch">
+              Por que você acredita que a i.sí combina com a sua loja?
+            </FieldLabel>
+            <TextArea
+              id="whyMatch"
+              value={data.whyMatch}
+              onChange={(e) => set("whyMatch", e.target.value)}
+              placeholder="Conte o que te motiva a buscar essa parceria..."
+              error={errors.whyMatch}
+            />
+            <FieldError message={errors.whyMatch} />
+          </div>
+        </div>
+      );
+
     default:
       return null;
   }

@@ -19,7 +19,7 @@ export interface SubmitLeadResult {
  */
 export async function submitLead(data: LeadInput): Promise<SubmitLeadResult> {
   // Revalida todas as etapas no servidor (nunca confiar só no cliente).
-  const allErrors = Array.from({ length: 6 }, (_, i) => validateStep(i, data));
+  const allErrors = Array.from({ length: 7 }, (_, i) => validateStep(i, data));
   const hasErrors = allErrors.some((e) => Object.keys(e).length > 0);
 
   if (hasErrors) {
@@ -44,7 +44,7 @@ export async function submitLead(data: LeadInput): Promise<SubmitLeadResult> {
   console.log("[v0] Novo lead i.sí recebido:", {
     id: lead.id,
     company: lead.company,
-    segment: lead.segment,
+    operationModel: lead.operationModel,
     score: lead.score,
   });
 

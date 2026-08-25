@@ -2,17 +2,84 @@ import type { LeadInput } from "./types";
 
 export type LeadErrors = Partial<Record<keyof LeadInput, string>>;
 
-// Campos exigidos por etapa (índice 0 = etapa 1).
+// Campos exigidos por etapa (índice 0 = seção 1). Instagram é opcional.
 export const STEP_FIELDS: (keyof LeadInput)[][] = [
-  ["name", "whatsapp", "email"],
-  ["company", "city", "state"],
-  ["segment", "units", "businessAge"],
-  ["averageRevenue", "orderVolume", "purchaseVolume"],
-  ["objective", "startIntent"],
-  ["motivation"],
+  // 1 — Sobre a empresa
+  [
+    "company",
+    "responsibleName",
+    "whatsapp",
+    "cityState",
+    "businessAge",
+    "operationModel",
+    "serviceType",
+    "units",
+  ],
+  // 2 — Posicionamento da loja
+  ["positioning", "mainAudience", "averageTicket", "currentBrands", "supplierValue"],
+  // 3 — Perfil de consumo
+  [
+    "mainProduct",
+    "monthlyVolume",
+    "simultaneousFlavors",
+    "higherValueProducts",
+    "averagePortionPrice",
+  ],
+  // 4 — Estrutura e operação
+  ["freezers", "restockFrequency", "salesTeam", "premiumSpace", "displayDetails", "staffInfo"],
+  // 5 — Compra e potencial comercial
+  ["purchaseExpectation", "firstPurchaseTime", "exclusiveFlavors", "brandStrategy"],
+  // 6 — Perfil financeiro e comercial
+  ["supplierFrequency", "paymentMethod", "dependsOnTerm"],
+  // 7 — Identificação do perfil i.sí
+  [
+    "expectation",
+    "premiumMeaning",
+    "innovationImportance",
+    "willingHigherPrice",
+    "interestLaunches",
+    "followBrandGuidelines",
+    "whyMatch",
+  ],
 ];
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Rótulos amigáveis para mensagens de campo obrigatório.
+const LABELS: Partial<Record<keyof LeadInput, string>> = {
+  company: "Nome da empresa",
+  responsibleName: "Nome do responsável",
+  cityState: "Cidade/Estado",
+  businessAge: "Tempo de funcionamento",
+  operationModel: "Modelo da operação",
+  serviceType: "Tipo de operação",
+  units: "Número de unidades",
+  positioning: "Posicionamento",
+  mainAudience: "Público principal",
+  averageTicket: "Ticket médio",
+  currentBrands: "Marcas atuais",
+  supplierValue: "O que valoriza no fornecedor",
+  mainProduct: "Principal produto",
+  monthlyVolume: "Volume mensal",
+  simultaneousFlavors: "Sabores simultâneos",
+  higherValueProducts: "Produtos de maior valor",
+  averagePortionPrice: "Preço médio da porção",
+  freezers: "Freezers/expositores",
+  restockFrequency: "Reposição de estoque",
+  salesTeam: "Equipe de vendas",
+  premiumSpace: "Espaço para linha premium",
+  displayDetails: "Detalhes da exposição e atendimento",
+  staffInfo: "Funcionários e cargos",
+  purchaseExpectation: "Expectativa de compra",
+  firstPurchaseTime: "Prazo da primeira compra",
+  exclusiveFlavors: "Interesse em sabores exclusivos",
+  brandStrategy: "Estratégia da marca",
+  supplierFrequency: "Frequência de compra",
+  paymentMethod: "Forma de pagamento",
+  dependsOnTerm: "Depende de prazo",
+  innovationImportance: "Importância da inovação",
+  willingHigherPrice: "Disposição a preço superior",
+  interestLaunches: "Interesse em lançamentos",
+  followBrandGuidelines: "Seguir orientações da marca",
+};
 
 function required(value: string, label: string): string | undefined {
   if (!value || !value.trim()) return `${label} é obrigatório.`;
@@ -22,42 +89,31 @@ function required(value: string, label: string): string | undefined {
 /** Valida apenas os campos de uma etapa específica. */
 export function validateStep(step: number, data: LeadInput): LeadErrors {
   const errors: LeadErrors = {};
-  const set = (k: keyof LeadInput, msg?: string) => {
-    if (msg) errors[k] = msg;
-  };
+  const fields = STEP_FIELDS[step] ?? [];
 
-  switch (step) {
-    case 0:
-      set("name", required(data.name, "Nome"));
+  for (const field of fields) {
+    // Campos com tratamento especial.
+    if (field === "whatsapp") {
       if (!data.whatsapp || data.whatsapp.replace(/\D/g, "").length < 10) {
-        set("whatsapp", "Informe um WhatsApp válido com DDD.");
+        errors.whatsapp = "Informe um WhatsApp válido com DDD.";
       }
-      if (!EMAIL_RE.test(data.email)) set("email", "Informe um e-mail válido.");
-      break;
-    case 1:
-      set("company", required(data.company, "Empresa"));
-      set("city", required(data.city, "Cidade"));
-      set("state", required(data.state, "Estado"));
-      break;
-    case 2:
-      if (!data.segment) set("segment", "Selecione um segmento.");
-      set("units", required(data.units, "Número de unidades"));
-      set("businessAge", required(data.businessAge, "Tempo de operação"));
-      break;
-    case 3:
-      set("averageRevenue", required(data.averageRevenue, "Faturamento médio"));
-      set("orderVolume", required(data.orderVolume, "Volume de vendas"));
-      set("purchaseVolume", required(data.purchaseVolume, "Volume de compra"));
-      break;
-    case 4:
-      if (!data.objective) set("objective", "Selecione o que você busca.");
-      if (!data.startIntent) set("startIntent", "Selecione uma opção.");
-      break;
-    case 5:
-      if (!data.motivation || data.motivation.trim().length < 10) {
-        set("motivation", "Conte um pouco mais (mínimo 10 caracteres).");
+      continue;
+    }
+    if (field === "displayDetails") {
+      if (!data.displayDetails || data.displayDetails.trim().length < 10) {
+        errors.displayDetails = "Conte um pouco mais (mínimo 10 caracteres).";
       }
-      break;
+      continue;
+    }
+    if (field === "whyMatch") {
+      if (!data.whyMatch || data.whyMatch.trim().length < 10) {
+        errors.whyMatch = "Conte um pouco mais (mínimo 10 caracteres).";
+      }
+      continue;
+    }
+
+    const msg = required(String(data[field] ?? ""), LABELS[field] ?? "Campo");
+    if (msg) errors[field] = msg;
   }
 
   return errors;
@@ -68,24 +124,43 @@ export function isStepValid(step: number, data: LeadInput): boolean {
 }
 
 export const EMPTY_LEAD: LeadInput = {
-  name: "",
-  whatsapp: "",
-  email: "",
   company: "",
-  city: "",
-  state: "",
+  responsibleName: "",
+  whatsapp: "",
   instagram: "",
-  website: "",
-  segment: "",
-  units: "",
+  cityState: "",
   businessAge: "",
-  averageRevenue: "",
-  orderVolume: "",
-  currentProducts: "",
-  currentSupplier: "",
-  purchaseVolume: "",
-  structure: "",
-  objective: "",
-  startIntent: "",
-  motivation: "",
+  operationModel: "",
+  serviceType: "",
+  units: "",
+  positioning: "",
+  mainAudience: "",
+  averageTicket: "",
+  currentBrands: "",
+  supplierValue: "",
+  mainProduct: "",
+  monthlyVolume: "",
+  simultaneousFlavors: "",
+  higherValueProducts: "",
+  averagePortionPrice: "",
+  freezers: "",
+  restockFrequency: "",
+  salesTeam: "",
+  premiumSpace: "",
+  displayDetails: "",
+  staffInfo: "",
+  purchaseExpectation: "",
+  firstPurchaseTime: "",
+  exclusiveFlavors: "",
+  brandStrategy: "",
+  supplierFrequency: "",
+  paymentMethod: "",
+  dependsOnTerm: "",
+  expectation: "",
+  premiumMeaning: "",
+  innovationImportance: "",
+  willingHigherPrice: "",
+  interestLaunches: "",
+  followBrandGuidelines: "",
+  whyMatch: "",
 };
