@@ -108,24 +108,24 @@ const FLAVORS: Flavor[] = [
 ];
 
 const N = FLAVORS.length;
-const DURATION = 700; // ms — sincroniza fundo, cards e textos
-const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
+const DURATION = 780; // ms — sincroniza fundo, cards e textos
+const EASE = "cubic-bezier(0.33, 0, 0.2, 1)";
 const AUTOPLAY = 5000; // ms
 
-type Role = "center" | "left" | "right";
-
-function roleFor(index: number, active: number): Role {
-  if (index === active) return "center";
-  if (index === (active + 1) % N) return "right";
-  return "left";
-}
-
 export function Hero3DCarousel() {
-  const [active, setActive] = useState(0);
+  // Índice "virtual" monotônico sobre uma fita de 3 cópias dos sabores.
+  // Começa no meio para permitir rolagem infinita e suave nos dois sentidos:
+  // ninguém "some e reaparece" — os cards deslizam sempre na mesma direção,
+  // entrando por um lado e saindo pelo outro.
+  const [index, setIndex] = useState(N);
+  const [anim, setAnim] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [paused, setPaused] = useState(false);
   const lockRef = useRef(false);
   const swipeRef = useRef<number | null>(null);
+
+  const active = ((index % N) + N) % N;
+  const current = FLAVORS[active];
 
   // Detecta viewport para calibrar tamanhos/perspectiva.
   useEffect(() => {
@@ -138,13 +138,33 @@ export function Hero3DCarousel() {
   const navigate = useCallback((dir: "next" | "prev") => {
     if (lockRef.current) return;
     lockRef.current = true;
-    setActive((prev) =>
-      dir === "next" ? (prev + 1) % N : (prev + N - 1) % N,
-    );
-    window.setTimeout(() => {
-      lockRef.current = false;
-    }, DURATION);
+    setAnim(true);
+    setIndex((prev) => prev + (dir === "next" ? 1 : -1));
   }, []);
+
+  // Ao fim de cada transição: destrava e, se a fita saiu da cópia central,
+  // reposiciona por ±N com as transições desligadas (salto invisível, pois as
+  // cópias são idênticas) — garante o loop infinito sem teleporte visível.
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      lockRef.current = false;
+      if (index >= 2 * N) {
+        setAnim(false);
+        setIndex(index - N);
+      } else if (index < N) {
+        setAnim(false);
+        setIndex(index + N);
+      }
+    }, DURATION);
+    return () => window.clearTimeout(t);
+  }, [index]);
+
+  // Reativa as transições no frame seguinte ao salto invisível.
+  useEffect(() => {
+    if (anim) return;
+    const r = requestAnimationFrame(() => setAnim(true));
+    return () => cancelAnimationFrame(r);
+  }, [anim]);
 
   // Teclado.
   useEffect(() => {
@@ -169,48 +189,53 @@ export function Hero3DCarousel() {
     return () => window.clearInterval(id);
   }, [paused, navigate]);
 
-  const current = FLAVORS[active];
-
-  // Dimensões do card (paisagem 3:2, mesma proporção das fotos).
+  // Dimensões do card (paisagem 3:2, mesma proporção das fotos) e o passo
+  // horizontal entre um slot e o vizinho.
   const cardW = isMobile ? 300 : 560;
   const cardH = Math.round(cardW * (2 / 3));
+  const step = isMobile ? 150 : 320;
 
-  function styleForRole(role: Role): React.CSSProperties {
-    const base: React.CSSProperties = {
-      transition: `transform ${DURATION}ms ${EASE}, filter ${DURATION}ms ${EASE}, opacity ${DURATION}ms ${EASE}, left ${DURATION}ms ${EASE}`,
-      willChange: "transform, filter, opacity, left",
+  // Estilo de cada card conforme sua distância (offset) do centro. Tudo em
+  // transform/opacity/filter para deslizar suavemente na GPU.
+  function styleForOffset(offset: number): React.CSSProperties {
+    const abs = Math.abs(offset);
+    const dir = offset === 0 ? 0 : offset > 0 ? 1 : -1;
+
+    const scale =
+      abs === 0
+        ? isMobile
+          ? 1
+          : 1.12
+        : abs === 1
+          ? isMobile
+            ? 0.62
+            : 0.72
+          : 0.5;
+    const rotY = abs === 0 ? 0 : dir * (abs === 1 ? -38 : -48);
+    const opacity = abs === 0 ? 1 : abs === 1 ? (isMobile ? 0.32 : 0.5) : 0;
+    const blur = abs === 0 ? 0 : abs === 1 ? 2 : 4;
+    const brightness = abs === 0 ? 1 : 0.7;
+
+    return {
       width: cardW,
       height: cardH,
-    };
-    if (role === "center") {
-      return {
-        ...base,
-        left: "50%",
-        transform: `translateX(-50%) translateZ(0) rotateY(0deg) scale(${isMobile ? 1 : 1.12})`,
-        filter: "none",
-        opacity: 1,
-        zIndex: 20,
-      };
-    }
-    if (role === "left") {
-      return {
-        ...base,
-        left: isMobile ? "22%" : "27%",
-        transform: `translateX(-50%) rotateY(38deg) scale(${isMobile ? 0.6 : 0.72})`,
-        filter: "blur(2px) brightness(0.7)",
-        opacity: isMobile ? 0 : 0.5,
-        zIndex: 10,
-      };
-    }
-    return {
-      ...base,
-      left: isMobile ? "78%" : "73%",
-      transform: `translateX(-50%) rotateY(-38deg) scale(${isMobile ? 0.6 : 0.72})`,
-      filter: "blur(2px) brightness(0.7)",
-      opacity: isMobile ? 0 : 0.5,
-      zIndex: 10,
+      transform: `translate(-50%, -50%) translateX(${offset * step}px) rotateY(${rotY}deg) scale(${scale})`,
+      filter: `blur(${blur}px) brightness(${brightness})`,
+      opacity,
+      zIndex: 30 - abs * 10,
+      transition: anim
+        ? `transform ${DURATION}ms ${EASE}, filter ${DURATION}ms ${EASE}, opacity ${DURATION}ms ${EASE}`
+        : "none",
+      willChange: "transform, filter, opacity",
     };
   }
+
+  // Fita com 3 cópias dos sabores: garante vizinhos distintos à esquerda e à
+  // direita e absorve a entrada/saída dos cards sem teleporte visível.
+  const strip = Array.from({ length: 3 * N }, (_, j) => ({
+    flavor: FLAVORS[j % N],
+    j,
+  }));
 
   return (
     <section
@@ -279,22 +304,25 @@ export function Hero3DCarousel() {
           className="absolute inset-0"
           style={{ perspective: 1800, zIndex: 3 }}
         >
-          {FLAVORS.map((f, i) => {
-            const role = roleFor(i, active);
+          {strip.map(({ flavor: f, j }) => {
+            const offset = j - index;
+            // Fora da janela visível não renderiza; os cards entram/saem no ±2.
+            if (Math.abs(offset) > 2) return null;
+            const interactive = Math.abs(offset) <= 1;
             return (
               <button
-                key={f.key}
+                key={j}
                 type="button"
                 aria-label={`Ver sabor ${f.name}`}
-                tabIndex={role === "center" ? -1 : 0}
+                tabIndex={interactive && offset !== 0 ? 0 : -1}
                 onClick={() => {
-                  if (role === "center") return;
-                  navigate(role === "right" ? "next" : "prev");
+                  if (offset === 0) return;
+                  navigate(offset > 0 ? "next" : "prev");
                 }}
-                className="absolute top-1/2 origin-center cursor-pointer rounded-[1.4rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                className="absolute left-1/2 top-1/2 origin-center cursor-pointer rounded-[1.4rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
                 style={{
-                  ...styleForRole(role),
-                  transform: `${(styleForRole(role).transform as string) ?? ""} translateY(-50%)`,
+                  ...styleForOffset(offset),
+                  pointerEvents: interactive ? "auto" : "none",
                   transformStyle: "preserve-3d",
                 }}
               >
@@ -302,7 +330,7 @@ export function Hero3DCarousel() {
                   className="relative block h-full w-full overflow-hidden rounded-[1.4rem]"
                   style={{
                     boxShadow:
-                      role === "center"
+                      offset === 0
                         ? `0 40px 80px -20px rgba(0,0,0,0.7), 0 0 0 1px ${current.glow}55`
                         : "0 20px 40px -16px rgba(0,0,0,0.6)",
                   }}
@@ -311,7 +339,7 @@ export function Hero3DCarousel() {
                     src={f.src || "/placeholder.svg"}
                     alt={f.alt}
                     fill
-                    priority={i === 0}
+                    priority={j === N}
                     draggable={false}
                     sizes="(max-width: 640px) 80vw, 620px"
                     className="object-cover"
