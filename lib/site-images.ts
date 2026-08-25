@@ -50,8 +50,8 @@ export const SITE_IMAGES = {
    * Usada em fundo (Qualidade) e como painel (A Marca), com crops distintos.
    */
   texture: {
-    src: "/images/chocolate-pour.png",
-    alt: "Gelato de chocolate sendo despejado da máquina em uma caixa i.sí",
+    src: "/images/chocolate-pour-brand.png",
+    alt: "Gelato de chocolate sendo despejado da máquina de aço inox em uma cuba, formando ondas brilhantes",
     ratio: "3:4 (retrato)",
     note: "Processo de fabricação artesanal — o gelato saindo da máquina.",
     objectPosition: "center 35%",
