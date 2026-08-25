@@ -26,16 +26,20 @@ function createPool() {
   })
 }
 
-export const pool = globalForDb.__isiPgPool ?? createPool()
-
-if (process.env.NODE_ENV !== "production") {
-  globalForDb.__isiPgPool = pool
+// Cria o pool sob demanda (lazy). Isso evita que o build do Next.js quebre
+// ao "collect page data", quando o módulo é importado sem DATABASE_URL
+// disponível. A conexão só é aberta quando uma query é realmente executada.
+function getPool(): Pool {
+  if (!globalForDb.__isiPgPool) {
+    globalForDb.__isiPgPool = createPool()
+  }
+  return globalForDb.__isiPgPool
 }
 
 export async function query<T = unknown>(
   text: string,
   params?: unknown[],
 ): Promise<{ rows: T[]; rowCount: number }> {
-  const result = await pool.query(text, params as never[])
+  const result = await getPool().query(text, params as never[])
   return { rows: result.rows as T[], rowCount: result.rowCount ?? 0 }
 }
