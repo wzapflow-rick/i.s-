@@ -13,6 +13,7 @@ import {
 } from "@/lib/leads/types";
 import { EMPTY_LEAD, validateStep, type LeadErrors } from "@/lib/leads/validation";
 import { Reveal } from "@/components/ui/reveal";
+import { NeonPill } from "@/components/ui/neon-pill";
 import { SuccessJourney } from "@/components/success/success-journey";
 import {
   FieldError,
@@ -231,23 +232,24 @@ export function PartnerForm() {
                   type="button"
                   onClick={goNext}
                   disabled={loading}
-                  className="group inline-flex items-center gap-2.5 whitespace-nowrap rounded-full bg-[#f4efe4] px-7 py-3.5 font-sans text-[0.72rem] tracking-wide-editorial text-[#0b0a09] transition-colors hover:bg-white disabled:opacity-70"
+                  className="group relative inline-flex items-center gap-2.5 whitespace-nowrap rounded-full bg-[#f4efe4] px-7 py-3.5 font-sans text-[0.72rem] tracking-wide-editorial text-[#0b0a09] transition-colors hover:bg-white disabled:opacity-70"
                 >
+                  <NeonPill />
                   {loading ? (
-                    <>
+                    <span className="relative z-10 inline-flex items-center gap-2.5">
                       <span className="size-3.5 animate-spin rounded-full border-[1.5px] border-[#0b0a09]/30 border-t-[#0b0a09]" />
                       Enviando
-                    </>
+                    </span>
                   ) : step === TOTAL - 1 ? (
-                    <>
+                    <span className="relative z-10 inline-flex items-center gap-2.5">
                       Quero conversar com a i.sí
                       <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
-                    </>
+                    </span>
                   ) : (
-                    <>
+                    <span className="relative z-10 inline-flex items-center gap-2.5">
                       Vamos continuar
                       <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
-                    </>
+                    </span>
                   )}
                 </button>
               </div>

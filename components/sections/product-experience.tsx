@@ -28,6 +28,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import { EXPERIENCE_STATES, type ExperienceState } from "@/lib/product-experience";
+import { NeonPill } from "@/components/ui/neon-pill";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const N = EXPERIENCE_STATES.length;
@@ -620,11 +621,14 @@ function PartnerScene({ accent }: { accent: string }) {
         {...rise(0.56)}
         href="/#formulario"
         data-no-drag
-        className="pointer-events-auto mt-6 inline-flex items-center gap-2 rounded-full px-8 py-3.5 font-sans text-xs uppercase tracking-wide-editorial transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c9ad78]"
+        className="pointer-events-auto relative mt-6 inline-flex items-center gap-2 rounded-full px-8 py-3.5 font-sans text-xs uppercase tracking-wide-editorial transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c9ad78]"
         style={{ backgroundColor: accent, color: "#171310" }}
       >
-        Quero ser parceiro
-        <span aria-hidden>→</span>
+        <NeonPill />
+        <span className="relative z-10 inline-flex items-center gap-2">
+          Quero ser parceiro
+          <span aria-hidden>→</span>
+        </span>
       </motion.a>
     </div>
   );

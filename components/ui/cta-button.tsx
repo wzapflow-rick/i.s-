@@ -3,11 +3,7 @@
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import type { ComponentProps } from "react";
-import NeonBorder from "@/components/ui/neon-border";
-
-// Dourado da identidade i.sí (--accent-soft) em hex, pois o NeonBorder
-// desenha em canvas/conic-gradient e só entende hex ou rgb(), não variáveis CSS.
-const NEON_COLOR = "#c9ad78";
+import { NeonPill } from "@/components/ui/neon-pill";
 
 type Variant =
   | "primary"
@@ -79,21 +75,7 @@ export function CtaButton({
     >
       {/* Borda "neon" animada — camada sobreposta que percorre o perímetro.
           Fica fora do recorte (o glow pode extravasar as bordas do botão). */}
-      {neon && (
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0"
-        >
-          <NeonBorder
-            color={NEON_COLOR}
-            rounded={100}
-            thickness={2}
-            borderSize={42}
-            glow={70}
-            speed={9}
-          />
-        </span>
-      )}
+      {neon && <NeonPill />}
 
       {/* Brilho diagonal que passa sutilmente no hover — recortado ao pill */}
       <span
