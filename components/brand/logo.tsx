@@ -1,41 +1,46 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
+  /** Classe aplicada à imagem — use para definir a altura (ex.: "h-8"). */
   className?: string;
   showTagline?: boolean;
+  /** ink = marca escura (sobre fundo claro) · cream = marca clara (sobre fundo escuro) */
   tone?: "ink" | "cream";
+  align?: "center" | "start";
 }
 
 /**
- * Wordmark i.sí — recriação tipográfica do lettering serif da marca.
- * O ponto do "i" e o acento agudo do "í" usam o dourado da identidade.
+ * Wordmark oficial i.sí — imagem da marca (serif "i.sí" + traço sorriso).
+ * Dois tons transparentes: `ink` para fundos claros e `cream` para escuros.
  */
-export function Logo({ className, showTagline = false, tone = "ink" }: LogoProps) {
-  const color = tone === "cream" ? "text-ink-foreground" : "text-foreground";
+export function Logo({
+  className,
+  showTagline = false,
+  tone = "ink",
+  align = "center",
+}: LogoProps) {
+  const src =
+    tone === "cream" ? "/brand/isi-mark-cream.png" : "/brand/isi-mark-ink.png";
   return (
-    <span className={cn("inline-flex flex-col items-center leading-none", className)}>
-      <span
-        className={cn(
-          "font-serif tracking-tight leading-none",
-          color,
-        )}
-        aria-hidden="true"
-      >
-        <span className="relative">
-          i
-          <span className="absolute -top-[0.12em] left-[0.06em] size-[0.14em] rounded-full bg-accent" />
-        </span>
-        <span className="text-accent">.</span>
-        <span className="relative">
-          si
-          <span className="absolute -top-[0.28em] right-[-0.02em] block h-[0.14em] w-[0.28em] -rotate-12 rounded-full bg-accent" />
-        </span>
-      </span>
-      <span className="sr-only">i.sí Gelato</span>
+    <span
+      className={cn(
+        "inline-flex flex-col leading-none",
+        align === "start" ? "items-start" : "items-center",
+      )}
+    >
+      <Image
+        src={src}
+        alt="i.sí Gelato"
+        width={484}
+        height={432}
+        priority
+        className={cn("w-auto object-contain", className)}
+      />
       {showTagline && (
         <span
           className={cn(
-            "mt-2 font-sans text-[0.5em] uppercase tracking-eyebrow",
+            "mt-2 font-sans text-[0.6rem] uppercase tracking-eyebrow",
             tone === "cream" ? "text-ink-foreground/60" : "text-muted-foreground",
           )}
         >

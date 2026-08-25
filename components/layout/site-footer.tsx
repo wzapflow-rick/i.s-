@@ -14,7 +14,7 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 py-16 md:px-10">
         <div className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
           <div className="flex flex-col gap-3">
-            <Logo tone="cream" showTagline className="items-start text-4xl" />
+            <Logo tone="cream" showTagline align="start" className="h-12" />
             <p className="max-w-sm text-pretty font-sans text-sm leading-relaxed text-ink-foreground/60">
               Gelato artesanal para negócios que gostam de criar novas
               possibilidades.

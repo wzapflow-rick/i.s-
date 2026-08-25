@@ -58,7 +58,7 @@ export function SiteHeader() {
     >
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
         <a href="#top" className="flex items-center" aria-label="i.sí Gelato — início">
-          <Logo className="text-2xl" />
+          <Logo className="h-8 sm:h-9" tone={scrolled ? "ink" : "cream"} />
         </a>
 
         <nav className="hidden items-center gap-9 md:flex" aria-label="Navegação principal">
@@ -66,7 +66,12 @@ export function SiteHeader() {
             <a
               key={item.href}
               href={item.href}
-              className="font-sans text-[0.72rem] uppercase tracking-wide-editorial text-muted-foreground transition-colors duration-300 hover:text-foreground"
+              className={cn(
+                "font-sans text-[0.78rem] font-medium uppercase tracking-wide-editorial transition-colors duration-300",
+                scrolled
+                  ? "text-foreground/70 hover:text-foreground"
+                  : "text-ink-foreground/85 hover:text-ink-foreground",
+              )}
             >
               {item.label}
             </a>
@@ -95,19 +100,22 @@ export function SiteHeader() {
         >
           <span
             className={cn(
-              "h-px w-6 bg-foreground transition-all duration-300",
+              "h-px w-6 transition-all duration-300",
+              open || scrolled ? "bg-foreground" : "bg-ink-foreground",
               open && "translate-y-[6px] rotate-45",
             )}
           />
           <span
             className={cn(
-              "h-px w-6 bg-foreground transition-all duration-300",
+              "h-px w-6 transition-all duration-300",
+              open || scrolled ? "bg-foreground" : "bg-ink-foreground",
               open && "opacity-0",
             )}
           />
           <span
             className={cn(
-              "h-px w-6 bg-foreground transition-all duration-300",
+              "h-px w-6 transition-all duration-300",
+              open || scrolled ? "bg-foreground" : "bg-ink-foreground",
               open && "-translate-y-[6px] -rotate-45",
             )}
           />

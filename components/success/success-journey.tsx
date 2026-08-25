@@ -23,7 +23,7 @@ export function SuccessJourney({ company }: SuccessJourneyProps) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <Logo className="text-5xl" showTagline />
+        <Logo className="h-16" showTagline />
       </motion.div>
 
       <motion.p
