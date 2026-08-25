@@ -337,7 +337,8 @@ export function Hero3DCarousel() {
           style={{ top: "6.5rem", zIndex: 40 }}
         >
           <p
-            className="font-sans text-[0.62rem] uppercase tracking-eyebrow text-white/70"
+            className="font-sans text-[0.68rem] font-medium uppercase tracking-eyebrow text-white"
+            style={{ textShadow: "0 1px 12px rgba(0,0,0,0.45)" }}
           >
             Gelato artesanal — feito para combinar
           </p>
@@ -348,7 +349,7 @@ export function Hero3DCarousel() {
           className="absolute bottom-8 left-4 sm:bottom-16 sm:left-16"
           style={{ zIndex: 60, maxWidth: 360 }}
         >
-          <div className="relative min-h-[3.4rem]">
+          <div className="relative min-h-[4.6rem] sm:min-h-[3.4rem]">
             {FLAVORS.map((f, i) => (
               <div
                 key={f.key}
@@ -381,7 +382,7 @@ export function Hero3DCarousel() {
             {current.description}
           </p>
 
-          <div className="mt-5 flex items-center gap-3 sm:mt-0">
+          <div className="mt-8 flex items-center gap-3 sm:mt-0">
             <button
               type="button"
               onClick={() => navigate("prev")}
