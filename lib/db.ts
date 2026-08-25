@@ -12,13 +12,16 @@ function createPool() {
     throw new Error("DATABASE_URL não está configurada no ambiente do projeto.")
   }
 
+  // Só habilita SSL quando a connection string pede explicitamente
+  // (sslmode=require/verify-*). Servidores locais/self-hosted que não
+  // suportam SSL funcionam com ssl desligado.
+  const wantsSsl = /sslmode=(require|verify-ca|verify-full)/.test(
+    connectionString,
+  )
+
   return new Pool({
     connectionString,
-    // A maioria dos Postgres gerenciados exige SSL. Deixamos permissivo
-    // para funcionar tanto localmente quanto em provedores gerenciados.
-    ssl: connectionString.includes("sslmode=disable")
-      ? false
-      : { rejectUnauthorized: false },
+    ssl: wantsSsl ? { rejectUnauthorized: false } : false,
     max: 5,
   })
 }
