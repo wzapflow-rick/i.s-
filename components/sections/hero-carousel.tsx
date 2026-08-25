@@ -431,7 +431,18 @@ export function Hero3DCarousel() {
             lineHeight: 1,
           }}
         >
-          Seja parceiro
+          <span className="relative inline-block whitespace-nowrap">
+            {/* Camada base — texto suave */}
+            <span className="text-white/90">Seja parceiro</span>
+            {/* Camada de brilho — cópia na cor do sabor, mascarada pela varredura */}
+            <span
+              aria-hidden="true"
+              className="shiny-sweep pointer-events-none absolute inset-0"
+              style={{ color: current.glow }}
+            >
+              Seja parceiro
+            </span>
+          </span>
           <ArrowRight className="size-5 transition-transform duration-200 group-hover:translate-x-1 sm:size-8" />
         </a>
       </div>

@@ -106,3 +106,33 @@ html {
      escondendo o título de destino. Vale para todos os links internos. */
   scroll-padding-top: 5.5rem;
 }
+
+/* Shiny sweep — brilho que varre o texto (usado no CTA "Seja parceiro") */
+.shiny-sweep {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 30%,
+    #000 50%,
+    transparent 70%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 30%,
+    #000 50%,
+    transparent 70%
+  );
+  -webkit-mask-size: 150% auto;
+  mask-size: 150% auto;
+  animation: shinySweep 3s ease-in-out infinite;
+}
+
+@keyframes shinySweep {
+  0% {
+    -webkit-mask-position: 200%;
+    mask-position: 200%;
+  }
+  100% {
+    -webkit-mask-position: -100%;
+    mask-position: -100%;
+  }
+}
