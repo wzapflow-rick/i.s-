@@ -143,11 +143,13 @@ export default function ScrollVelocity({
   useEffect(() => {
     if (unitWidth <= 0 || typeof window === "undefined") return;
 
-    // Respeita quem prefere menos movimento: mantém estático.
+    // Marquee decorativo da marca: sempre anima. Para quem prefere menos
+    // movimento, reduzimos a velocidade a um leve deslize em vez de parar,
+    // preservando a assinatura viva sem ser agressivo.
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    if (prefersReduced) return;
+    const motionScale = prefersReduced ? 0.35 : 1;
 
     let rafId = 0;
 
@@ -185,7 +187,8 @@ export default function ScrollVelocity({
           currentProps.direction === "right" ? -1 : 1;
       }
 
-      const pixelsPerSecond = (unitWidth * currentProps.baseVelocity) / 100;
+      const pixelsPerSecond =
+        (unitWidth * currentProps.baseVelocity * motionScale) / 100;
       const moveBy =
         state.current.currentDirMultiplier * pixelsPerSecond * dt;
 
